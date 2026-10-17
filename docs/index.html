@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; style-src &#39;sha256-STSmSiyHziDd4Mej92gZyU4siIopfCJ3UNrdZup8gqE=&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">
+<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; style-src &#39;sha256-R/TYBG6Zd3hXQqaa7/vnRm5bpSJeO4zD/X4V4xWHaE8=&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">
 <meta http-equiv="x-dns-prefetch-control" content="off">
 <title>Free-Public-Tools</title>
 <meta name="description" content="Free tools and knowledge about working with AI, one at a time. Copy any tool in one tap, or explore everything on GitHub.">
@@ -92,6 +92,8 @@ pre:focus-visible, .btn:focus-visible, a:focus-visible, summary:focus-visible, t
 .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 1.25rem 0; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .actions.spaced { margin-top: 8px; }
+.actions.tests { margin-top: 10px; align-items: center; column-gap: 12px; }
+.tests-why { flex: 1 1 16rem; font-size: .9rem; color: var(--muted); }
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: var(--text); font: 600 .95rem/1.2 var(--sans); text-decoration: none; cursor: pointer; text-align: center; max-width: 100%; }
 .btn:hover { border-color: var(--accent); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
@@ -162,6 +164,7 @@ pre, code, textarea, .manual textarea { font-variant-ligatures: none; font-featu
 <h1 class="label">Free-Public-Tools</h1>
 <p class="summary">Free tools and knowledge about working with AI, one at a time. Copy any tool in one tap, or explore everything on GitHub.</p>
 <div class="actions"><a class="btn" id="github-link" href="https://github.com/Mike-Byrne-AI/free-public-tools" target="_blank" rel="noopener">Explore everything on GitHub</a></div>
+<div class="actions tests" id="tests-link"><a class="btn" href="tests/decision-challenge/">How I test them</a><span class="tests-why">Tools up against plain prompts, on questions from my own projects, across several AI models. Answer keys written before the runs, replies marked without names, every mark published.</span></div>
 </header>
 <h2 id="featured-h">Start here</h2>
 <ul class="cards pics" id="featured" aria-labelledby="featured-h">

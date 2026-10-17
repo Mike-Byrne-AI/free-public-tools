@@ -82,7 +82,9 @@ Each decision went three ways: the command; a short prompt that asks it to read 
 | Claude Code cost a run ³                                 |               $0.43 |        $0.54 |         $0.34 |
 
 ¹ **Real use.** The short prompt and the plain request are marked on their first answer, where a real conversation usually ends; the command is marked on its answer after the priorities it asked for. I chose this way of marking after the runs, once I'd seen the planned way's overall totals but not this way's results. The command's replies are the same in both halves, marked a second time: three of their marks came out differently, two because my own marks count only in the planned way, and one a referee's call.
+
 ² **Same information.** Both control groups, the short prompt and the plain request, were given a second turn: my priorities, each marked high, medium or low. Only the command asks for priorities on its own (and offers a draft), so this way favors the other two: in real use, you'd have to plan that second message yourself and send your priorities without being asked.
+
 ³ **One run.** One decision, start to finish: both messages, one model. The dollar figure is Claude Code's own estimate at API prices, averaged over three models: for the command, about 4 cents a run with Haiku, 37 with Sonnet and 87 with Opus. On a Claude subscription, which is how I ran the test, you aren't billed per run; it counts toward your plan's usage limits. Copilot credits come from your plan's monthly allowance: for the command, about 1 to 2 a run on most models, and 18 on Gemini 3.8 Flash.
 
 **The short prompt is free.** This is exactly what was tested, in two messages:
