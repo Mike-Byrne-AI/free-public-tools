@@ -1,0 +1,14 @@
+# The public repo's CI: each tool with tests gets a job that calls the reusable workflow with its folder.
+# Adding a tool is adding a job block below. Every push and pull request runs it; Actions is free on a public repo.
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  agent-assets-lint:
+    uses: ./.github/workflows/tool-tests.yml
+    with:
+      tool: tools/agent-assets-lint

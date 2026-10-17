@@ -1,0 +1,11 @@
+# Local leftovers from trying the tools
+node_modules/
+__pycache__/
+
+# Claude Code writes this in any repo where you allow a tool; it is yours, not the repo's
+.claude/settings.local.json
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store

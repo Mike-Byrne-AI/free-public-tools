@@ -1,0 +1,21 @@
+{
+  "name": "agent-assets",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lint the instruction files agents read: AGENTS.md context budgets, required headings, canonical-reference wiring, and frontmatter contracts for skills, subagents and scoped rules.",
+  "type": "module",
+  "license": "MIT-0",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "agent-assets": "bin/agent-assets.mjs"
+  },
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\"",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-exclude=\"test/**\" --test-coverage-lines=95 \"test/*.test.mjs\""
+  }
+}

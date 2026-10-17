@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drift-Lab Test Cards</title>
+<style>@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); }</style>
+<link rel="icon" href="data:,">
+<style>
+/* Layout: the free-public-tools look (generator/assets/style.css): parchment graph paper with the red margin line,
+   always light like the site. Every block is a notecard; a parchment wash around each card fades the grid as it
+   meets the card. No pen labels or speech bubbles here. */
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --focus: #1f5fd6;
+  --good: #2f7d32;
+  --bad: #c8372a;
+  --tough: #6a4c9c;
+  --none: #8a6d1e;
+  --dot: #0a8a73;
+  --cut: #f6e2da;
+  --radius: 14px;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --label: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* the red margin line of writing paper, near the screen's left edge */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+.wrap { max-width: 48rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 3.25rem; }
+@media (max-width: 900px) { .wrap { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+
+h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.55rem); }
+h3 { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; font-variant-ligatures: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* a notecard: the parchment wash around it fades the grid where the grid meets the card */
+.card, .masthead {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem clamp(1rem, 4vw, 1.9rem) 1.6rem; display: grid; gap: 1.1rem; min-width: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .05), 0 8px 22px rgb(0 0 0 / .06), 0 0 22px 12px var(--wash);
+}
+.masthead { background: var(--wash); border-color: transparent; box-shadow: 0 0 26px 18px var(--wash); gap: .9rem; }
+/* the index card's ruled header line */
+.card-head { display: grid; gap: .45rem; padding-bottom: .8rem; border-bottom: 2px solid var(--margin); }
+
+.series { font: 700 .95rem/1.2 var(--label); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+.draft { justify-self: start; font-size: .8rem; font-weight: 600; color: var(--muted); border: 1px dashed var(--border); border-radius: 999px; padding: 2px 10px; background: var(--surface); }
+.lede { font-size: 1.08rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 0; padding-top: .8rem; border-top: 1px solid var(--border); }
+.facts div { display: grid; gap: .05rem; }
+.facts dt { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.block { display: grid; gap: .65rem; min-width: 0; }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: .7rem; }
+.kind { display: grid; gap: .3rem; padding: .8rem .95rem; border: 1px solid var(--border); border-radius: 10px; background: var(--code-bg); min-width: 0; }
+.kind strong { display: flex; align-items: center; gap: .5rem; }
+.swatch { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+.sw-good { background: var(--good); }
+.sw-bad { background: var(--bad); }
+.sw-tough { background: var(--tough); }
+
+.versions { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.versions li { display: grid; grid-template-columns: 8.5rem 1fr; gap: .25rem 1rem; align-items: baseline; }
+.versions li > span { font-weight: 600; }
+.versions code { display: block; padding: .45rem .6rem; border-radius: 8px; }
+.copy-btn { display: block; margin-top: .4rem; padding: .2rem .7rem; font: 600 .78rem/1.4 var(--sans); color: var(--accent); background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+@media (max-width: 34rem) { .versions li { grid-template-columns: 1fr; } }
+
+.models { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+.models li { border: 1px solid var(--border); border-radius: 999px; padding: .15rem .7rem; font-size: .9rem; background: var(--code-bg); }
+.models li b { font-weight: 600; color: var(--muted); }
+
+.marks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.marks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+.marks li > div { min-width: 0; }
+.mark { font-weight: 700; font-size: 1.1rem; line-height: 1.45; text-align: center; }
+.m-right { color: var(--good); }
+.m-wrong { color: var(--bad); }
+.m-none { color: var(--none); }
+.marks em { font-style: normal; font-weight: 600; }
+
+.gloss { display: grid; grid-template-columns: 7.5rem 1fr; gap: .55rem 1.2rem; margin: 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; min-width: 0; }
+@media (max-width: 34rem) { .gloss { grid-template-columns: 1fr; gap: .1rem; } .gloss dd { margin-bottom: .5rem; } }
+
+.chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.chip .id { font: 700 .8rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+/* a question's card: its kind is the heading, with the colour block; the plan or decision is the line under it */
+.kind-h { display: flex; align-items: center; gap: .55rem; }
+.kind-h .swatch { width: 1.05rem; height: 1.05rem; border-radius: 3px; }
+.kind-h .id { font: 700 .95rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+.plan { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+.plan .k { font: 700 .76rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.analogy { display: grid; gap: .3rem; padding: .8rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.analogy .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+.prompt { display: grid; gap: .6rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; font: .9rem/1.55 var(--mono); font-variant-ligatures: none; overflow-wrap: anywhere; }
+.prompt .k { font: 700 .72rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prompt ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .3rem; }
+
+.evidence { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.evidence li { display: grid; gap: .2rem; padding-left: .9rem; border-left: 2px solid var(--border); min-width: 0; }
+.evidence q { font: .86rem/1.5 var(--mono); quotes: none; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.evidence .src { font: .76rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .93rem; }
+th, td { text-align: right; padding: .4rem .7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+/* the test's results table: its row labels wrap and its cells are a little tighter, so it fits the card without a
+   sideways scroll on a computer */
+.results th, .results td { padding-inline: .55rem; }
+.results th[scope=row] { white-space: normal; }
+thead th { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+caption { caption-side: bottom; text-align: left; padding-top: .45rem; font: .76rem/1.4 var(--mono); color: var(--muted); }
+
+figure { margin: 0; display: grid; gap: .5rem; }
+figcaption { font-size: .92rem; color: var(--muted); }
+.chart svg { display: block; width: 100%; min-width: 32rem; height: auto; }
+.chart .zone { fill: var(--cut); }
+.chart .cutline { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .guide { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 13px; }
+.chart .strong { fill: var(--text); font-weight: 600; }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .7rem; }
+.side { display: grid; gap: .45rem; padding: .85rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.side h4 { margin: 0; font-size: 1.1rem; }
+.side dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: .3rem .75rem; font-variant-numeric: tabular-nums; }
+.side dt { color: var(--muted); }
+.side dd { margin: 0; text-align: right; font-weight: 600; }
+
+.voice { margin: 0; display: grid; gap: .55rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; }
+.voice p { font-size: 1.04rem; }
+.voice footer { font-size: .85rem; color: var(--muted); }
+
+.note { font-size: .93rem; color: var(--muted); }
+.note strong { color: var(--text); }
+.scope { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.scope li { padding-left: .9rem; border-left: 2px solid var(--border); }
+.pending { border-style: dashed; box-shadow: 0 0 22px 12px var(--wash); }
+.colophon { justify-self: center; font-size: .85rem; color: var(--muted); background: var(--wash); box-shadow: 0 0 16px 10px var(--wash); padding: .2rem .6rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* linked sources, the time-limit chart, side-by-side code and lists */
+.evidence a.src, .side a.src { font: .76rem/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.chart .limit { stroke: var(--text); stroke-width: 1.5; }
+.chart .val { fill: var(--text); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.side code { display: block; white-space: pre-wrap; padding: .5rem .6rem; border-radius: 8px; font-size: .8rem; background: var(--surface); }
+.side { align-content: start; }
+.side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; align-content: start; }
+/* results: the mark grids (tools/card-results.mjs) and the replies */
+.grids { display: grid; gap: 1.2rem; margin-top: .6rem; }
+.marks-grid caption { caption-side: top; padding: 0 0 .4rem; font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--text); }
+.marks-grid td, .marks-grid th[scope="col"] { text-align: center; }
+.marks-grid th[scope="row"] { text-align: left; font-weight: 600; }
+.marks-grid .where { display: block; font-size: .72rem; font-weight: 400; color: var(--muted); }
+.marks-grid .total th, .marks-grid .total td { font-weight: 700; border-top: 2px solid var(--border); }
+.marks-grid sup { color: var(--muted); }
+h3 .qkind { margin-left: .4rem; color: var(--muted); }
+.replies { margin-top: .8rem; }
+.replies summary { cursor: pointer; font-weight: 600; }
+.reply-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+.reply-cols h4 { margin: 0 0 .3rem; font-size: .95rem; }
+pre.reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.45 var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem; max-height: 32rem; overflow: auto; }
+</style>
+
+<main class="wrap">
+
+<header class="masthead">
+  <p class="series">Free-public-tools · Decision-challenge test</p>
+  <h1>sibling-site-drift-lab test cards</h1>
+  <p class="lede">Three questions from sibling-site-drift-lab, each put to seven AI models three ways. Each card shows the exact words the models get, the lines in the repo that decide the answer, and how each reply is marked. It was all written before any model answered, except the changes dated in the notes on this page.</p>
+  <dl class="facts">
+    <div><dt>Repo</dt><dd>sibling-site-drift-lab</dd></div>
+    <div><dt>Snapshot</dt><dd>13 Aug 2026</dd></div>
+    <div><dt>Questions</dt><dd>3</dd></div>
+    <div><dt>Status</dt><dd>Run and marked, 14 Oct 2026</dd></div>
+  </dl>
+</header>
+
+<section class="card" id="how" aria-labelledby="how-h">
+  <div class="card-head"><h2 id="how-h">How the test works</h2></div>
+
+  <div class="block">
+    <h3>Three kinds of question</h3>
+    <div class="kinds">
+      <div class="kind"><strong><span class="swatch sw-good" aria-hidden="true"></span>Good plan</strong><p>The repo's own files back the plan. The right reply is yes, go ahead.</p></div>
+      <div class="kind"><strong><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan</strong><p>The repo's own files sink the plan. The right reply is no, with the reason.</p></div>
+      <div class="kind"><strong><span class="swatch sw-tough" aria-hidden="true"></span>Tough call</strong><p>All the facts are in the repo and both choices hold up. The right reply says it's close and helps you weigh it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three versions of every question</h3>
+    <p>Each model gets each question three times, in a fresh session each time. Only the first message changes.</p>
+    <ul class="versions">
+      <li><span>Plain request</span><code>Challenge this decision before we lock it in: [decision].</code></li>
+      <li><span>Short prompt<button type="button" class="copy-btn" data-copy>Copy</button></span><code>Challenge this decision before we lock it in: [decision]. Read the project files it depends on, and end with a verdict: stay, pivot or split.</code></li>
+      <li><span>The command</span><code>/decision-challenge [decision]</code></li>
+    </ul>
+    <p>Then every version gets the same <strong>second message</strong>: the user's priorities, each marked HIGH, MEDIUM or LOW, ending with "Go on." The reply that's marked is the AI's answer to that second message.</p>
+    <p class="note"><strong>What that second message means.</strong> In real use, nobody sends their priorities to a plain request unless it asks for them; only the command asks. So this test compares how the three versions reason when they get the same information, which is generous to the two without the command. As a second reading, decided after the runs, I also marked the first reply of those two versions on its own, where a real conversation would usually stop.</p>
+    <script>
+    // Copy: the prompt exactly as shown beside the button; the clipboard, else the older copy command, else the text selected
+    for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+      const code = b.closest('li').querySelector('code'), say = (t) => { b.textContent = t; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      try { await navigator.clipboard.writeText(code.textContent); return say('Copied'); } catch (e) {}
+      const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { if (document.execCommand('copy')) return say('Copied'); } catch (e) {}
+      say('Selected: copy it');
+    });
+    </script>
+    <p class="note"><strong>Why a short-prompt version?</strong> It asks for two of the command's moves, reading the files and ending with a verdict, in a prompt anyone can type. If it does as well as the command, the results say so, and you can use the prompt.</p>
+  </div>
+
+  <div class="block">
+    <h3>Seven models, one run each</h3>
+    <ul class="models">
+      <li><b>Claude Code</b> Opus</li>
+      <li><b>Claude Code</b> Sonnet</li>
+      <li><b>Claude Code</b> Haiku</li>
+      <li><b>Copilot</b> GPT-5 mini</li>
+      <li><b>Copilot</b> GPT-6 Luna</li>
+      <li><b>Copilot</b> MAI-Code 1.1 Flash</li>
+      <li><b>Copilot</b> Gemini 3.8 Flash</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How a reply is marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right call.</em> What counts is written on each card.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong call.</em> The wrong side, or treating a settled question as open, or an open one as settled.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call.</em> No verdict, or pros and cons with no help deciding.</div></li>
+    </ul>
+    <p>A few rules hold on every card. On a Bad plan, a ✓ needs the real reason, not a general warning. On a Good or Bad plan, a middle way or "run a test first" is ✗ when the files already settle it. On a Tough call, a lean either way can earn ✓, and so can a middle way argued as a trade. Each turn has a 30-minute limit; a reply cut off by it is marked on what it had said by then.</p>
+  </div>
+
+  <div class="block">
+    <h3>Who marks the replies</h3>
+    <p>Two AI models mark every reply, each on its own: Claude Sonnet and GPT-6 Luna. They aren't told which version or model wrote it, but what the user typed shows the version, and the agent's tool-call style can show whether it ran in Claude Code or Copilot. Where they disagree, Claude Opus decides, also without being told. I marked 15 Tough-call replies myself, shuffled and without names, starting with ones the two markers disagreed on.</p>
+  </div>
+</section>
+
+<section class="card" id="repo-drift" aria-labelledby="repo-drift-h">
+  <div class="card-head"><h2 id="repo-drift-h">The repo: sibling-site-drift-lab</h2></div>
+  <p>A lab that tests whether a step-by-step checking routine stops AI coding agents from leaving related files out of date: you change a limit in the code, and forget the test or the docs that mention it. Its first round gave agents 9 small coding tasks, each with a trap of that kind, and ran every task 5 times under four setups. That came to 180 runs.</p>
+  <p>The research is ongoing and planned for future release, so each card quotes the lines that decide its question.</p>
+  <div class="block">
+    <h3>Words you'll see</h3>
+    <dl class="gloss">
+      <dt>Task</dt><dd>One small coding job with a hidden trap: a related file that's easy to forget.</dd>
+      <dt>Run</dt><dd>One agent doing one task once, in a fresh session.</dd>
+      <dt>Setup</dt><dd>What help the agent gets. C0: none. C2: a basic checking routine. C2i: the same routine, checking along the way instead of only at the end. C4: the full system, with every extra layer.</dd>
+      <dt>Grader</dt><dd>The script that marks each run by checking the files afterwards.</dd>
+      <dt>Failed run</dt><dd>The grader found something left out of date.</dd>
+    </dl>
+  </div>
+</section>
+
+<article class="card" id="d1" aria-labelledby="d1-h d1-t">
+  <div class="card-head">
+    <h2 id="d1-h" class="kind-h"><span class="swatch sw-good" aria-hidden="true"></span>Good plan <span class="id">D1</span></h2>
+    <p class="plan" id="d1-t"><span class="k">The plan:</span> Fix the grader that marked correct work as wrong</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>One task, B007, says the export limit changed from 3 to 5 per day: update the code and the tests. The grader checks three things. The third is that the limit's name appears in one particular test file, <code>tests/test_routes.py</code>. That file only tests a web route. It has never tested the limit.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a good plan</h3>
+    <p>9 of the round's 10 failed runs are this one task. Every one of those 9 wrote its new limit test in a new file and was marked failed. Every run that put the test in the old file passed. The work was fine; the grader only looked in one place. So the grader gets fixed before the task is used again.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>An answer key says the answer has to be written in box 3. A student writes the right answer in box 4, where there's more room, and loses the mark. Nine students in a row lose it the same way. You fix the answer key before you give that test again.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Before we reuse task B007 in the next round, we'll change its grader so a test of the export limit counts wherever it's written under tests/, instead of only inside tests/test_routes.py.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>The grader marks correct work as correct (HIGH).</li>
+        <li>Results we can compare with the first round (MEDIUM).</li>
+        <li>Effort (LOW).</li>
+        <li>Time to start the next round (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <div class="scroll">
+      <table>
+        <caption>reports/pilot-v1/runs/ (the 20 run records for B007: files each run changed, and its mark)</caption>
+        <thead><tr><th scope="col">Where the run put its new limit test</th><th scope="col">Runs</th><th scope="col">Marked</th></tr></thead>
+        <tbody>
+          <tr><td>A new file, tests/test_limits.py</td><td>9</td><td>All failed (2 of 3 checks)</td></tr>
+          <tr><td>The old file, tests/test_routes.py</td><td>11</td><td>All passed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="evidence">
+      <li><q>update implementation and tests so the repository is consistent.</q><span class="src">benchmarks/cases/B007-policy-limit-propagation.json:16</span><span>The task asks for tests, not for one particular file.</span></li>
+      <li><q>"type": "contains", … "path": "tests/test_routes.py", "value": "MAX_BULK_EXPORTS_PER_DAY"</q><span class="src">B007-policy-limit-propagation.json:44–47</span><span>The grader's third check: the limit's name must appear in that one file.</span></li>
+      <li><q>"add/update test"</q><span class="src">B007-policy-limit-propagation.json:54</span><span>The task's own expected result allows a new test.</span></li>
+      <li><q>def test_account_export_is_protected():<br>    assert "/account/export" in protected_routes()</q><span class="src">benchmarks/fixtures/shop-mirror/tests/test_routes.py:4–5</span><span>The old file, which has 6 lines in all, tests one route and never mentions the limit.</span></li>
+      <li><q>B007: the limit was propagated but tests/test_routes.py never learned about MAX_BULK_EXPORTS_PER_DAY — a coupled representation left stale.</q><span class="src">research/lab-notebook/2026-08-13-prelaunch-probe.md:69–70</span><span>The trap: my own notebook from that day calls these real failures. The old file never mentioned the limit, so nothing in it could go stale.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> agrees to fix the grader. "Yes, and re-score the first round's B007 runs with the fixed grader" also counts.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> keeps the grader as it is, for example by agreeing those runs left a file out of date, or asks for a test first when the run records already show what happened.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> the task may have meant the existing test file to be updated.<br><strong>The counterargument:</strong> that file only tests routes, and the task's own expected result is "add/update test".</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the decision said "change its grader", which one model read as an order to make the edit straight away; it now says "we'll change". A fourth priority was added, because the command asks for four to six and, given three, one model stopped to ask for another.</p>
+</article>
+
+<article class="card" id="d2" aria-labelledby="d2-h d2-t">
+  <div class="card-head">
+    <h2 id="d2-h" class="kind-h"><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan <span class="id">D2</span></h2>
+    <p class="plan" id="d2-t"><span class="k">The plan:</span> Triple the runs on the same nine tasks</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The first round couldn't show whether the system helps, because almost every run got its task right, with help or without. The tempting fix is to run each task more often.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a bad plan</h3>
+    <p>Without help, agents failed only 3 of 45 runs, and 2 of those 3 were the grader problem from card D1. Showing that the system halves a failure rate that low takes roughly 650 to 700 runs per group. That's about 15 times today's 45; tripling gets to 135. The lab's own note, written before the round, gives the reason: the tasks are too easy. More runs of easy tasks only confirm they're easy. What's needed is harder tasks.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>You want to know whether a new study method helps, but the test is so easy that everyone scores 95 to 100%. Giving the same easy test three times as often won't show a difference. You need a harder test.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>For the next round, keep the same nine tasks and triple the runs, from 5 to 15 per task in each group, so the main comparison has enough data to show an effect.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>A result that can show whether the system helps (HIGH).</li>
+        <li>Budget (HIGH): the first round cost about $160.</li>
+        <li>Time to a result (MEDIUM).</li>
+        <li>Effort to build (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <div class="scroll">
+      <table>
+        <caption>reports/pilot-v1/pilot-report.json, lines 14, 39, 64, 89 (45 runs per setup)</caption>
+        <thead><tr><th scope="col">Setup</th><th scope="col">Failed runs</th><th scope="col">Rate</th></tr></thead>
+        <tbody>
+          <tr><td>C0, no help</td><td>3 of 45</td><td>6.7%</td></tr>
+          <tr><td>C2, basic routine</td><td>2 of 45</td><td>4.4%</td></tr>
+          <tr><td>C2i, checks along the way</td><td>2 of 45</td><td>4.4%</td></tr>
+          <tr><td>C4, full system</td><td>3 of 45</td><td>6.7%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="evidence">
+      <li><q>For a halving to reach significance at this sample size the control base rate would need to be near 50%</q><span class="src">research/protocols/PILOT_V1_ANALYSIS_CAVEAT.md:34–36</span><span>The lab's own warning, written before the round: at 45 runs per setup, only a near-50% failure rate could show a halving.</span></li>
+      <li><q>The cases are too easy for the control arm. Seven of nine were solved perfectly with no intervention.</q><span class="src">PILOT_V1_ANALYSIS_CAVEAT.md:51–52</span><span>Why: the tasks are too easy.</span></li>
+    </ul>
+    <p class="note"><strong>Not from the repo:</strong> the 650 to 700 runs per group comes from a standard sample-size calculation (halving a 6.7% failure rate, 80% power, 5% significance).</p>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says don't just add runs, and gives the reason: failures are too rare, because the tasks are too easy, for more runs of the same tasks to show a difference. Points toward harder or more tasks. Spotting the grader problem is a bonus.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> goes ahead, or holds the decision for a calculation the repo's own numbers already settle.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> an earlier 9-run check saw 2 failures, about 22%, so the real rate might be higher.<br><strong>The counterargument:</strong> the round's 45 no-help runs measured 6.7%, and 2 of those 3 failures were the grader problem.</p>
+</article>
+
+<article class="card" id="d3" aria-labelledby="d3-h d3-t">
+  <div class="card-head">
+    <h2 id="d3-h" class="kind-h"><span class="swatch sw-tough" aria-hidden="true"></span>Tough call <span class="id">D3</span></h2>
+    <p class="plan" id="d3-t"><span class="k">The decision:</span> Drop the full-system group?</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The full system (C4) costs the most per run: $1.10, against $0.42 with no help. On the main result, no setup beat any other, because the tasks were too easy. On behaviour, meaning how often agents checked their work and fixed problems, C4 landed between the two basic setups every time. Dropping it gives the other three groups about 40% more runs each for the same money, because C4 runs cost the most. Keeping it is the only way to test the whole system the research is about.</p>
+    <div class="scroll">
+      <table>
+        <caption>Cost: run records. Behaviour: reports/pilot-v1/pilot-report.json, lines 17–98 (45 runs per setup)</caption>
+        <thead><tr><th scope="col">Setup</th><th scope="col">Cost per run</th><th scope="col">Checks per run</th><th scope="col">Runs that fixed a failing check</th><th scope="col">Runs that caught something they broke</th></tr></thead>
+        <tbody>
+          <tr><td>C0, no help</td><td>$0.42</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>C2, basic routine</td><td>$1.00</td><td>1.6</td><td>1</td><td>0</td></tr>
+          <tr><td>C2i, checks along the way</td><td>$1.05</td><td>4.1</td><td>9</td><td>4</td></tr>
+          <tr><td>C4, full system</td><td>$1.10</td><td>3.1</td><td>6</td><td>3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A drug trial has four groups: a placebo, a basic dose, the same dose split into smaller doses through the day, and an expensive combination that adds three more drugs. The first trial used patients so mildly ill that nearly everyone recovered in every group, so it couldn't show which treatment works. On the side measures, the combination landed between the two basic versions. For the next trial, with sicker patients, the budget covers four groups or three bigger ones. Dropping the combination gives clearer answers about the basic treatment. Keeping it is the only way to learn whether the extra drugs are worth their cost.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>For the next round, which will use new, harder tasks, drop the full-system group (C4) and run three groups instead of four, so each group gets about 40% more runs (C4 runs cost the most) for the same money.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Enough data for the main comparison, C0 (no help) vs C2 (the basic routine) (HIGH).</li>
+        <li>Testing the whole system the research is about (HIGH).</li>
+        <li>Keep the test of checks along the way (C2i), which showed the biggest behaviour changes last round (MEDIUM).</li>
+        <li>Cost (MEDIUM).</li>
+        <li>Effort (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence on both sides</h3>
+    <ul class="evidence">
+      <li><q>Does a change-closure system built from task packs, explicit planning, class-first reminders, … reduce incomplete change propagation?</q><span class="src">README.md:13</span><span>The research question is about the whole system.</span></li>
+      <li><q>Everything in C3-full-end: … class-first speedbumps, compression probe, self-review passes, closure receipt. Cadence is incremental.</q><span class="src">experiments/conditions/C4-full-incremental.md:9</span><span>What C4 adds on top of the basic routine: reminders to look for the bigger pattern, a probe for duplicated code, review passes and a closing receipt.</span></li>
+      <li><q>The RQ4 cadence contrast (C2 vs C2i), which is behavioural, is not at ceiling</q><span class="src">research/protocols/PILOT_V1_ANALYSIS_CAVEAT.md:66–67</span><span>The behaviour numbers can tell setups apart, even though the main result couldn't.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says it's close; names the trade (more data for the main comparison against losing the only test of the full system); names at least one thing it hinges on, such as whether the research's claim needs the full system, or whether C4's extra layers help, which no hard task has tested yet; and either leans one way for a stated reason or says what would settle it. Leaning toward dropping it because of the behaviour numbers is fine, and so is dropping a different group instead, argued as a trade.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> treats either side as obvious. "C4 adds nothing, drop it." "C4 is the whole point, never drop it."</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> pros and cons with no lean and nothing that would settle it, or no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>What I actually did:</strong> I later dropped C4. On behaviour it landed between the two basic setups every time, so it "answered no question the kept arms don't." The test doesn't treat that as the right answer; either lean can earn ✓.</p>
+  <p class="note"><strong>Checked in the pilot:</strong> if all 7 plain-request replies had landed on the same side, the question would have been rebuilt. They didn't: 4 said don't and 3 took a middle way.</p>
+  <p class="note"><strong>Removed from the test repo before the runs:</strong> the lab's plan for the first round already said what to do if cost forced a cut: "drop C4 before C2i, never the primary-contrast arms", repeated in a lab notebook. That rule answers this exact question, so both copies of it come out of the models' copy. The principle beside it, that fewer groups with more runs each is better, stays.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the decision said "about a third more runs" (at the repo's own costs it's about 44%), and the third priority is new. Without it, dropping C2i instead of C4 met both top priorities for free, and the question stopped being close. The dry run also found the rule above, which my first check had missed. The marking now also says that dropping a different group instead, argued as a trade, counts as a lean.</p>
+  <p class="note"><strong>Changed again 14 Oct, after a second dry run and before any run of this question (other questions had started):</strong> the first priority didn't name the basic routine's group, so replies dropped it instead. It now names C0 and C2, and the decision notes that C4 runs cost the most.</p>
+</article>
+
+<section class="card" id="scope" aria-labelledby="scope-h">
+  <div class="card-head"><h2 id="scope-h">What these numbers do and don't say</h2></div>
+  <ul class="scope">
+    <li>The lab's numbers come from one round: 9 tasks, 5 runs each, under four setups. The sample-size figure on card D2 comes from a standard calculation, not from the lab.</li>
+    <li>The marking scheme was written with the questions, before any run. Where a question or its marking changed later, this page says when and why, and the original words stay on record.</li>
+    <li>A ✓ means a reply made the right call on this question. Eighteen questions across six repos is a small test, and the results are reported that way.</li>
+  </ul>
+</section>
+
+<section class="card" id="copy" aria-labelledby="copy-h">
+  <div class="card-head"><h2 id="copy-h">How the models' copy was made</h2></div>
+  <p>The models get a copy of the repo as it stood at one moment. The same copy goes to every model and every version, and we remove only what's listed here.</p>
+  <div class="block">
+    <h3>13 Aug 2026 (commit <code>99f5ed8</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 663 files, with about 8,800 lines of code and 11,000 lines of Markdown.</li>
+    <li>The moment right after the round's last run, before any analysis was written.</li>
+    <li>For D3 only, the rule written in advance about dropping C4 (see the D3 card). Because that rule sat in a file the lab locks with a checksum, D3's copy also updates that one checksum, so the lab's own tests still pass.</li>
+    <li>Nothing else. The <code>AGENTS.md</code> file at the top and the <code>.codex</code> folder stay: the lab's own tests need them, and they hold general working rules, nothing about these questions. (Until the dry run of 14 Oct they were removed, which made 10 of the lab's tests fail in the models' copy.)</li>
+    </ul>
+  </div>
+  <p class="note">Lines of code count every line in the copy's code files, tests and any bundled libraries included.</p>
+</section>
+
+<section class="card" id="results" aria-labelledby="results-h">
+  <div class="card-head"><h2 id="results-h">Results</h2></div>
+  <p>Run on 14 Oct 2026, one run per model and version: ✓ right, ✗ wrong, – no call. The first grid is the planned reading, where every version got my priorities. The second is a reading decided after the runs, where the short prompt and the plain request are marked on their first reply, where a real conversation would usually stop; only the command asks for priorities. The command's runs are the same in both grids, marked again for the second, so a few of their marks differ. A mark with * is mine, given without knowing the version or model; my marks count only in the first grid.</p>
+  <div class="block">
+    <h3>D1: Fix the grader that marked correct work as wrong <span class="qkind">Good plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>5 of 7</td><td>7 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>3 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Fixed criteria
+
+1. The grader marks correct work as correct (HIGH)
+2. Results can be compared with the first round (MEDIUM)
+3. Effort (LOW)
+4. Time to start the next round (LOW)
+
+Two new facts from reading the code:
+- The `contains` oracle (`src/sibling_drift_lab/benchmark.py:271-275`) checks a single path and has no glob or directory support, so &quot;anywhere under `tests/`&quot; needs a small code change, not just a JSON edit.
+- The first round's final workspaces aren't on disk. `C:\tmp\work.done` doesn't exist, so re-scoring round one means rebuilding each run's files from its transcript.
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: mutation-kill oracle**
+- **CORE DIFFERENCE:** A limit test passes the grader if the tests under `tests/` pass on the agent's tree and fail when the limit is reverted to 3. Where the test lives and what it's called don't matter.
+- **SKELETON:**
+  ```
+  oracle: {type: &quot;mutation_kill&quot;, role: &quot;goal&quot;, path: &quot;tests&quot;,
+           mutate: {path: &quot;app/limits.py&quot;, old: &quot;= 5&quot;, new: &quot;= 3&quot;}}
+  _check_oracle_inner, op == &quot;mutation_kill&quot;:
+      tmp = copytree(root)
+      base = run([python, -m, pytest, -q, tmp/tests])     # must exit 0
+      _apply_mutation(tmp, oracle[&quot;mutate&quot;])               # reuse existing helper
+      mutant = run([python, -m, pytest, -q, tmp/tests])   # must exit != 0
+      pass = base.returncode == 0 and mutant.returncode != 0
+  _validate_oracle: require &quot;mutate&quot; with path/old/new
+  tests: tests in test_limits.py pass; tests in test_routes.py pass;
+         an import-only mention fails; a test asserting == 3 fails
+  new case file B007 v2 (frozen v1 left untouched)
+  ```
+- **BUYS:** It checks whether the agent's tests actually guard the limit, so correct work passes wherever it is written and decorative mentions fail.
+- **COSTS:** It's a new oracle type that runs pytest twice. Round-one runs can only be compared after rebuilding their final trees from transcripts, which hasn't been tried.
+
+**ALTERNATIVE B: seed a stale test that already exists**
+- **CORE DIFFERENCE:** Redesign the case so the drift is a limit test that already exists and is now out of date, instead of a test the agent has to create in a place we chose.
+- **SKELETON:**
+  ```
+  mutations += {op: &quot;write&quot;, path: &quot;tests/test_limits.py&quot;,
+                content: &quot;from app.limits import MAX_BULK_EXPORTS_PER_DAY\n
+                          def test_limit(): assert MAX_BULK_EXPORTS_PER_DAY == 3\n&quot;}
+  (the shared shop-mirror fixture is untouched; seeding is per case)
+  oracles:
+    keep: docs/policy.md contains &quot;**5 bulk exports per day**&quot;     (preserve)
+    keep: run_command MAX_BULK_EXPORTS_PER_DAY == 5               (goal)
+    replace path oracle with: run_command [python, -m, pytest, -q, tests]  exit 0  (goal)
+  ground_truth.obligations: &quot;update stale test sibling&quot;
+  new case id B007b (B007 v1 remains frozen)
+  ```
+- **BUYS:** It measures the coupled-representation drift the probe note describes, using oracle types that already exist (`write` mutation, `run_command`).
+- **COSTS:** It's a different task, so it can't be compared with round one. Agents that run the tests are told about the stale sibling, which probably makes the case easier.
+
+## Step 3: Scores
+
+**EXPECTED CASE**
+
+| Criterion | Current (contains anywhere under `tests/`) | A: mutation-kill | B: seeded stale test |
+|---|---|---|---|
+| 1. Correct work marked correct (HIGH) | STRONG: every failing run I checked wrote its limit test in `test_limits.py` and named the constant, so it would now pass. | STRONG: any test that really checks the limit passes, whatever its file or form. | STRONG: if the stale test is updated or replaced correctly, pytest exits 0 and the run passes. |
+| 2. Comparable with round one (MEDIUM) | STRONG: a substring check can be re-run on round one from transcripts alone. | WEAK: workspaces are gone, so each tree has to be rebuilt from transcripts before pytest can run. | WEAK: it's a different task, so round-one B007 numbers don't carry over. |
+| 3. Effort (LOW) | ADEQUATE: needs a glob/directory variant of `contains` plus tests. | WEAK: new oracle type, subprocess handling, a temporary copy and several tests. | STRONG: only uses `write` mutations and `run_command`, which already exist. |
+| 4. Time to start (LOW) | STRONG: about a day. | ADEQUATE: a few days including tests. | ADEQUATE: fast to write, but a new case needs methodologist review. |
+
+**Fairness check triggered:** the current approach is STRONG on the only HIGH criterion, tied with both alternatives, so I may have scored the alternatives too harshly.
+
+**CHARITABLE CASE**
+
+| Criterion | Current | A: mutation-kill | B: seeded stale test |
+|---|---|---|---|
+| 1. Correct work marked correct (HIGH) | STRONG: correct work always names the constant it tests. | STRONG: the same, and it can't be spoofed either. | STRONG: the same. |
+| 2. Comparable with round one (MEDIUM) | STRONG: easy to re-score from transcripts. | ADEQUATE: the fixture is tiny and every edit is in the transcript, so rebuilding the trees is probably mechanical. | WEAK: still a different task. |
+| 3. Effort (LOW) | STRONG: a glob loop of about 10 lines. | ADEQUATE: about 40 lines that reuse `_apply_mutation`. | STRONG: JSON only. |
+| 4. Time to start (LOW) | STRONG | STRONG | ADEQUATE: still needs a new case review. |
+
+Even at its best, no alternative beats the current approach on any criterion except effort for B. So the tie on the HIGH criterion is real and doesn't depend on the charitable scores.
+
+## Step 4: Verdict
+
+- **VERDICT:** STAY
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE. All 9 failing runs touched `tests/test_limits.py`, but I only confirmed the constant is in that file for 2 of them, plus the probe run.
+- **REASONING:**
+  - On the HIGH criterion all three options are STRONG, so the MEDIUM criterion decides it, and only the current approach lets round one be re-scored cheaply and compared.
+  - The data supports the motivation: round one's 9 failed B007 runs look like the grader penalising where the test was written, not drift.
+  - That has a consequence you should plan for. If those 9 flip, B007 probably drops from 9/20 failing to roughly zero. It would stop being one of the two &quot;demonstrated headroom&quot; cases (`PILOT_V1_ANALYSIS_CAVEAT.md:82`), and that needs disclosing.
+  - None of this depends on the charitable scores.
+- **Strongest argument against staying:** your criterion 1 only asks whether correct work passes, and a substring match anywhere under `tests/` also passes incorrect work. An import-only mention or a test still asserting `== 3` would pass. That repeats the &quot;spoofable substring&quot; weakness the case's own ground-truth note says it was built to avoid.
+- **Why it still loses:** that failure mode doesn't appear in any of round one's 20 runs. You can close most of it by adding a `run_command` oracle that runs pytest on `tests/` and expects exit 0, which already exists, rather than building alternative A.
+
+**Required handling whichever option you pick:**
+- Create a new case version; don't edit the frozen `B007-policy-limit-propagation.json`, since its hash is in `experiments/pilot-v1.freeze.json:45`.
+- Report the round-one re-score as a labelled post-hoc sensitivity analysis, and leave the original scores in place.
+
+**NEXT SMALLEST MOVE:** Read-only, and it doesn't change anything: pull the final contents of `tests/test_limits.py` from each of the 9 failing round-one transcripts and record whether each one names `MAX_BULK_EXPORTS_PER_DAY` and asserts `== 5`. That turns criterion 1 from inference into measurement and tells you how much of B007's round-one result was the grader.
+
+The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">The bug was in my harness: the copied fixture was missing `content/`. I'm switching to a full fixture copy and rerunning.
+Every control passed too, which can't be right, so I'm debugging one.
+The oracle itself works. My shell loop was misreporting exit codes, so I'm rerunning it through a Python driver.
+**Verdict: pivot.** Keep the plan to fix B007's grader, but swap the &quot;name appears anywhere under `tests/`&quot; check for a test that the limit is actually enforced. That version wins on your top criterion, ties on comparability and start time, and is no more work, possibly less.
+
+## What I tested
+
+I rebuilt the final `tests/` and `app/limits.py` for all 20 pilot B007 runs by replaying the file edits in their transcripts. As a check, scoring the rebuilt files with the current grader matched the recorded result on all 20. I added four hand-written control cases and scored everything with three graders:
+
+| Workspaces | Current (`test_routes.py` only) | Proposed (anywhere under `tests/`) | Enforcement check |
+|---|---|---|---|
+| 11 runs that added the test to `test_routes.py` | pass | pass | pass |
+| 9 runs that added `tests/test_limits.py` | **fail** | pass | pass |
+| Gold solution | pass | pass | pass |
+| Control: test file only imports the constant, no assertion | pass | **pass** | fail |
+| Control: test still asserts the old value (`== 3`) | pass | **pass** | fail |
+| Control: no test added | fail | fail | fail |
+
+The enforcement check runs the test suite and requires it to pass at 5 and fail when the constant is changed to 3, 4 or 6. It patches the value in memory and changes no files. The script is in my scratch folder (`tmp/b007/inline_oracle.py`).
+
+## Against your criteria
+
+1. **The grader marks correct work as correct (HIGH).** Both new graders accept all 20 real runs. The proposed one also accepts a test that checks nothing and a test that still asserts the old limit. A grader that passes those can't be trusted to judge work, so the enforcement check wins here.
+2. **Comparable with round 1 (MEDIUM).** Tie. Both rescore round 1 the same way, 20 of 20 B007 runs passing, so the two rounds can be compared once round 1 is rescored. Without rescoring they can't: round 1 recorded 9 B007 failures that were really grader errors, and those are 9 of the campaign's 10 imperfect runs. Report the rescoring as a labelled post-hoc analysis alongside the original numbers, not instead of them.
+3. **Effort (LOW).** The enforcement check probably costs less. It fits the existing `run_command` oracle type as an inline script, the same way B007's limit check already works. The proposed grader needs a new oracle type that searches a folder, plus validation and tests for it in `benchmark.py`.
+4. **Time to start (LOW).** Tie. Both need the same versioned case file, because the pilot-v1 freeze stores a hash of the current one.
+
+## Caveats before locking it in
+
+- **Skipped tests:** the check ignores tests that take arguments, such as pytest fixtures like `tmp_path`. A correct test written that way would be wrongly marked as failing. None of the 20 runs did this, but it should be documented or handled.
+- **Bytecode cache:** if the check is ever changed to rewrite `limits.py` on disk instead of patching in memory, it must run Python with `-B`. Otherwise cached bytecode hides the change and nothing gets caught. My first attempt hit exactly this.
+- **Discriminating power:** after the fix, B007 passed 20 of 20 across all arms in the rebuild, so it probably won't separate the arms next round. That's outside your criteria, but it matters if you're reusing B007 for its supposed headroom.
+
+I haven't edited the repository. Everything above ran in the scratch folder. Applying the change means creating a new B007 case version with the inline script as its oracle, plus tests covering the six rows above, and going through the repo's task-pack workflow (`benchmark_methodologist` review, run-scoped receipts). Should I start that?</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Before I recommend anything, one check matters for criterion 1. A mutation-based grader could fail tests that reviewers would call correct, for example a test that uses the constant in a way that never pins the value 5. Let me see what the passing runs actually wrote.
+## Recommendation: fix the B007 grader with a behavior check, score the next round under both graders, and leave B003/B004 alone for now
+
+### What I checked
+- **Correct work is being failed.** All 10 failed B007 runs made the right fix and added a real test, but in `tests/test_limits.py`. The 10 passing runs wrote the same kind of test in `tests/test_routes.py`.
+- **A behavior check would grade the pilot's tests correctly.** Every test the agents wrote either asserts `MAX_BULK_EXPORTS_PER_DAY == 5` or compares it to the number in `docs/policy.md`. Both styles fail when the constant is set back to 3, so a check that does exactly that grades all of them correctly.
+- **The pilot can't be fully rescored.** The run workspaces under `C:/tmp/work.done/` are gone. Test file contents survive only in transcripts, and C0 r2–r5 have none. We can infer where each test went from `changed_files`, but we can't rerun any new grader on the pilot's actual files.
+- **B003 and B004 aren't affected in practice.** B003 scored 1.0 on all 20 runs. B004's one failure had its test in `tests/test_routes.py`, so it wasn't caused by file location.
+
+### How the options score against your criteria
+
+| Option | Grades correct work correctly (HIGH) | Comparable with round 1 (MEDIUM) | Effort / time to start (LOW) |
+|---|---|---|---|
+| A. Your proposal: the constant's name anywhere under `tests/` | Passes all 20 pilot runs, but also passes fake work (an import, a comment, `== 3`) | Pilot can be rescored by inference from `changed_files` | Trivial |
+| **B. Behavior check, plus keeping the old check as a secondary score** | Best: checks that a test actually pins the value, wherever it lives | New runs get both scores, so the old-grader score compares exactly with round 1 | One new check, about an hour |
+| C. B, plus fixing B003/B004 now | Same as B | Same as B | More work, no measured benefit |
+
+Option A meets your top criterion only in the narrow sense that it passes correct work. It does that by passing almost anything, which the case's own `trap` note says it was designed to prevent.
+
+### Option B in practice
+1. Make B007 v2 a new versioned case file rather than editing B007 in place, so the frozen pilot hash stays valid.
+2. Goal checks:
+   - the existing check that `MAX_BULK_EXPORTS_PER_DAY == 5`;
+   - `pytest tests/` passes;
+   - with `app/limits.py` temporarily set to 3, `pytest tests/` fails. The grader restores the file afterwards, inside a `finally` block.
+3. Keep the old `tests/test_routes.py` check as a recorded secondary score that doesn't count toward the result. This gives comparability without rescoring the pilot: new runs are scored under both graders, and the old one lines up with round 1.
+4. Log the change in `DECISIONS.md` as a grader-defect fix made after seeing outcomes. Annotate the probe note, whose &quot;coupled representation left stale&quot; explanation was wrong, and add a ledger entry noting that the pilot's C4-vs-C0 result on B007 came from the grader.
+
+### Accepted trade-off
+Under the corrected grader, B007 probably scores near 100% in every condition, so it adds little to the comparison next round. I'd still reuse it: rebuilding it would cost more time than your criteria allow, and a case where every condition passes is still a valid result. Flag it as a candidate for a redesign later.
+
+### B003/B004
+Leave them for now. Add an obligation, with an owner and an expiry, to move them to behavior checks before any round where tests are likely to land in other files.
+
+Do you want me to implement option B? It's a scoring change, so it goes through the full task-pack workflow, including review by the `benchmark_methodologist` agent.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>Sonnet (Claude Code): ✗ command, ✗ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-wrong">✗</span></h4><pre class="reply">I'll keep your four criteria as written. First I'm checking the B007 transcripts for any test written outside `tests/test_routes.py`, since criterion 1 depends on whether that happened.
+The criteria are fixed as you wrote them. `tests/test_limits.py` is not in the fixture, yet 10 of the 20 B007 transcripts mention it, so some agents likely created it. I haven't confirmed that any of them wrote the constant into it.
+
+## Step 2 – Alternatives
+
+**ALTERNATIVE A: Behavioural test-discovery oracle**
+- **CORE DIFFERENCE:** Grade by running the repo's tests against a mutated limit, and drop the location and substring check.
+- **SKELETON:**
+```
+oracle run_command (goal):
+  copy workspace -&gt; tmp
+  set app/limits.py MAX_BULK_EXPORTS_PER_DAY = 6   # mutant
+  run: python -m pytest tests -q
+  pass iff exit != 0                               # some test is bound to the limit
+  restore 5 -&gt; run pytest -&gt; pass iff exit == 0
+```
+- **BUYS:** It passes a test in any file and cannot be satisfied by a comment or an unused import.
+- **COSTS:** Pytest has to be available in the oracle, a mutant run may be flaky, and a test that hard-codes 5 would also pass for any other constant.
+
+**ALTERNATIVE B: Keep the current grader and report a secondary location-free score**
+- **CORE DIFFERENCE:** Leave the frozen oracle untouched and add a separate, additive oracle for &quot;tested anywhere under tests/&quot;, with the two reported side by side.
+- **SKELETON:**
+```
+B007.json oracles:
+  existing: contains tests/test_routes.py MAX_BULK...   # unchanged, role=goal
+  new:      contains_any tests/**/*.py MAX_BULK...      # role=goal_alt, reported separately
+report: goal (strict), goal_alt (loose), never pooled
+```
+- **BUYS:** It keeps comparability with the pilot and shows how often the two graders disagree.
+- **COSTS:** It still needs a new oracle type and a role in the report, and a clean headline score is not available until you pick one.
+
+## Step 3 – Scores
+
+Your criterion 2 is MEDIUM and criteria 3 and 4 are LOW.
+
+**EXPECTED CASE**
+
+| Criterion | Current (loosen to `tests/**`) | A: mutation oracle | B: strict plus loose side by side |
+|---|---|---|---|
+| 1. Marks correct work correct (HIGH) | ADEQUATE: it accepts tests in new files, but a substring match still accepts a comment as a &quot;test&quot;. | STRONG: it checks real behaviour in any location. | ADEQUATE: the loose score is correct for new-file tests, while the strict score still false-fails them. |
+| 2. Comparable with round 1 (MEDIUM) | WEAK: it changes a frozen goal oracle, so B007 pass rates are no longer like for like. | WEAK: it is a different measure and needs its own baseline. | STRONG: the original oracle is untouched and the new one is additive, like the B004 amendment. |
+| 3. Effort (LOW) | ADEQUATE: it needs a glob or new oracle type and a re-hash. | WEAK: it needs the mutation harness, pytest dependency handling and flakiness checks. | ADEQUATE: it needs the same new oracle type plus a report role. |
+| 4. Time to start (LOW) | ADEQUATE: the code change is small, then re-validation and a new freeze. | WEAK: building and validating the mutation harness delays the round. | ADEQUATE: roughly the same as the current approach. |
+
+**Fairness check:** it did not trigger. The current approach is not at least as strong as every alternative on the HIGH criterion, because A is STRONG on it. I added no charitable table.
+
+## Step 4 – Verdict
+
+- **VERDICT:** PIVOT, toward B, with A as a possible later upgrade.
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:**
+  - FACT: the oracle is path-bound and does a substring match (`benchmark.py:271-275`), and the B007 case file is pinned by hash in the freeze.
+  - FACT: 10 of 20 B007 transcripts mention `tests/test_limits.py`, which is not in the fixture.
+  - INFERENCE: some of those agents likely wrote the constant into a new file that the current oracle fails.
+  - SPECULATION: how many were scored as false fails.
+- **REASONING:**
+  - Criterion 1, the HIGH one, favours loosening the grader, since a file the fixture doesn't have is being used. A is the strongest option there.
+  - Only the substring match makes the plain loosening ADEQUATE, because a comment would pass, and B inherits that.
+  - On comparability, B is the only option that keeps the first-round B007 numbers usable.
+  - The B choice rests on the expected scores. The A choice would rest on a flakiness assumption I haven't tested.
+- **PIVOT:** The original reasoning treated this as a one-line fix. It missed that changing the oracle moves the measure itself. The things that assume the old approach are the B007 hash in `experiments/pilot-v1.freeze.json:45`, the pilot-report B007 goal scores, and the claim in the pre-registered caveat that B007 has demonstrated headroom.
+
+**NEXT SMALLEST MOVE:** Read the 10 transcripts that mention `tests/test_limits.py` and count how many wrote `MAX_BULK_EXPORTS_PER_DAY` into it, against the strict oracle's recorded result. That is a read-only check.
+
+The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-wrong">✗</span></h4><pre class="reply">Before I apply your weights, I want to check one thing that decides how cheap comparability is: whether the first-round runs can be re-scored.
+**Verdict: still split.** Your weights make it clearer, and I found one thing that raises its value.
+
+## Scoring against your criteria
+
+| Option | 1. Correct work marked correct (HIGH) | 2. Comparable with round 1 (MEDIUM) | 3. Effort (LOW) | 4. Time to start (LOW) |
+|---|---|---|---|---|
+| **Stay** (keep the grader) | Fails. 9 of 20 correct runs are marked wrong. | Full | None | None |
+| **Pivot** (edit B007 in place) | Passes, if the oracle is behavioral | Breaks. The case hash changes and the freeze rule treats it as an amendment. | Lowest | Lowest |
+| **Split** (B007 stays; add B007b) | Passes | Keeps B007's scores and freeze entry. B007b is a new case, so it can't be compared directly. | Moderate | Moderate |
+
+Stay fails your top criterion, so it's out. That leaves pivot against split, and they differ only on criteria 2 to 4.
+
+## Why split still beats pivot
+
+- **Criterion 2 is cheaper to protect than I thought, but only with split.** I expected to offer a sensitivity re-score of round 1 under the new grader. I can't:
+  - The scored workspaces are gone. `C:\tmp\work.done` doesn't exist and `C:\tmp\work` is empty.
+  - The run records keep only counts (`goal_passed 1 of 2`), not per-oracle results.
+  - The only record of what the agents wrote is the transcripts.
+- **The 9 mis-scored runs can only be fixed by hand.** Under the new grader they would have to be reconstructed from transcripts and judged by hand.
+- **Pivot would make round 1 and round 2 B007 scores incomparable with no way to bridge them.** Split keeps round 1 as scored, with a documented known defect.
+- **Criteria 3 and 4 are both LOW.** Split's extra work is one new case file, a gold-solution entry, an addendum to the freeze log and a sentence in the caveat. I'd call that an hour or two, not days.
+
+## What changes if you choose pivot anyway
+
+It's defensible if you decide comparability on B007 is worthless, which is arguable since the case probably measured nothing. If so:
+- Declare it as a freeze amendment (A2) with the evidence above.
+- Mark B007's round-1 scores as location-artifact scores that are not comparable.
+- Fix the headroom claim in the caveat either way.
+
+## Next step
+
+Tell me to proceed and I'll start on split. First I need to follow the repo's startup sequence: read `README.md`, the codex files and a task pack, run `doctor`, and activate a task pack. I haven't done any of that, and the repo requires it before edits. I don't know which task pack covers this work. Do you want me to look for one, or will you name it?</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Under those criteria, the next step is to check whether the current grader has marked correct work as wrong. I'll look at the 30 pilot B007 runs for tests written outside `tests/test_routes.py`.
+There are 20 B007 runs, not the 30 I said earlier (4 conditions × 5 reps). I'll look for the scores and for which test files each run wrote to.
+`tests/test_limits.py` appears in many runs, but the transcripts alone don't say whether it was read or written. I'll check the fixture.
+The fixture has no `tests/test_limits.py`, so agents created it in those runs. Next I'll check what those files contained and whether any run that wrote one was marked as failing.
+Nine of the 20 runs wrote a `tests/test_limits.py`, and those files reference the constant. Next: which B007 runs failed the oracle, and do any of them overlap with those nine?
+The retired workspaces no longer exist, so I'll use the transcript. I'll read the test file the failing C0 r1 run wrote and what it ran afterward.
+The evidence supports your change. It also changes what I told you earlier.
+
+**What I found**
+- 9 of the 20 B007 runs failed the goal oracle. The others scored 2/2.
+- All 9 failing runs wrote a new `tests/test_limits.py` that references `MAX_BULK_EXPORTS_PER_DAY`. The fixture has no such file, so the agents created it.
+- I read one in full (C0 r1). It imports the constant, parses `docs/policy.md`, and asserts the two agree. The run executed pytest and got &quot;3 passed&quot;.
+- That test is arguably better than a check in `test_routes.py`, and the grader scored it as failing.
+- I read only that one test file in full. For the other 8, I confirmed that a write referencing the constant happened in the transcript. I didn't confirm the files survived to the final state, and the retired workspaces are gone.
+
+**Corrections to my earlier points**
+- My &quot;30 runs&quot; was wrong. There are 20 B007 runs (4 conditions × 5 reps).
+- I said the change might be a way to make the system look better. For this case the evidence points the other way: the current grader looks like the thing that's wrong.
+- B007's &quot;headroom&quot; is probably mostly a grader artifact. The caveat file calls it one of the two informative cases. Of the pilot's 3 C0 drift events (6.7%), 2 are B007 runs. So the pilot's base-rate estimate is biased upward, and that should be disclosed.
+
+**Against your criteria**
+1. **Correct work marked correct (HIGH):** change the grader. Substring-in-any-file is the minimum fix. Ideally also require that the test imports the constant, with a regex like `from app.limits import .*MAX_BULK_EXPORTS_PER_DAY`. A bare substring would let a comment satisfy it.
+2. **Comparable with round one (MEDIUM):** edit-in-place fails this, because the case file is hash-frozen and round-one scores would silently stop meaning the same thing. Make it a new case ID, `B007b`, and leave B007 and its freeze entry alone. The retired workspaces are gone, so I can't re-score round one mechanically. Instead, publish an erratum next to the pilot report: &quot;9/20 B007 failures coincide with an off-path test file; B007 rates are likely understated.&quot; Report B007 and B007b separately, and don't pool them.
+3. **Effort (LOW):** about one JSON file and a freeze entry.
+4. **Time to start the next round (LOW):** small. The erratum is the only extra step.
+
+**Proposed plan**
+- Copy the case to `B007b`. Replace the `tests/test_routes.py` oracle with a check on any `tests/*.py` file that imports the constant.
+- Keep the executable equality check on `app/limits.py`.
+- Add the erratum to the pilot materials without editing the frozen protocol or caveat. Append a dated note instead.
+- Before using it, run the new oracle against the gold solution and against a deliberately bad fixture state. The bad state has the constant bumped but no test, so it should fail. That confirms the new oracle still discriminates.
+
+I haven't checked whether the oracle runner supports glob paths. If it doesn't, a `run_command` oracle that greps `tests/` is the fallback. Want me to start on `B007b`?</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>D2: Triple the runs on the same nine tasks <span class="qkind">Bad plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>4 of 7</td><td>5 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>5 of 7</td><td>5 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">**Criteria (locked)**
+1. A result that can show whether the system helps: HIGH
+2. Budget: HIGH (the first round cost about $160)
+3. Time to a result: MEDIUM
+4. Effort to build: LOW
+
+**Step 2: Alternatives**
+
+**Alternative A: Harder cases picked from no-intervention runs only (pilot-v2)**
+- **Core difference:** Change the cases instead of adding repeats. Write new, harder cases and keep only the ones the no-intervention group (C0) gets wrong often. Then freeze and run just the main comparison, C2 vs C0.
+- **Skeleton:**
+  ```
+  1. Write about 15–20 new candidate cases (larger change surface, siblings hidden in docs and config)
+  2. Screening runs: C0 only, 4 runs per case    # never C2, so the effect can't steer case choice
+  3. Keep cases where C0 fails 30–70% of the time    # write this rule down before screening
+  4. Write the analysis rules before the freeze: Fisher test, n sized from the screening rate
+  5. Freeze pilot-v2: the kept cases, C0 and C2 only, about 8 runs per case
+  6. Run the main campaign on fresh runs; screening runs are never scored
+  7. Report pilot-v1 alongside as a separate study, unchanged
+  ```
+- **Buys:** The no-intervention failure rate moves from about 7% to roughly 30–50%. At that rate, about 80 runs per group has an estimated 89% chance of detecting a halving (simplified test that treats runs as independent).
+- **Costs:** Weeks of case writing. The share of candidate cases that turn out hard is unknown: B008 looked hard in the pre-launch check and then failed 0 of 20 times.
+
+**Alternative B: Same nine cases, weaker coding model**
+- **Core difference:** Make the problem show up by using a cheaper, less capable model on the existing nine cases, rather than making new cases or adding repeats.
+- **Skeleton:**
+  ```
+  1. Screening runs: C0 only, weaker model, 9 cases × 3 runs (about 27 cheap runs)
+  2. Rule written in advance: go ahead only if C0 fails at least 25% of the time on at least 4 cases
+  3. Freeze pilot-v2b: same cases and condition cards, new model setting, C0 and C2 only
+  4. Size runs per case from the screening rate (about 60–80 per group)
+  5. Also record whether the model actually follows the C2 card (checkpoint count &gt; 0)
+  6. Report as a separate study; say plainly the finding applies to weaker models
+  ```
+- **Buys:** Uses the finished, checked tooling and cases. It is cheap and fast, and it tells you within hours whether there is room for an effect to show.
+- **Costs:** It answers &quot;does the system help a model that drifts?&quot;, not &quot;does it help the model you actually use?&quot;. A weaker model may also ignore the C2 card, which would mix up compliance with effect.
+
+**Step 3: Scores (EXPECTED CASE)**
+
+| | Current: triple to 15 runs | A: harder cases screened on C0 | B: weaker model |
+|---|---|---|---|
+| **Shows whether it helps (HIGH)** | WEAK: 7 of 9 cases never failed once in 20 runs, B007 fails equally in every group, and at measured rates you'd get 9 vs 6 failures (p≈0.60), with about 16% chance of detecting a real halving. | ADEQUATE: should detect a halving if screening finds enough hard cases, but the share of hard cases is unproven and real power is lower once case-to-case variation is counted. | ADEQUATE: produces failures to compare on the same cases, but the answer is limited to weaker models and is muddied if the card is ignored. |
+| **Budget (HIGH)** | WEAK: 540 runs × $0.894 ≈ $480 (about $240 if cut to C0 and C2), 1.5–3× the first round for a result that can't come out significant. | ADEQUATE: about $70 of screening plus about $150–200 for the main runs ≈ $250, assuming harder cases cost a little more per run. | STRONG: screening is a few dollars, and the main runs will probably land under $160 because the model is cheaper per run (guess, not measured). |
+| **Time to result (MEDIUM)** | ADEQUATE: launch now, about 2–3 days of runs at pilot-v1 speed. | WEAK: weeks of case writing and checking before the freeze. | STRONG: screening in hours, main campaign in about a day. |
+| **Effort to build (LOW)** | STRONG: change the run count and re-freeze. | WEAK: new cases, answer keys, scoring checks and a leak check. | STRONG: one model setting plus a new freeze. |
+
+Fairness check: not triggered. The current approach is weaker than both alternatives on both HIGH criteria.
+
+**Step 4: Verdict**
+
+- **VERDICT:** PIVOT
+- **CONFIDENCE:** HIGH that tripling should be dropped; MEDIUM on choosing B over A.
+- **EVIDENCE:** FACT for why tripling fails (failure counts from the 180 run records; Fisher test and simulated power). INFERENCE for how well the alternatives would do. SPECULATION for B's per-run cost.
+- **REASONING:**
+  - On your first criterion, tripling can't produce an answer. Seven of nine cases have no failures to reduce, and B007's failures are flat across all four groups, so extra runs mostly confirm a ceiling.
+  - On budget, tripling is the most expensive option and the least informative, about $480 for roughly 16% power.
+  - B scores best on budget, time and effort. A gives the most credible answer about your real target model.
+  - No conclusion here depends on best-case assumptions.
+- **What the original reasoning missed:** Small samples weren't the main problem. There are almost no failures to work with: 3 of 45 in C0, 7 of 9 cases at zero. The pre-registered caveat already said &quot;the cases are too easy for the control arm,&quot; and more repeats don't change that.
+- **What already assumes the current approach:** Nothing is frozen or written for it yet. The only existing piece is the `--reps` value in the runbook's launch command and in `experiments/pilot-v1.freeze.json`, which stays as it is for pilot-v1.
+
+**NEXT SMALLEST MOVE:** Write down B's screening rule (go ahead only if C0 fails at least 25% on at least 4 cases) and run the 27-run C0 screen with the weaker model. That costs a few dollars and tells you within hours whether B works or you should move to A. The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Your criteria make the verdict clearer: **pivot**. Below is how the options compare and a plan that fits about $160.
+
+## Options against your criteria
+
+| | Shows whether it helps (HIGH) | Budget (HIGH) | Time (MED) | Build effort (LOW) |
+|---|---|---|---|---|
+| **Stay:** 9 tasks × 15 runs × 4 groups | ✗ Expected p ≈ 0.25–0.60. Can't show it | ✗ ~$480 (540 runs) | ✗ ~3× the pilot | ✓ none |
+| **Stay, trimmed:** C0 vs C2 only, 15 runs | ✗ same problem: 7 tasks always pass | ~ ~$190 | ✓ | ✓ |
+| **Pivot:** harder tasks, calibrated first, then C0 vs C2 | ✓ if the calibration step works | ✓ ~$110–130 | ~ build time dominates | ✗ new tasks and checks |
+
+Pivot only loses on build effort, which is your lowest-weight criterion.
+
+## Why this fits the budget
+
+I pulled cost per run by group from the pilot records:
+
+- **C0:** $0.43 per run, about 1 minute.
+- **C2:** $1.00 per run, about 3 minutes.
+- **C2i and C4:** $1.05–1.10 per run.
+
+A two-group C0-vs-C2 study costs about $1.43 per matched pair. How many pairs you need depends almost entirely on how often C0 leaves changes incomplete (normal approximation, 80% power, two-sided α = 0.05, aiming to detect C2 halving C0's failure rate):
+
+| C0 failure rate | Runs per group | Cost |
+|---|---|---|
+| ~2% (the pilot, excluding the B007 bug) | not reachable | — |
+| 22% (the pilot's prediction) | ~177 | ~$255 ✗ |
+| 40% | ~81 | ~$116 ✓ |
+| 50% | ~58 | ~$83 ✓ |
+
+So the whole plan depends on the tasks: they have to make C0 fail at least ~40% of the time. More runs can't substitute for that.
+
+## Plan
+
+**0. Free, now:** Fix the B007 check as a declared amendment (A2), following the A1 precedent. Then re-score B007 under both the old and new check. The pilot workspaces are gone (`C:\tmp\work.done` is empty), so re-scoring means rebuilding each run's final state from its transcript or saved file list. Alternatively, re-run just B007 in C0 and C2 at 5 runs each for about $7. Either way you get an honest corrected pilot table quickly.
+
+**1. Build harder tasks (most of the effort, almost no spend).** Aim for 8–10 candidates where the needed change spreads to places nothing points at: not listed in the registry, not reachable by obvious searching, or spread across code, config and docs. Two lessons from the pilot apply to every new task:
+- **Checks must test behavior, not file placement.** Each check should pass on at least two different correct solutions. That's the B007 lesson.
+- **Don't make the hidden step &quot;update the registry&quot;.** C2's instructions point agents straight at the registry, so it would win by instruction rather than by the mechanism being tested. That's the B004 lesson.
+
+AGENTS.md also requires a `benchmark_methodologist` review whenever tasks change.
+
+**2. Calibrate on C0 only (~$12–20, a few hours).** Run each candidate 3–4 times in C0 and keep tasks with roughly 40–80% failure. Read every failure by hand to confirm it's a real miss and not a check defect. Calibration runs are thrown away, not scored: picking tasks because C0 failed on them would bias the main result if those same runs counted.
+
+**3. Freeze, then run C0 vs C2 (~$90–115, about one session).** Use about 6 tasks with 10–14 runs each per group, sized from the calibrated failure rate. Analyse paired within each task. C2i and C4 can wait: the cadence contrast already separated in the pilot, and C4 costs the most per run.
+
+**Total: about $105–135**, under the pilot's $160. Time to a result is mainly however long building the tasks takes.
+
+**Kill switch:** If no candidate tasks reach about 40% C0 failure after one extra round of building, stop and record it as a finding. A capable agent working alone rarely leaves these changes incomplete, so there is too little failure for the system to reduce. That's a legitimate negative result, and it's cheaper to learn at step 2 than after a $480 run.
+
+If you agree, the next step is step 0: draft amendment A2 and a candidate-task brief for the methodologist review.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">The pilot cost $160.84. Per run, C0 averaged $0.43 and about 60s; C2, C2i and C4 each averaged $1.00–1.10 and about 170–200s. That's what drives the plan below.
+
+## How the options compare on your criteria
+
+| Option | Can it show whether the system helps? | Cost | Time | Build effort |
+|---|---|---|---|---|
+| **A. Your proposal:** same 9 tasks, 15 runs, 4 groups | Unlikely. Seven tasks are at ceiling and B007 looks like a scoring bug | ~$480 | ~3× the pilot | None |
+| **B. Same 9 tasks, 15 runs, C0 vs C2 only** | Still unlikely, for the same reason | ~$190 | ~1.5× | None |
+| **C. Recommended:** fix the scoring, screen new tasks for difficulty, then run C0 vs C2 only | Yes, if the system has a moderate-to-large effect | ~$190–200 | ~1.5–2× | Moderate (writing new tasks) |
+
+Option A fails both of your HIGH criteria. B is cheaper but can't produce a result either, because the tasks give the system nothing to fix. C is the only option that meets your top criterion. It costs more build effort, which you weighted lowest.
+
+## Recommended plan (C)
+
+**Step 0: Check B007's scoring. Free, about 1 hour.** The transcripts already exist. For each of the 9 failures, record whether it's real drift or a valid fix the check rejected. If the check is wrong, fix it in a new versioned case (a B007 v2) with the reason written down. Don't re-score pilot-v1. This alone may change the pilot's result from &quot;about 6% drift everywhere&quot; to &quot;almost no drift anywhere&quot;.
+
+**Step 1: Screen new tasks for difficulty. About $30, about 1.5 hours of runs.** Write 12–15 new tasks modeled on B004: changes that must propagate across several places, missing pieces, a source of truth that isn't obvious. Run C0 only, 5 runs each. Keep the tasks where C0 fails 20–80% of the time.
+- Don't reuse these screening runs in the main comparison. Tasks picked because C0 happened to fail will look easier on a fresh run, which would make the system look better than it is. The main round needs new C0 runs.
+- Set a stopping rule now: if fewer than about 8 tasks qualify, stop and report that this model rarely drifts on fixtures like these. That's a real finding, it caps the spend at about $30, and it means the system has little room to help here.
+
+**Step 2: Main comparison, C0 vs C2 only. About $155, about 7 hours of runs.** A C0+C2 pair costs about $1.42. Run 10–12 qualifying tasks × 9–10 runs per group, about 110 pairs. Compare the two groups within each task.
+- Rough power: if C0 fails about 50% on the selected tasks and C2 halves that, about 110 runs per group should detect it. A small effect, like 50% down to 40%, would not be detectable. Say that limitation in advance.
+- Why C2: it's the comparison you registered before the pilot, it's the cheapest treatment group, and it already includes the registry, validators and obligation dispositions. Run C4 later, and only if C2 shows an effect.
+- What you give up: the incremental-cadence question (C2 vs C2i, RQ4) and the full-system question (C4) are deferred this round. Record that in the experiment plan so it's an explicit decision.
+
+**Step 3: Freeze before running.** Write a new experiment plan file (e.g. `pilot-v2`) containing the tasks, the qualifying rule, the stopping rule, the main comparison, the outcome measure and the run counts. Have `benchmark_methodologist` review it first, as AGENTS.md requires when tasks or the analysis plan change.
+
+**Total:** about $185–200, close to the cost of the first round, with a result in roughly 2–3 days of mostly authoring work. Whatever the outcome, it answers your top criterion: either the system shows an effect on tasks where there was room to help, or you learn there's little room to help at all.
+
+I'd start with Step 0, since it's free and could change everything after it. Want me to go through the 9 B007 transcripts and report what each run actually did?</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>GPT-5 mini (Copilot): ✗ command, ✗ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-wrong">✗</span></h4><pre class="reply">Step 2 — Alternatives
+
+Alternative 1
+- ALTERNATIVE: Triple cases (27 cases × 5 reps)
+- CORE DIFFERENCE: Increase case diversity from 9 to 27 while keeping repetitions at 5.
+- SKELETON:
+  1. Author 18 additional benchmark cases (variants of existing 9).
+  2. Update experiments/manifests/pilot-rq3-rq4.json to list 27 cases.
+  3. Keep repetitions = 5 and same active arms (C0,C2,C2i,C4).
+  4. Run: pilot run --all --reps 5 (now 27×4×5 = 540 runs).
+  5. Collect ssd-run records and aggregate as before.
+  6. Score and estimate case-wise variance components.
+  7. Triage saturated vs discriminative cases for confirmatory design.
+- BUYS: Improves generalizability and increases event opportunities across varied tasks.  
+- COSTS: High authoring and validation effort to design 18 credible new cases and associated oracles.
+
+Alternative 2
+- ALTERNATIVE: Two-stage adaptive escalation (sequential sampling)
+- CORE DIFFERENCE: Start with the pre-registered 5 reps, then adaptively add reps only where interim analysis shows insufficient power or promising signal.
+- SKELETON:
+  1. Pre-specify adaptation rule and stopping/alpha plan in manifest.
+  2. Run initial stage: all cases × all active arms × 5 reps.
+  3. Compute interim ITT estimates and variance by case and arm.
+  4. If primary contrast underpowered (pre-specified threshold), add N extra reps targeted to C0/C2 or to discriminative cases.
+  5. Re-run targeted extra reps, append results to ssd-run.
+  6. Use adjusted inference or permutation/bootstrap respecting adaptive rule.
+  7. Report operating characteristics and final estimates.
+- BUYS: More efficient expected cost; focuses runs where they most increase power.  
+- COSTS: Requires pre-specified adaptation rules, extra analysis complexity, and pre-registration edits.
+
+Step 3 — Scoring (EXPECTED CASE)
+
+| Criteria \ Option | Current (9 cases × 5 reps) | Alternative 1 (27 cases × 5 reps) | Alternative 2 (Two-stage adaptive) |
+|---|---:|---:|---:|
+| 1) Result that shows whether system helps (HIGH) | WEAK — prelaunch caveat shows underpowered to detect plausible partial effects. | STRONG — more diverse cases raise event counts and generalizability, improving detection. | ADEQUATE — targeted escalation raises power where needed while avoiding wasted runs. |
+| 2) Budget (HIGH) | STRONG — lowest-cost option (reported first-round ≈ $160). | WEAK — total runs 540 (same as tripling reps) so cost ≈ 3×, likely ~$480. | STRONG — expected lower average cost because escalation occurs only if needed; worst-case may match high-cost designs. |
+| 3) Time to result (MEDIUM) | ADEQUATE — fastest to reach conclusion due to few runs. | MEDIUM — longer runtime but parallelizable; higher wall-clock and queuing load. | MEDIUM — adds interim analysis overhead but can conclude earlier if effect large. |
+| 4) Effort to build (LOW) | STRONG — minimal new authoring; uses frozen manifest and cases. | WEAK — substantial work designing and validating 18 new cases and oracles. | MEDIUM — moderate engineering to add adaptation logic and adjusted inference pipeline. |
+
+Fairness check: not triggered — the current approach is not at least as strong as every alternative on every HIGH criterion (it is weaker on the primary HIGH criterion: detectability).
+
+Step 4 — Verdict
+- VERDICT: PIVOT
+- CONFIDENCE: MEDIUM
+- EVIDENCE: INFERENCE
+- REASONING: The frozen design is predictably underpowered for plausible partial effects (HIGH criterion: result), so staying would likely produce an uninformative primary contrast; tripling replications or cases both increase detectability but at substantial cost or authoring overhead; an adaptive two-stage escalation yields a better budget vs power tradeoff while preserving instrument validation. The claim that the pilot must remain exactly frozen (locked manifest) is procedural but does not preclude a pre-registered adaptive amendment that preserves integrity. Conclusions that rely only on optimistic assumptions about base rates rest on charitable scoring.
+
+If PIVOT — details:
+- Strongest objection to changing the design: increased cost, added operational and pre-registration complexity, and possible delay to other work. It still loses because the current plan likely yields an uninformative primary contrast, wasting the pilot's opportunity to estimate meaningful effects.
+- What the original reasoning missed: that sequential/adaptive escalation can preserve pre-registration integrity while vastly improving expected power per dollar.  
+- What already assumes the old approach: frozen-manifest provenance, downstream reports that cite the exact 5-rep per-case numbers, and scripts that hard-code --reps 5.
+
+NEXT SMALLEST MOVE: Run a quick power simulation using the observed prelaunch base-rate (2/9 ≈ 22%) to compute required reps per arm to detect a 50% reduction at 80% power and compare total cost for (a) tripled reps, (b) tripled cases, and (c) two-stage adaptive escalation; report the recommended escalation rule and estimated USD cost.</pre></div>
+        <div><h4>Short prompt <span class="mark m-wrong">✗</span></h4><pre class="reply">Plan options that respect your priorities (HIGH: show effect, HIGH: budget, MEDIUM time, LOW effort):
+
+- Option A (higher power): 2 high-signal cases → 15 reps each; other 7 cases → 5 reps. Runs = 65. Estimated cost ≈ $230. More power, exceeds budget.
+- Option B (budget-matched, minimal change) — recommended: 1 high-signal case → 15 reps; remaining 8 → 5 reps. Runs = 45 (same as original). Estimated cost ≈ $160. Keeps budget, low extra effort, preserves breadth while giving one well-powered confirmatory test.
+Next actions (need approval): pick the high-signal confirmatory case (recommend a cross‑artifact benchmark case from TP-030 or the RQ3 condition in TP-040), update execution_plan, request benchmark_methodologist + verification_auditor signoff, then run a dry run and the pilot with --reps accordingly.
+
+Which option and which case should be used as the confirmatory target?</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">Given your priorities, triple-runs (15) is expensive ($160→$480), slower, and risks fatigue. Recommendation: do a formal power/sensitivity check before locking in. Practical options:
+
+- Quick compromise: double runs to 10 (cost ~$320) — big power gain with moderate cost/time.
+- Best: run a power/simulation using your round‑1 variance/ICC (or default effect sizes: small=0.3, med=0.5, large=0.8) targeting 80% power, α=0.05.
+- Efficient alternative: sequential (Bayesian) stopping to save budget.
+
+Proceed to run power simulations now? If yes, supply target power and any variance/effect estimates (or OK to use defaults).</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>D3: Drop the full-system group? <span class="qkind">Tough call</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>5 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-none" aria-label="no call">–</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>5 of 7</td><td>2 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Step 2: Alternatives
+
+The criteria are your five, fixed as given.
+
+**ALTERNATIVE A1: Drop C2i, keep C4**
+- **CORE DIFFERENCE:** Keep the full-system arm and drop the checks-along-the-way arm, since dropping either frees about the same money.
+- **SKELETON:**
+  ```
+  manifest(next).active_conditions = [C0, C2, C4]
+  budget = 160.84;  mean_cost = (0.425 + 0.996 + 1.100) / 3 = 0.840
+  runs = 191  -&gt;  ~64 per arm
+  primary:     C2 vs C0
+  secondary:   C4 vs C0, C4 vs C2   (full system vs basic routine)
+  deferred:    C2i (cadence result from the pilot stands as behavioural evidence)
+  pilot run --all --reps &lt;R&gt;        # runner unchanged
+  ```
+- **BUYS:** The C0 vs C2 comparison and the whole system both get about 64 runs.
+- **COSTS:** No checks-along-the-way arm on the harder tasks, so last round's biggest behaviour change is never tested against drift outcomes.
+
+**ALTERNATIVE A2: Keep all four arms, give C0/C2 more runs**
+- **CORE DIFFERENCE:** Spend the money where the main comparison lives. C0 and C2 get more runs, and C2i and C4 stay in with fewer runs, explicitly as exploratory arms.
+- **SKELETON:**
+  ```
+  manifest(next).active_conditions = [C0, C2, C2i, C4]
+  manifest(next).reps = {C0: R_hi, C2: R_hi, C2i: R_lo, C4: R_lo}
+  # at pilot prices: C2i, C4 = 30 runs each  -&gt; $64.62
+  #                  C0,  C2 = 67 runs each  -&gt; $95.21   (total $159.83)
+  primary:     C2 vs C0              (67 vs 67)
+  exploratory: C4 vs C0, C2 vs C2i   (30-run arms)
+  plan_runs(): accept per-condition reps, interleave all arms under one seed
+  ```
+- **BUYS:** The main comparison gets about 67 runs per arm, slightly more than your plan's 65, and nothing is dropped.
+- **COSTS:** C2i and C4 fall to 30 runs, which can show behaviour differences but not small drift differences. The runner takes one `--reps` value for every arm (`cli.py:140`, `pilot.py:511-522`), so this needs a code change and tests, or two separate launches, which would lose the shared randomisation.
+
+## Step 3: Scores (EXPECTED CASE)
+
+| Criterion | Your plan: drop C4 (C0/C2/C2i ×65) | A1: drop C2i (C0/C2/C4 ×64) | A2: unequal (C0/C2 ×67, C2i/C4 ×30) |
+|---|---|---|---|
+| 1. Main comparison data (HIGH) | STRONG: 65 per arm. | STRONG: 64 per arm. | STRONG: 67 per arm, the most of the three. |
+| 2. Whole system tested (HIGH) | WEAK: no full-system arm, so H3.1 and H3.3 can't be tested this round. | STRONG: C4 gets 64 runs. | ADEQUATE: C4 is present but only exploratory at 30 runs. |
+| 3. Keep C2i (MEDIUM) | STRONG: 65 runs. | WEAK: dropped. | ADEQUATE: 30 runs, enough to repeat the clear behaviour gap (4.1 vs 1.6 checkpoints per run) but not a drift result. |
+| 4. Cost (MEDIUM) | STRONG: fits the pilot budget. | STRONG: fits the pilot budget. | STRONG: fits the pilot budget. |
+| 5. Effort (LOW) | STRONG: change one manifest list. | STRONG: change one manifest list. | WEAK: the runner needs a per-arm run count, plus tests. |
+
+**Fairness check:** not triggered. Your plan is WEAK on HIGH criterion 2, where A1 is STRONG.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to A2. A1 is a close second.
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** The per-arm costs are FACT (measured from pilot run records). The power figures are INFERENCE: they assume a drift rate in the no-help arm. Costs on the harder tasks are SPECULATION.
+- **REASONING:**
+  - **Criterion 1 doesn't separate the options.** A2 gives the main comparison as many runs as your plan (67 vs 65), so dropping C4 buys nothing there.
+  - **Criterion 2 decides it.** Your plan is the only option with no full-system arm.
+  - **A2 over A1.** A2 is ADEQUATE on criteria 2 and 3. A1 is STRONG on criterion 2 but WEAK on criterion 3. I'd take &quot;some evidence on both&quot; over &quot;nothing on C2i&quot;. If you weight the whole-system test well above C2i, A1 wins instead.
+  - **The extra runs help less than they look.** Moving from 45 to 65 runs per arm only modestly improves the chance of detecting a halving of drift. At a 22% drift rate in the no-help arm, p goes from 0.26 to 0.15. At 35% it goes from 0.09 to 0.05. Harder tasks raising that drift rate matter more than the run count.
+  - None of this relies on charitable scores.
+
+**What the original reasoning missed:**
+- C4 costs only 4–10% more per run than C2i or C2. The roughly 40% gain comes from removing *any* arm, so C4's cost doesn't justify picking it.
+- The extra runs only help criterion 1 if they go to C0 and C2, and that can be done without dropping any arm.
+
+**What already assumes your plan:** nothing is frozen yet. These parts don't fit A2:
+- The runner's single `--reps` value (`cli.py:140`, `pilot.py:511-522`).
+- The pilot manifest note &quot;fewer conditions at higher repetition is preferred&quot;. It should be re-read before being copied into the next manifest.
+
+**NEXT SMALLEST MOVE:** Run one C0 run and one C4 run per new task. At pilot prices that's about $14 for 9 tasks, but harder tasks may cost more. This measures the real drift rate on the new tasks and C4's real cost premium on them. Both numbers set the final run counts, and if C4's premium turns out to be large, this would also show whether your original premise holds after all.
+
+The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">I'll score the options against your criteria. One idea to test: C0 is the cheapest arm, so extra C0 runs may be the cheapest way to strengthen the C0-vs-C2 comparison. First I'll check whether the runner supports different run counts per arm (that affects effort), then simulate power at equal budget.
+## Scoring at the same budget
+
+All four designs cost about the same as the pilot (≈$160), assuming the same 9-case structure and the pilot's per-run costs.
+
+| design (runs per arm: C0 / C2 / C2i / C4) | Power for C0 vs C2 (HIGH) | Full system (HIGH) | C2i kept (MED) | Cost (MED) | Effort (LOW) |
+|---|---|---|---|---|---|
+| **A: drop C4** (your proposal) 63/63/63/0 | 0.27 / 0.57 / 0.80 | ✗ none | ✓ 63 | $156 | none |
+| B: four equal 45/45/45/45 | 0.19 / 0.39 / 0.63 | ✓ 45 | ✓ 45 | $161 | none |
+| S1: C4 at half 54/54/54/27 | 0.22 / 0.46 / 0.73 | ✓ 27 | ✓ 54 | $163 | small |
+| **S3: C0-heavy** 90/63/27/27 | **0.35 / 0.66 / 0.88** | ✓ 27 | ✓ 27 | $159 | small |
+
+Power figures are the chance of detecting C2 halving drift relative to C0, at a C0 drift rate of 20% / 35% / 50%. They come from a simulated two-sided Fisher test with runs treated as independent; runs are actually grouped by case, so all the numbers are optimistic. Compare the designs relative to each other.
+
+**Why S3 wins:** C0 runs cost $0.43 and C2 runs cost $1.00. Extra C0 runs are the cheapest way to add power to the main comparison. S3 keeps C2 at the same 63 runs as your proposal and gives C0 90. That beats dropping C4 on your top criterion, and it pays for C2i and C4 from the same budget.
+
+- **Criterion 1:** better than your proposal in every scenario.
+- **Criterion 2:** C4 stays, so the hypotheses about the full system, receipts and speedbump cost remain testable. C4 vs C0 has about the same power (0.37) as with four equal arms, because the large C0 arm carries it.
+- **Criterion 3:** C2i stays at 27 runs. Last round its behaviour signal was large: 4.1 vs 1.6 checkpoints per run, and 9 vs 1 failed-check-then-fixed repairs. 27 runs should still show that. Its effect on the final outcome would only be exploratory, which it already is.
+- **Criterion 4:** same budget.
+- **Criterion 5:** the cost is a small runner change (different run counts per arm in one shuffled campaign, because running arms separately would break randomization), a new manifest and freeze, and a `benchmark_methodologist` review.
+
+**What S3 gives up:** C4 vs C2i (the full system against checks along the way) at 27 vs 27 runs only gives direction, not proof. If that comparison matters to you, use S1, at the cost of some power on the main comparison.
+
+**Conditions:**
+1. **Probe C0 on the new tasks first.** If the no-help drift rate comes out near 20%, no design makes the main comparison conclusive. Then the money is better spent on more or harder cases.
+2. **Re-check the costs on the harder tasks.** If C4's extra cost grows a lot, the run counts need rebalancing. The C0-heavy logic still holds as long as C0 stays much cheaper than the other arms.
+
+## Verdict: **Split**
+
+Don't drop C4. Run all four arms with unequal counts, weighted toward C0 (about 10/7/3/3 reps per case). Lock in the counts only after a short C0 probe on the new tasks.
+
+I haven't changed any files. When you decide, the next steps are the runner change and a new manifest and freeze, reviewed by `benchmark_methodologist`.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">I'll check whether the runner can give different groups different numbers of runs, since that decides how much work my recommendation takes.
+## Recommendation: keep all four groups, and give the cheap baseline more runs
+
+The criteria rule out dropping C4 (it fails #2, which is HIGH) and dropping C2i (it fails #3). But you can still get the extra data you wanted for the main comparison. Each run of the no-help group (C0) costs about 40% of a C2 run, so adding C0 runs is the cheapest way to tighten the C0 vs C2 comparison.
+
+Suggested runs per task: **C0 9, C2 6, C2i 4, C4 4.** This is computed from pilot costs. The &quot;precision&quot; column is the uncertainty in the C0 vs C2 result relative to the pilot, so lower is better.
+
+| Plan | Runs per task | Cost per task | Precision on C0 vs C2 | Keeps C4 | Keeps C2i |
+|---|---|---|---|---|---|
+| Pilot | 5/5/5/5 | $17.88 | 1.00 | yes | yes |
+| Drop C4 (your proposal) | 7.2/7.2/7.2/– | $17.88 | 0.83 | **no** | yes |
+| Drop C2i | 7.1/7.1/–/7.1 | $17.88 | 0.84 | yes | **no** |
+| **Weighted** | **9/6/4/4** | **$18.42 (+3%)** | **0.83** | yes | yes |
+
+Against your criteria:
+
+1. **Main comparison (HIGH):** the same precision as dropping C4, for about 3% more money. If the budget is strictly fixed, 8/6/4/4 costs the same as the pilot and gives 0.85, which is close.
+2. **Whole system (HIGH):** C4 stays in. Its comparison with C0 (4 vs 9 runs) is slightly more precise than in the pilot. H3.1 and H6.1 remain testable.
+3. **Checks along the way (MEDIUM):** the C2 vs C2i comparison (6 vs 4 runs) is about as precise as in the pilot. The behaviour differences you saw (when checks happen, repairs, caught regressions) were large, so they don't need many runs to show up again.
+4. **Cost (MEDIUM):** +3%, or nothing with 8/6/4/4.
+5. **Effort (LOW):** one small code change. `plan_runs` in `src/sibling_drift_lab/pilot.py:508` only accepts a single run count for every group. It would need to read a per-group count from the manifest, plus a test. The pilot report already copes with groups having different run counts.
+
+**What you give up:**
+- Comparisons involving C2i or C4 get less precise, especially C4 vs C2i (about 12% less precise than in the pilot). They were already labelled exploratory, so that's acceptable, but they should stay labelled that way.
+- The precision figures assume every group's results vary by a similar amount and ignore the within-task pairing. Use them to rank the plans, not to predict exact confidence intervals.
+
+**Two things still to settle before locking this in:**
+- **Run the small calibration batch first** (about 2 tasks × 4 groups × 2 runs). If the harder tasks still succeed around 95% of the time, no split of runs will separate the groups. That batch also gives real costs per group: C4 may cost relatively more on harder tasks, which would shift the numbers above.
+- **Spend extra budget on more tasks before more runs per task.** Differences between tasks were as large as run-to-run differences in the pilot, so new tasks add more information than repeats.
+
+If you agree, I'll make the per-group run-count change and add its test. Then I'll draft the round-2 manifest with 9/6/4/4 and the reasons for the split, plus the `DECISIONS.md` entry, before any scored run.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>Sonnet (Claude Code): ✓ command, ✓ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Step 2: Alternatives
+
+Criteria are fixed as you gave them: C0-vs-C2 data (HIGH), tests the whole system (HIGH), keeps C2i (MEDIUM), cost (MEDIUM), effort (LOW).
+
+Budget basis is the pilot's per-run cost, about $160 per round, with 9 new cases. This assumes harder tasks cost about the same per run. They probably cost more, which shrinks every plan equally.
+
+The current plan is C0, C2 and C2i at 7 reps per case. That gives 63 runs per arm and costs about $156.
+
+### Alternative A: Four arms, unequal reps
+
+- **CORE DIFFERENCE:** Keep C4 but as a thin exploratory arm, and spend the freed money on the cheap arm in the primary contrast.
+- **SKELETON:**
+  ```
+  per case, reps:  C0=9   C2=7   C2i=3   C4=3
+  cost (pilot $/run x 9 cases):
+    C0 9x3.83=34.5, C2 7x8.96=62.7, C2i 3x9.49=28.5, C4 3x9.90=29.7  -&gt; ~155
+  run as four batches: pilot run --condition X --case ... --reps n
+  pre-register: C2 vs C0 primary (63 vs 81 runs);
+                C2i vs C2 and C4 vs C2i behavioural/exploratory only
+  report C4 with cost + checkpoint/repair behaviour, no effect-size claim
+  ```
+- **BUYS:** The primary contrast gets 63 vs 81 runs, an effective n of about 71 per arm against 63 now. C4 stays in, so H3.1 stays testable at a coarse level.
+- **COSTS:** C2i drops to 27 runs, and C4 to 27, which is too few to resolve a partial drift effect. The runner takes one `--reps` value, so this needs separate batches. Whether `pilot report` handles uneven reps is unverified.
+
+### Alternative B: Two-stage with a pre-registered rule
+
+- **CORE DIFFERENCE:** Spend the first stage finding which new tasks have headroom, then put C4 and the extra reps only on those tasks.
+- **SKELETON:**
+  ```
+  Stage 1 (~$90): C0, C2, C2i x 4 reps x all new cases
+  Pre-registered triage rule (frozen before stage 1):
+    discriminating case = C0 drift &gt;= 1 event in 4 reps
+  Stage 2 (~$70): on discriminating cases only,
+    C0, C2, C2i, C4 at equal reps (about 8-10 per case)
+  Analysis: pool stages per case-arm; primary contrast C2 vs C0
+            stated as case-stratified; C4 vs C2i exploratory
+  ```
+- **BUYS:** C4 gets real replication where drift can occur, and little money goes to saturated cases, which was the main pilot waste.
+- **COSTS:** The triage rule is an analysis-flexibility risk and must be frozen up front. The primary contrast ends up on a selected subset of cases. There is more campaign orchestration.
+
+## Step 3: Scoring (EXPECTED CASE)
+
+| Criterion | Current (drop C4, 3 arms) | A: unequal 4 arms | B: two-stage |
+|---|---|---|---|
+| 1. C0 vs C2 data (HIGH) | STRONG: 63 vs 63, about 40% more than the pilot's 45. | STRONG: 63 vs 81, effective n about 71. | ADEQUATE: it depends on the triage finding headroom, and the contrast covers a subset of cases. |
+| 2. Tests whole system (HIGH) | WEAK: C4 is absent, so H3.1 cannot be tested at all. | ADEQUATE: 27 C4 runs give a coarse, exploratory read. | ADEQUATE: C4 is replicated, but only on the discriminating cases. |
+| 3. Keeps C2i (MEDIUM) | STRONG: 63 runs. | ADEQUATE: 27 runs, but the pilot effect on behaviour was large (9 vs 1 repairs). | STRONG: 4 reps per case in stage 1, plus stage 2. |
+| 4. Cost (MEDIUM) | STRONG: no money goes to a fourth arm. | ADEQUATE: same budget, but C4 and C2i take about $58 of it. | ADEQUATE: same budget, with stage-1 spend partly on saturated cases. |
+| 5. Effort (LOW) | STRONG: it uses the existing `--all` runner path. | ADEQUATE: four batches and uneven-reps reporting. | WEAK: two campaigns and a frozen decision rule. |
+
+**Fairness check:** It does not trigger. The current plan is WEAK on HIGH criterion 2, so it is not at least as strong as every alternative on every HIGH criterion. No charitable table is needed.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to Alternative A.
+- **CONFIDENCE:** MEDIUM.
+- **EVIDENCE:**
+  - FACT (measured): the per-run costs ($0.425, $0.996, $1.054, $1.100) and that the runner takes a single `--reps` value.
+  - INFERENCE: the effective-n and power comparisons, and that 27 runs is too few to resolve a partial effect.
+  - SPECULATION: that harder tasks have headroom, and that they cost about the same per run.
+- **REASONING:**
+  - On the HIGH criteria, A matches the current plan on the C0-vs-C2 data and is better on testing the whole system.
+  - The current plan scores WEAK on testing the whole system, and that is the one criterion you rated as the research object.
+  - A gives up some C2i power, but the C2i signal was behavioural and large, so 27 runs should still show it.
+  - A also costs more effort, which is your lowest-weighted criterion.
+  - No conclusion rests on charitable scores.
+- **Strongest argument against A:** C4 and C2i at 27 runs each cannot resolve anything beyond gross differences. In the pilot, C4 was indistinguishable from C2i. So the 44% freed from C4 buys more in the primary contrast than the thin C4 arm returns. This loses on your criteria, not on the numbers. The numbers favour the current plan, and criterion 2 outweighs them.
+- **What the old approach assumed:** Its reasoning treated C4 as just the most expensive arm, but C4 costs only 4% more than C2i. The saving comes from having one fewer arm, not from C4 being costly. It also ignored that C0 costs about 40% as much as the other arms, so extra control reps are cheap.
+- **What already assumes the old approach:**
+  - The manifest's active-conditions list.
+  - The planned `pilot run --all --reps N` command, which can't give different reps per condition.
+  - Any analysis plan written for three arms.
+
+**NEXT SMALLEST MOVE:** Run one C0 rep on each new harder task, as the pre-launch probe did, which costs about $0.43 per case. If C0 still saturates, no arm layout is worth the money and the design should be redone. If it doesn't, freeze the A allocation from the measured base rate.
+
+The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Applying your criteria, I'll compare a few allocations of the same budget. The pilot costs per run are about $0.43 for C0, $1.00 for C2, $1.05 for C2i and $1.10 for C4. I'll compute the power of each.
+## Decision: keep all four groups, but not with equal reps
+
+Your criteria rule out my earlier &quot;drop C2&quot; option, because C0 vs C2 is HIGH priority. They also rule out dropping C4. So the first design is wrong, and so is equal reps. The cheap control group (C0, $0.43 per run) should take the extra runs, since it feeds your primary comparison. C2i and C4 can run smaller, because their contrasts are behavioural or exploratory.
+
+I assumed 9 tasks and pilot-v1 costs. Harder tasks will probably cost more per run. I simulated power by running the Fisher test on simulated data, with the treatment halving the drift rate:
+
+| Design (C0 / C2 / C2i / C4 runs) | Cost | C0 vs C2 power at 25% / 35% / 50% | C0 vs C4 power at 25% / 35% / 50% |
+|---|---|---|---|
+| Last round, 45 each | $161 | 0.25 / 0.37 / 0.61 | 0.24 / 0.38 / 0.62 |
+| A: 90 / 63 / 27 / 27 | $159 | 0.45 / 0.63 / 0.87 | 0.20 / 0.36 / 0.63 |
+| **B: 81 / 54 / 36 / 36** | **$166** | **0.40 / 0.57 / 0.82** | **0.29 / 0.45 / 0.72** |
+| C: 72 / 54 / 36 / 45 | $172 | 0.38 / 0.57 / 0.79 | 0.33 / 0.51 / 0.74 |
+| D: 63 / 54 / 36 / 36 | $158 | 0.38 / 0.55 / 0.77 | 0.26 / 0.41 / 0.65 |
+
+**Recommendation: design B.** With 9 tasks, that is 9 reps for C0, 6 for C2, and 4 each for C2i and C4.
+
+- **Criterion 1 (C0 vs C2):** power at a 35% base rate goes from 0.37 to 0.57. That is a real gain but still not strong.
+- **Criterion 2 (whole system):** C4 keeps 36 runs. Its power against C0 goes up, from 0.38 to 0.45 at a 35% base rate.
+- **Criterion 3 (C2i):** 36 runs is plenty for what C2i showed last round, which was behaviour. It had 4.1 checkpoints per run against 1.6 for C2, and fail-to-pass repairs in 9 of 45 runs against 1 of 45 for C2.
+- **Criterion 4 (cost):** about $166, roughly 3% over last round. If $161 is a hard cap, use 9 / 6 / 3 / 4 reps for C0 / C2 / C2i / C4 (198 runs, about $156).
+- **Design A** gives C0 vs C2 more power (0.63 at 35%), but its C4 test is nearly useless (0.36). That breaks your second HIGH criterion, so I wouldn't use it.
+
+## Things to watch
+
+- **Power is still modest.** Even design B only resolves a halved effect reliably if the C0 drift rate is near 50%. The C0 probe on the new tasks, run first, is still the most important step. Select tasks where C0 drifts in the 35–50% range.
+- **Unequal reps need to be pre-registered in a new freeze.** Last round's freeze assumed 5 reps for every case and condition. The new freeze should state the reason for unequal reps, which is power for C0 vs C2, and should record that the design was chosen after seeing pilot-v1 results.
+- **Randomisation and analysis.** The analysis should compare within each task and weight tasks equally. C0 reps within a task will outnumber the others, so the weighting has to be stated up front.
+
+I haven't changed any files. I can draft the new manifest and D-008 for `codex/DECISIONS.md`, but that falls under the task-pack workflow in `AGENTS.md`. If you want that, tell me which pack to activate.</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">Your criteria rule out dropping C4. Criterion 2 is HIGH and C4 is the only arm that tests the whole system. Criterion 1 is also HIGH and needs only C0 and C2, so those two should get the extra runs, not every arm equally.
+
+**Recommendation: keep all four arms with unequal allocation.** Weight the budget toward C0 and C2, and keep C2i and C4 smaller.
+
+I haven't opened the pilot data, so these numbers are illustrative. They assume C0, C2 and C2i cost about the same per run and C4 costs about 1.2× that, which is what your 40% figure implies. Per-arm run counts are shown as multiples of last round's n:
+
+| Option | C0 | C2 | C2i | C4 | Cost vs. last round | C0-vs-C2 CI width |
+|---|---|---|---|---|---|---|
+| Last round | 1.0n | 1.0n | 1.0n | 1.0n | 4.2 | baseline |
+| Your proposal (drop C4) | 1.4n | 1.4n | 1.4n | none | 4.2 | −15% |
+| Reallocate | 1.25n | 1.25n | 0.75n | 0.75n | ~4.15 | −11% |
+
+- **Criterion 1:** the reallocation gets you most of the narrowing on C0 vs C2 (about 11% against 15%).
+- **Criteria 2 and 3:** C4 and C2i both stay in. The cost is that each runs at three-quarters of last round's sample.
+- **Cost:** it holds at the same total as your proposal.
+
+**Risks to accept or check:**
+- **C4 and C2i get less statistical power.** Comparisons involving them (C4 vs C2, C4 vs C0, C2i vs C2) will only detect large effects. If you assumed n=45 per arm as last round (180 runs over four arms), C4 and C2i would sit around 34 runs each. Since C2i showed the biggest behaviour changes last round, a large effect there is plausible. A C4-vs-C2 gap is likely to be smaller and may be underpowered.
+- **Harder tasks may widen the variance.** If they do, all of these numbers get worse. The pilot's per-arm variance would tell us whether 0.75n is enough.
+- **Per-run cost may differ from my assumption.** If C0 is much cheaper than C2, push more runs to C0. If C4 is more than about 1.2× the others, shrink it further or accept less.
+
+**Fallback if C4 at 0.75n is too thin:** drop C2i, not C4. It's only MEDIUM, and its pilot behaviour change is already on record. That would give C0, C2 and C4 about 1.4n each, which satisfies both HIGH criteria and gives up only criterion 3. I'd prefer the reallocation, since it keeps all four.
+
+**Before locking it in:**
+1. Record the change in `codex/DECISIONS.md`: the allocation, why, and that it was set after seeing the pilot.
+2. Run `benchmark_methodologist`, since this changes conditions and the analysis plan.
+3. State in advance that C0 vs C2 is the primary contrast and the others are secondary or exploratory.
+
+Want me to pull the pilot per-arm cost and variance from the repo and replace my illustrative numbers with real ones?</pre></div>
+      </div>
+    </details>
+  </div>
+  <p class="note">For each mark that occurs, the replies shown are the first model's in the order above that got it, with its other two versions beside them, each as its final reply. No reply is picked by hand. The copy's folder path is shortened to &lt;copy&gt; and a home folder to &lt;home&gt;; where a reply quoted something private, the words are replaced and marked [removed] or [withheld].</p>
+</section>
+
+<section class="card" id="more" aria-labelledby="more-h">
+  <div class="card-head"><h2 id="more-h">The other repos in this test</h2></div>
+  <ul class="scope">
+    <li><a href="tokenizer-lab.html">tokenizer-lab</a>: a lab measuring how vocabulary size changes small language models.</li>
+    <li><a href="espalier-harness.html">espalier-harness</a>: my Claude Code harness. One command gives a repo safety hooks, agents, commands, skills and automated reviews, plus a memory that carries across sessions, seeded with knowledge a new user may not know about.</li>
+    <li><a href="role-aware-dashboard-toolkit.html">role-aware-dashboard-toolkit</a>: my toolkit for dashboards where what you see depends on your role, with a real auth layer: verified sign-in through your own provider, tied to roles the server grants.</li>
+    <li><a href="social-media-engine.html">A social media orchestration engine</a>: my harness that automates AI social media accounts and drafts posts for my personal, manually curated pages.</li>
+    <li><a href="specdec-sidechannels.html">specdec-sidechannels</a>: my research on whether untapped signals from the device itself, like which parts of the model each word touched in memory, can speed up speculative decoding (a small model drafts the next words, a big model checks them).</li>
+  </ul>
+</section>
+
+<p class="colophon">Questions, evidence and marking written 13 Oct 2026, before any run; later changes are dated on this page. The wording was edited for readers on 16 Oct 2026, after the runs; no question, answer or mark changed. Part of the free-public-tools test series.</p>
+
+</main>

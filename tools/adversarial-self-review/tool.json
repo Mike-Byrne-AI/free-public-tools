@@ -1,0 +1,20 @@
+{
+  "slug": "adversarial-self-review",
+  "title": "Adversarial self-review: make your AI check its own work before saying done",
+  "summary": "A command for coding agents that asks your agent to check its own change before calling it done: can the new tests fail, did a deliberate break hit the right line, is every number counted, and which checks never ran. Each check needs pasted evidence, not \"I reviewed it\".",
+  "why": "In my experience these are some of the most common ways an AI's \"done\" goes wrong, and one short command guards against all four. When I ran it on a release script I'd just committed, it found two real bugs.",
+  "kind": "command",
+  "file": "adversarial-self-review.md",
+  "install_path": ".claude/commands/adversarial-self-review.md",
+  "repo_path": "tools/adversarial-self-review/adversarial-self-review.md",
+  "released": "2026-10-19",
+  "page_sections": ["How it did across AI models", "An example, with and without (not a test)"],
+  "card": {
+    "headline": "Make your AI show the proof before it says done",
+    "highlight": "show the proof",
+    "what": "A custom /command for coding agents, here formatted for Claude Code.",
+    "note": "Is the login fix done?",
+    "reply": "Not yet. I undid my fix on purpose, and the tests still passed.",
+    "foot": "a command for any coding agent"
+  }
+}

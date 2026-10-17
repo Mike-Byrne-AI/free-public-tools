@@ -1,0 +1,1523 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tokenizer-lab Test Cards</title>
+<style>@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); }</style>
+<link rel="icon" href="data:,">
+<style>
+/* Layout: the free-public-tools look (generator/assets/style.css): parchment graph paper with the red margin line,
+   always light like the site. Every block is a notecard; a parchment wash around each card fades the grid as it
+   meets the card. No pen labels or speech bubbles here. */
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --focus: #1f5fd6;
+  --good: #2f7d32;
+  --bad: #c8372a;
+  --tough: #6a4c9c;
+  --none: #8a6d1e;
+  --dot: #0a8a73;
+  --cut: #f6e2da;
+  --radius: 14px;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --label: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* the red margin line of writing paper, near the screen's left edge */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+.wrap { max-width: 48rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 3.25rem; }
+@media (max-width: 900px) { .wrap { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+
+h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.55rem); }
+h3 { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; font-variant-ligatures: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* a notecard: the parchment wash around it fades the grid where the grid meets the card */
+.card, .masthead {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem clamp(1rem, 4vw, 1.9rem) 1.6rem; display: grid; gap: 1.1rem; min-width: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .05), 0 8px 22px rgb(0 0 0 / .06), 0 0 22px 12px var(--wash);
+}
+.masthead { background: var(--wash); border-color: transparent; box-shadow: 0 0 26px 18px var(--wash); gap: .9rem; }
+/* the index card's ruled header line */
+.card-head { display: grid; gap: .45rem; padding-bottom: .8rem; border-bottom: 2px solid var(--margin); }
+
+.series { font: 700 .95rem/1.2 var(--label); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+.draft { justify-self: start; font-size: .8rem; font-weight: 600; color: var(--muted); border: 1px dashed var(--border); border-radius: 999px; padding: 2px 10px; background: var(--surface); }
+.lede { font-size: 1.08rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 0; padding-top: .8rem; border-top: 1px solid var(--border); }
+.facts div { display: grid; gap: .05rem; }
+.facts dt { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.block { display: grid; gap: .65rem; min-width: 0; }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: .7rem; }
+.kind { display: grid; gap: .3rem; padding: .8rem .95rem; border: 1px solid var(--border); border-radius: 10px; background: var(--code-bg); min-width: 0; }
+.kind strong { display: flex; align-items: center; gap: .5rem; }
+.swatch { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+.sw-good { background: var(--good); }
+.sw-bad { background: var(--bad); }
+.sw-tough { background: var(--tough); }
+
+.versions { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.versions li { display: grid; grid-template-columns: 8.5rem 1fr; gap: .25rem 1rem; align-items: baseline; }
+.versions li > span { font-weight: 600; }
+.versions code { display: block; padding: .45rem .6rem; border-radius: 8px; }
+.copy-btn { display: block; margin-top: .4rem; padding: .2rem .7rem; font: 600 .78rem/1.4 var(--sans); color: var(--accent); background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+@media (max-width: 34rem) { .versions li { grid-template-columns: 1fr; } }
+
+.models { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+.models li { border: 1px solid var(--border); border-radius: 999px; padding: .15rem .7rem; font-size: .9rem; background: var(--code-bg); }
+.models li b { font-weight: 600; color: var(--muted); }
+
+.marks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.marks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+.marks li > div { min-width: 0; }
+.mark { font-weight: 700; font-size: 1.1rem; line-height: 1.45; text-align: center; }
+.m-right { color: var(--good); }
+.m-wrong { color: var(--bad); }
+.m-none { color: var(--none); }
+.marks em { font-style: normal; font-weight: 600; }
+
+.gloss { display: grid; grid-template-columns: 7.5rem 1fr; gap: .55rem 1.2rem; margin: 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; min-width: 0; }
+@media (max-width: 34rem) { .gloss { grid-template-columns: 1fr; gap: .1rem; } .gloss dd { margin-bottom: .5rem; } }
+
+.chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.chip .id { font: 700 .8rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+/* a question's card: its kind is the heading, with the colour block; the plan or decision is the line under it */
+.kind-h { display: flex; align-items: center; gap: .55rem; }
+.kind-h .swatch { width: 1.05rem; height: 1.05rem; border-radius: 3px; }
+.kind-h .id { font: 700 .95rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+.plan { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+.plan .k { font: 700 .76rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.analogy { display: grid; gap: .3rem; padding: .8rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.analogy .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+.prompt { display: grid; gap: .6rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; font: .9rem/1.55 var(--mono); font-variant-ligatures: none; overflow-wrap: anywhere; }
+.prompt .k { font: 700 .72rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prompt ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .3rem; }
+
+.evidence { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.evidence li { display: grid; gap: .2rem; padding-left: .9rem; border-left: 2px solid var(--border); min-width: 0; }
+.evidence q { font: .86rem/1.5 var(--mono); quotes: none; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.evidence .src { font: .76rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .93rem; }
+th, td { text-align: right; padding: .4rem .7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+/* the test's results table: its row labels wrap and its cells are a little tighter, so it fits the card without a
+   sideways scroll on a computer */
+.results th, .results td { padding-inline: .55rem; }
+.results th[scope=row] { white-space: normal; }
+thead th { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+caption { caption-side: bottom; text-align: left; padding-top: .45rem; font: .76rem/1.4 var(--mono); color: var(--muted); }
+
+figure { margin: 0; display: grid; gap: .5rem; }
+figcaption { font-size: .92rem; color: var(--muted); }
+.chart svg { display: block; width: 100%; min-width: 32rem; height: auto; }
+.chart .zone { fill: var(--cut); }
+.chart .cutline { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .guide { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 13px; }
+.chart .strong { fill: var(--text); font-weight: 600; }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .7rem; }
+.side { display: grid; gap: .45rem; padding: .85rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.side h4 { margin: 0; font-size: 1.1rem; }
+.side dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: .3rem .75rem; font-variant-numeric: tabular-nums; }
+.side dt { color: var(--muted); }
+.side dd { margin: 0; text-align: right; font-weight: 600; }
+
+.voice { margin: 0; display: grid; gap: .55rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; }
+.voice p { font-size: 1.04rem; }
+.voice footer { font-size: .85rem; color: var(--muted); }
+
+.note { font-size: .93rem; color: var(--muted); }
+.note strong { color: var(--text); }
+.scope { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.scope li { padding-left: .9rem; border-left: 2px solid var(--border); }
+.pending { border-style: dashed; box-shadow: 0 0 22px 12px var(--wash); }
+.colophon { justify-self: center; font-size: .85rem; color: var(--muted); background: var(--wash); box-shadow: 0 0 16px 10px var(--wash); padding: .2rem .6rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* linked sources, the time-limit chart, side-by-side code and lists */
+.evidence a.src, .side a.src { font: .76rem/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.chart .limit { stroke: var(--text); stroke-width: 1.5; }
+.chart .val { fill: var(--text); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.side code { display: block; white-space: pre-wrap; padding: .5rem .6rem; border-radius: 8px; font-size: .8rem; background: var(--surface); }
+.side { align-content: start; }
+.side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; align-content: start; }
+/* results: the mark grids (tools/card-results.mjs) and the replies */
+.grids { display: grid; gap: 1.2rem; margin-top: .6rem; }
+.marks-grid caption { caption-side: top; padding: 0 0 .4rem; font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--text); }
+.marks-grid td, .marks-grid th[scope="col"] { text-align: center; }
+.marks-grid th[scope="row"] { text-align: left; font-weight: 600; }
+.marks-grid .where { display: block; font-size: .72rem; font-weight: 400; color: var(--muted); }
+.marks-grid .total th, .marks-grid .total td { font-weight: 700; border-top: 2px solid var(--border); }
+.marks-grid sup { color: var(--muted); }
+h3 .qkind { margin-left: .4rem; color: var(--muted); }
+.replies { margin-top: .8rem; }
+.replies summary { cursor: pointer; font-weight: 600; }
+.reply-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+.reply-cols h4 { margin: 0 0 .3rem; font-size: .95rem; }
+pre.reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.45 var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem; max-height: 32rem; overflow: auto; }
+</style>
+
+<main class="wrap">
+
+<header class="masthead">
+  <p class="series">Free-public-tools · Decision-challenge test</p>
+  <h1>tokenizer-lab test cards</h1>
+  <p class="lede">Three questions from tokenizer-lab, each put to seven AI models three ways. Each card shows the exact words the models get, the lines in the repo that decide the answer, and how each reply is marked. It was all written before any model answered, except the changes dated in the notes on this page.</p>
+  <dl class="facts">
+    <div><dt>Repo</dt><dd>tokenizer-lab</dd></div>
+    <div><dt>Snapshot</dt><dd>6 Oct 2026</dd></div>
+    <div><dt>Questions</dt><dd>3</dd></div>
+    <div><dt>Status</dt><dd>Run and marked, 14 Oct 2026</dd></div>
+  </dl>
+</header>
+
+<section class="card" id="how" aria-labelledby="how-h">
+  <div class="card-head"><h2 id="how-h">How the test works</h2></div>
+
+  <div class="block">
+    <h3>Three kinds of question</h3>
+    <div class="kinds">
+      <div class="kind"><strong><span class="swatch sw-good" aria-hidden="true"></span>Good plan</strong><p>The repo's own files back the plan. The right reply is yes, go ahead.</p></div>
+      <div class="kind"><strong><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan</strong><p>The repo's own files sink the plan. The right reply is no, with the reason.</p></div>
+      <div class="kind"><strong><span class="swatch sw-tough" aria-hidden="true"></span>Tough call</strong><p>All the facts are in the repo and both choices hold up. The right reply says it's close and helps you weigh it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three versions of every question</h3>
+    <p>Each model gets each question three times, in a fresh session each time. Only the first message changes.</p>
+    <ul class="versions">
+      <li><span>Plain request</span><code>Challenge this decision before we lock it in: [decision].</code></li>
+      <li><span>Short prompt<button type="button" class="copy-btn" data-copy>Copy</button></span><code>Challenge this decision before we lock it in: [decision]. Read the project files it depends on, and end with a verdict: stay, pivot or split.</code></li>
+      <li><span>The command</span><code>/decision-challenge [decision]</code></li>
+    </ul>
+    <p>Then every version gets the same <strong>second message</strong>: the user's priorities, each marked HIGH, MEDIUM or LOW, ending with "Go on." The reply that's marked is the AI's answer to that second message.</p>
+    <p class="note"><strong>What that second message means.</strong> In real use, nobody sends their priorities to a plain request unless it asks for them; only the command asks. So this test compares how the three versions reason when they get the same information, which is generous to the two without the command. As a second reading, decided after the runs, I also marked the first reply of those two versions on its own, where a real conversation would usually stop.</p>
+    <script>
+    // Copy: the prompt exactly as shown beside the button; the clipboard, else the older copy command, else the text selected
+    for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+      const code = b.closest('li').querySelector('code'), say = (t) => { b.textContent = t; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      try { await navigator.clipboard.writeText(code.textContent); return say('Copied'); } catch (e) {}
+      const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { if (document.execCommand('copy')) return say('Copied'); } catch (e) {}
+      say('Selected: copy it');
+    });
+    </script>
+    <p class="note"><strong>Why a short-prompt version?</strong> It asks for two of the command's moves, reading the files and ending with a verdict, in a prompt anyone can type. If it does as well as the command, the results say so, and you can use the prompt.</p>
+  </div>
+
+  <div class="block">
+    <h3>Seven models, one run each</h3>
+    <ul class="models">
+      <li><b>Claude Code</b> Opus</li>
+      <li><b>Claude Code</b> Sonnet</li>
+      <li><b>Claude Code</b> Haiku</li>
+      <li><b>Copilot</b> GPT-5 mini</li>
+      <li><b>Copilot</b> GPT-6 Luna</li>
+      <li><b>Copilot</b> MAI-Code 1.1 Flash</li>
+      <li><b>Copilot</b> Gemini 3.8 Flash</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How a reply is marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right call.</em> What counts is written on each card.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong call.</em> The wrong side, or treating a settled question as open, or an open one as settled.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call.</em> No verdict, or pros and cons with no help deciding.</div></li>
+    </ul>
+    <p>A few rules hold on every card. On a Bad plan, a ✓ needs the real reason, not a general warning. On a Good or Bad plan, a middle way or "run a test first" is ✗ when the files already settle it. On a Tough call, a lean either way can earn ✓, and so can a middle way argued as a trade. Each turn has a 30-minute limit; a reply cut off by it is marked on what it had said by then.</p>
+  </div>
+
+  <div class="block">
+    <h3>Who marks the replies</h3>
+    <p>Two AI models mark every reply, each on its own: Claude Sonnet and GPT-6 Luna. They aren't told which version or model wrote it, but what the user typed shows the version, and the agent's tool-call style can show whether it ran in Claude Code or Copilot. Where they disagree, Claude Opus decides, also without being told. I marked 15 Tough-call replies myself, shuffled and without names, starting with ones the two markers disagreed on.</p>
+  </div>
+</section>
+
+<section class="card" id="repo" aria-labelledby="repo-h">
+  <div class="card-head"><h2 id="repo-h">The repo: tokenizer-lab</h2></div>
+  <p>A research lab that trains small language models, about 10 million weights each, on a collection of short children's stories. Its question: how does the size of the model's vocabulary change how well it predicts text?</p>
+  <p>The research is ongoing and planned for future release, so each card quotes the lines that decide its question.</p>
+  <div class="block">
+    <h3>Words you'll see</h3>
+    <dl class="gloss">
+      <dt>Step</dt><dd>One round of practice: the model reads a little text and adjusts itself. A run here is 48,000 steps.</dd>
+      <dt>Best step</dt><dd>The step where a run scored best on stories it never trained on.</dd>
+      <dt>Vocabulary</dt><dd>The set of text chunks the model knows, from single letters up to whole words. A bigger vocabulary reads text in bigger chunks but takes up more of the model.</dd>
+      <dt>Score</dt><dd>How surprised the model is, on average, by each next letter of a story. Lower is better. Guessing blindly would score about 5.5; the models here score just under 0.5.</dd>
+      <dt>Run</dt><dd>One training from a fresh random start. The lab repeats each setting 3 times.</dd>
+      <dt>GPU-hour</dt><dd>One hour of one graphics card, the lab's main cost. Work sessions are capped at 12.</dd>
+    </dl>
+  </div>
+</section>
+
+<article class="card" id="t1" aria-labelledby="t1-h t1-t">
+  <div class="card-head">
+    <h2 id="t1-h" class="kind-h"><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan <span class="id">T1</span></h2>
+    <p class="plan" id="t1-t"><span class="k">The plan:</span> Halve the training to save GPU time</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The lab's main experiment trained 12 models: four vocabulary sizes, three runs each. Its own notes suggest repeating it with 9 runs per size to firm up the result. Halving the steps per run would make that cheaper.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a bad plan</h3>
+    <p>All 12 runs did their best after step 24,000. The earliest best was step 29,150 and the latest 46,550, so a 24,000 cut-off stops every run before its peak. The lab treats a run whose best lands at the cut-off as unreliable, because the real best is past the line. The lab's own check has flagged this before: an earlier round at 12,000 steps tripped it and was re-run at 24,000 to make sure. The cut also hurts the smallest vocabulary most, since it peaks latest, which tilts the very comparison the experiment exists to make.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>You're comparing two teaching methods. Students on method A peak after 8 rehearsals and students on method B after 6. Cut everyone to 4 rehearsals and every performance comes before its peak. You'd be measuring who learns fastest, not which method ends up best, and method A would look worse than it is.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Cut each 10M training run from 48,000 steps to 24,000, so the nine-seed re-run F81 suggests costs half as much.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Results we can trust (HIGH): the 9-seed numbers must be at least as solid as the 3-seed ones.</li>
+        <li>GPU cost (HIGH): sessions are capped at 12 GPU-hours.</li>
+        <li>Time to a result (MEDIUM).</li>
+        <li>Effort to set up (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <figure class="chart">
+      <div class="scroll">
+        <svg viewBox="0 0 640 204" role="img" aria-labelledby="c1-title c1-desc">
+          <title id="c1-title">Best step of each of the 12 runs, against the proposed 24,000-step cut-off</title>
+          <desc id="c1-desc">Four rows, one per vocabulary size, three dots each. Every dot sits between step 29,150 and step 46,550, all to the right of the cut-off line at 24,000.</desc>
+          <rect class="zone" x="350" y="44" width="270" height="120"/>
+          <text x="485" y="38" text-anchor="middle">steps the plan would cut</text>
+          <line class="cutline" x1="350" y1="18" x2="350" y2="166"/>
+          <text class="strong" x="342" y="24" text-anchor="end">cut-off: 24,000</text>
+          <text x="70" y="38" text-anchor="end">Vocabulary</text>
+          <line class="guide" x1="80" y1="62" x2="620" y2="62"/>
+          <line class="guide" x1="80" y1="92" x2="620" y2="92"/>
+          <line class="guide" x1="80" y1="122" x2="620" y2="122"/>
+          <line class="guide" x1="80" y1="152" x2="620" y2="152"/>
+          <text class="strong" x="70" y="66.5" text-anchor="end">8,192</text>
+          <text class="strong" x="70" y="96.5" text-anchor="end">16,384</text>
+          <text class="strong" x="70" y="126.5" text-anchor="end">24,576</text>
+          <text class="strong" x="70" y="156.5" text-anchor="end">32,768</text>
+          <line class="axis" x1="80" y1="168" x2="620" y2="168"/>
+          <line class="axis" x1="80" y1="168" x2="80" y2="173"/>
+          <line class="axis" x1="215" y1="168" x2="215" y2="173"/>
+          <line class="axis" x1="350" y1="168" x2="350" y2="173"/>
+          <line class="axis" x1="485" y1="168" x2="485" y2="173"/>
+          <line class="axis" x1="620" y1="168" x2="620" y2="173"/>
+          <text x="80" y="187" text-anchor="middle">0</text>
+          <text x="215" y="187" text-anchor="middle">12,000</text>
+          <text x="350" y="187" text-anchor="middle">24,000</text>
+          <text x="485" y="187" text-anchor="middle">36,000</text>
+          <text x="620" y="187" text-anchor="middle">48,000</text>
+          <text x="350" y="202" text-anchor="middle">training step where each run scored best</text>
+          <circle class="dot" cx="603.7" cy="62" r="5"><title>8,192, run 1: best at step 46,550</title></circle>
+          <circle class="dot" cx="488.9" cy="62" r="5"><title>8,192, run 2: best at step 36,350</title></circle>
+          <circle class="dot" cx="547.4" cy="62" r="5"><title>8,192, run 3: best at step 41,550</title></circle>
+          <circle class="dot" cx="472.1" cy="92" r="5"><title>16,384, run 1: best at step 34,850</title></circle>
+          <circle class="dot" cx="470.4" cy="92" r="5"><title>16,384, run 2: best at step 34,700</title></circle>
+          <circle class="dot" cx="471.8" cy="92" r="5"><title>16,384, run 3: best at step 34,825</title></circle>
+          <circle class="dot" cx="411.9" cy="122" r="5"><title>24,576, run 1: best at step 29,500</title></circle>
+          <circle class="dot" cx="412.4" cy="122" r="5"><title>24,576, run 2: best at step 29,550</title></circle>
+          <circle class="dot" cx="467.3" cy="122" r="5"><title>24,576, run 3: best at step 34,425</title></circle>
+          <circle class="dot" cx="407.9" cy="152" r="5"><title>32,768, run 1: best at step 29,150</title></circle>
+          <circle class="dot" cx="411.0" cy="152" r="5"><title>32,768, run 2: best at step 29,425</title></circle>
+          <circle class="dot" cx="411.0" cy="152" r="5"><title>32,768, run 3: best at step 29,425</title></circle>
+        </svg>
+      </div>
+      <figcaption>Each dot is one run's best step. All 12 fall past the proposed cut-off. Some dots overlap; the table has every value.</figcaption>
+    </figure>
+
+    <div class="scroll">
+      <table>
+        <caption>findings/F81.md, lines 37–40 (best_val_step per seed)</caption>
+        <thead><tr><th scope="col">Vocabulary</th><th scope="col">Run 1</th><th scope="col">Run 2</th><th scope="col">Run 3</th></tr></thead>
+        <tbody>
+          <tr><td>8,192</td><td>46,550</td><td>36,350</td><td>41,550</td></tr>
+          <tr><td>16,384</td><td>34,850</td><td>34,700</td><td>34,825</td></tr>
+          <tr><td>24,576</td><td>29,500</td><td>29,550</td><td>34,425</td></tr>
+          <tr><td>32,768</td><td>29,150</td><td>29,425</td><td>29,425</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="evidence">
+      <li><q>the 48000-step choice (vs the F27 trap's 12000) was load-bearing.</q><span class="src">findings/F81.md:96</span><span>The lab's own verdict: running 48,000 steps mattered.</span></li>
+      <li><q>The step-budget trigger fired … so Sub-C re-ran d=384 V=8192 on TS-17K at 24000 steps × 3 seeds.</q><span class="src">findings/F27.md:40</span><span>An earlier 12,000-step round tripped the lab's stopped-too-early check and was re-run at 24,000 steps. That re-run found the same best point, so the lab now checks for this before trusting a step count.</span></li>
+      <li><q>Firm the basin at n=9.</q><span class="src">findings/F81.md:119</span><span>Where the nine-run repeat comes from.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says don't cut to 24,000 and gives the reason: the runs peaked after 24,000 steps, or the cut would stop them too early. Keeping 48,000, or a cheaper alternative such as fewer extra runs, both count.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> goes ahead with 24,000, or calls it unsettled and asks for a test first. The files already settle it.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> cutting every run the same way might keep the ranking.<br><strong>The counterargument:</strong> every run would stop before its best, and the smallest vocabulary peaks latest, so the cut tilts the comparison.</p>
+</article>
+
+<article class="card" id="t2" aria-labelledby="t2-h t2-t">
+  <div class="card-head">
+    <h2 id="t2-h" class="kind-h"><span class="swatch sw-good" aria-hidden="true"></span>Good plan <span class="id">T2</span></h2>
+    <p class="plan" id="t2-t"><span class="k">The plan:</span> Run the one-hour check before the 34-hour job</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The lab's next big experiment, called Tier-2, needs about 34 GPU-hours, nearly three full sessions. A faster setting exists: lower-precision maths plus a quicker routine for one part of the model, measured at 1.8 times faster. Lower precision can nudge results slightly, so the lab has a rule: nothing run the fast way counts as a result until a check called E-1 shows it gives the same answers as the exact setting. E-1 re-runs one existing experiment the fast way and compares.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a good plan</h3>
+    <p>One run of the main experiment took about 0.6 GPU-hours, so the check costs an hour or two. If it passes, the 34-hour job drops to about 19 hours; the lab's own estimate is 20–40 hours becoming 11–22. If it fails, you've lost an hour or two and run the job the slow way. The cost is small, the possible saving is large, and it follows the lab's own rule.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>Your printer has a draft mode that's nearly twice as fast. Your rule: no draft pages go in the final book until a test print shows they look the same. You're about to print a 34-hour book, and the test print takes an hour. You do the test print.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Before Tier-2 starts, we'll spend about an hour on the E-1 check, so that if it passes, the sweep can use the 1.8× faster bf16 + SDPA setting.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Results we can trust (HIGH): nothing may feed a finding unless a check shows it doesn't change the results.</li>
+        <li>GPU time (HIGH): 12-hour cap per session.</li>
+        <li>Effort (MEDIUM).</li>
+        <li>Time to the first Tier-2 result (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <ul class="evidence">
+      <li><q>--precision bf16 --attention sdpa | 8.4, 8.1 | 8.2 | 0.3 | 1.803×</q><span class="src">task-packs/done/TP-73_gpu_throughput_precision_sdpa.md:154</span><span>The fast setting, timed end to end: 1.8 times faster.</span></li>
+      <li><q>(its 20–40 GPU-h becomes ~11–22 GPU-h) — if E-1 clears</q><span class="src">TP-73_gpu_throughput_precision_sdpa.md:156–157</span><span>The lab's own estimate of the saving.</span></li>
+      <li><q>No bf16/TF32/SDPA cell may feed a finding until E-1 … passes</q><span class="src">TP-73_gpu_throughput_precision_sdpa.md:34</span><span>The rule: no fast-mode results count until the check passes.</span></li>
+      <li><q>GPU budget exceeds the 12 GPU-h/session cap. … ≈ 34 GPU-h</q><span class="src">task-packs/TP-66_saturated_vocab_optimum_program.md:74</span><span>The size of the Tier-2 job.</span></li>
+      <li><q>E-1 is QUEUED, NOT RUN. … run it at d=384 / 50 MB / V=16384 against F81's fp32 cell</q><span class="src">HANDOFF.md:20–21</span><span>What the check is: one existing run, repeated the fast way.</span></li>
+      <li><q>Sweep wall ~7.3 GPU-h; all 12 cells landed</q><span class="src">findings/F81.md:24</span><span>12 runs took 7.3 GPU-hours, about 0.6 each.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> agrees to run the check first. "Yes, and decide in advance what counts as passing" also counts.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> says skip the check (run the slow way, or use the fast setting unchecked), or holds off for information that is already in the repo.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> E-1 might fail.<br><strong>The counterargument:</strong> a failed check costs an hour or two, a passed one saves roughly 9 to 18 GPU-hours, and without it the fast setting can't count at all.</p>
+  <p class="note"><strong>Removed from the test repo before the runs:</strong> one sentence in the lab's handoff note said to run E-1 first to get the speed-up. We take it out of the models' copy, so they have to work it out from the evidence above.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the decision began "We're running Tier-2. Before it starts, …", which clashes with the repo (another stage comes first), and the first priority read "nothing that could shift the numbers may feed a finding". In the dry run, most replies read that as ruling out the fast setting even after the check passes, so both were reworded. Known limit: my rule for what counts as passing E-1 lived in a file outside the repo, so the models' copy describes the check but not its pass mark. "Yes, and decide in advance what counts as passing" earns ✓.</p>
+</article>
+
+<article class="card" id="t3" aria-labelledby="t3-h t3-t">
+  <div class="card-head">
+    <h2 id="t3-h" class="kind-h"><span class="swatch sw-tough" aria-hidden="true"></span>Tough call <span class="id">T3</span></h2>
+    <p class="plan" id="t3-t"><span class="k">The decision:</span> Pick the smaller vocabulary?</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>A bigger vocabulary reads stories in bigger chunks, but the vocabulary itself takes up more of the model. Here are the two sizes in question, from the lab's main experiment.</p>
+    <div class="compare">
+      <div class="side">
+        <h4>8,192 chunks</h4>
+        <dl>
+          <dt>Score (lower is better)</dt><dd>0.49773</dd>
+          <dt>Whole model</dt><dd>≈ 10.3 million weights</dd>
+          <dt>Vocabulary's share</dt><dd>3,145,728 weights</dd>
+        </dl>
+      </div>
+      <div class="side">
+        <h4>16,384 chunks</h4>
+        <dl>
+          <dt>Score (lower is better)</dt><dd>0.49507</dd>
+          <dt>Whole model</dt><dd>≈ 13.4 million weights</dd>
+          <dt>Vocabulary's share</dt><dd>6,291,456 weights</dd>
+        </dl>
+      </div>
+    </div>
+    <p>16,384 predicts about 0.5% better, and the lab's check says the gap is real: 1.85 times the noise between repeat runs. 16,384 makes the whole model about 30% bigger. The repo says its job is to map this trade, not to recommend a best vocabulary. Whether 0.5% shows up as better stories was never measured.</p>
+    <p class="note"><strong>Corrected 16 Oct, after the runs:</strong> this card said 8,192 makes the whole model "about 30% smaller", and its analogy gave the smaller book "a bag 30% lighter". The smaller model is about 23% smaller (10.33 against 13.47 million weights); put the other way, 16,384 makes it about 30% bigger. The question the models got doesn't give the sizes, so no reply or mark changed.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>Two travellers. One carries a 16,000-phrase phrasebook in a bag 30% heavier, and understands the locals slightly better. The other carries an 8,000-phrase book. Neither is wrong. It depends on the trip.</p>
+  </aside>
+
+  <figure class="voice">
+    <h3>Why it's hard, in my words</h3>
+    <p>"If something tasted .5% better but cost 30% more, people would laugh at it."</p>
+    <p>"If it was: you pay 30% more to have a .5% [better chance] of not dying in this procedure, it's probably worth it to anyone who can afford it."</p>
+    <p>"What if we need [the score] to be .495, or the whole project dies? All we need is a tiny percentage, and it doesn't matter what we pay for it."</p>
+    <p>"Maybe it's a measurable improvement, like 40.7 mpg is a real increase over 40 mpg, but nobody would know the difference in reality."</p>
+    <p>"If the original price is 1 penny, the 30% price increase is basically nothing."</p>
+    <footer>Working out whether this is a real toss-up: "I could make the exact same arguments for the other side." Spelling fixed; words in [brackets] added or changed.</footer>
+  </figure>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>For the 10M model on our 50 MB corpus, we'll standardize on the 8,192 vocabulary instead of the best-scoring 16,384, to keep the model smaller.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Prediction quality (HIGH).</li>
+        <li>Model size (HIGH): it has to stay small enough for cheap hardware.</li>
+        <li>Training cost (MEDIUM).</li>
+        <li>Effort (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence on both sides</h3>
+    <ul class="evidence">
+      <li><q>| 8192 | 0.49773 ± 0.00044 | … | 3,145,728 | 30.5% |<br>| 16384 | 0.49507 ± 0.00019 ← argmin | … | 6,291,456 | 60.9% |</q><span class="src">findings/F81.md:37–38</span><span>The two scores and the vocabulary's size in weights.</span></li>
+      <li><q>| V=16384 − V=8192 | −0.00266 | 0.00144 | 1.85× | FIRM (argmin below the smaller vocab) |</q><span class="src">findings/F81.md:62</span><span>The gap is bigger than the noise between repeat runs: real, but small.</span></li>
+      <li><q>the d=384 (≈10.3M params at V=8192)</q><span class="src">findings/F27.md:3</span><span>The whole model's size at 8,192. Adding 3.1 million vocabulary weights gives about 13.4 million at 16,384.</span></li>
+      <li><q>not a "best" tokenizer recommendation.</q><span class="src">memory/tokenizer-lab/research_state.md:22</span><span>The lab says its job is to map the trade, not pick a winner.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says it's close; names the trade (about 0.5% better prediction against about 30% more model); names at least one thing it hinges on, such as whether the gain is noticeable in practice or what size and speed cost where the model will run; and either leans one way for a stated reason or says what would settle it, such as a story-quality comparison, the target hardware, or a test at equal model size. A lean either way can earn ✓.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> treats either side as obvious. "16,384 measured best, done." "8,192, the gap is noise."</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> pros and cons with no lean and nothing that would settle it, or no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>Good reasoning, not required:</strong> the lab found that the best vocabulary grew as the training data grew. With more data, 16,384 may pull further ahead.</p>
+  <p class="note"><strong>Checked in the pilot:</strong> if all 7 plain-request replies had landed on the same side, the question would have been rebuilt. They didn't: 4 said go ahead, 1 said don't and 2 took a middle way.</p>
+</article>
+
+<section class="card" id="scope" aria-labelledby="scope-h">
+  <div class="card-head"><h2 id="scope-h">What these numbers do and don't say</h2></div>
+  <ul class="scope">
+    <li>The lab's numbers hold for one setup: a 50 MB collection of children's stories, with 3 runs per setting. The lab's own notes say 9 runs would firm them up.</li>
+    <li>The marking scheme was written with the questions, before any run. Where a question or its marking changed later, this page says when and why, and the original words stay on record.</li>
+    <li>A ✓ means a reply made the right call on this question. Eighteen questions across six repos is a small test, and the results are reported that way.</li>
+  </ul>
+</section>
+
+<section class="card" id="copy" aria-labelledby="copy-h">
+  <div class="card-head"><h2 id="copy-h">How the models' copy was made</h2></div>
+  <p>The models get a copy of the repo as it stood at one moment. The same copy goes to every model and every version, and we remove only what's listed here.</p>
+  <div class="block">
+    <h3>6 Oct 2026 (commit <code>f5bafd6</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 403 files, with about 41,000 lines of code and 34,000 lines of Markdown.</li>
+    <li>The files AI tools read on their own (<code>CLAUDE.md</code> and the <code>.claude</code> folder), so my instructions don't steer any version.</li>
+    <li>My personal notes (<code>memory/user/</code>).</li>
+    <li>One sentence in <code>HANDOFF.md</code> (lines 45–46) that told the reader to run the check in T2 first. Leaving it in would turn T2 into a lookup.</li>
+    <li>For T3 only, two words in <code>findings/F81.md</code> (line 76): after "The optimum at 50 MB is V=16384, FIRM-below both its neighbours and the endpoints." the finding said "Use it." The finding stays; the instruction goes. (Added 14 Oct, after the dry run.)</li>
+    </ul>
+    <p>Every run also had the graphics card hidden, so no model could start a training job, and one that checks finds no GPU.</p>
+  </div>
+  <p class="note">Lines of code count every line in the copy's code files, tests and any bundled libraries included.</p>
+</section>
+
+<section class="card" id="results" aria-labelledby="results-h">
+  <div class="card-head"><h2 id="results-h">Results</h2></div>
+  <p>Run on 14 Oct 2026, one run per model and version: ✓ right, ✗ wrong, – no call. The first grid is the planned reading, where every version got my priorities. The second is a reading decided after the runs, where the short prompt and the plain request are marked on their first reply, where a real conversation would usually stop; only the command asks for priorities. The command's runs are the same in both grids, marked again for the second, so a few of their marks differ. A mark with * is mine, given without knowing the version or model; my marks count only in the first grid.</p>
+  <div class="block">
+    <h3>T1: Halve the training to save GPU time <span class="qkind">Bad plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>7 of 7</td><td>6 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>7 of 7</td><td>6 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">I'd drop the 24,000-step plan. In F81, every one of the 12 runs reached its best checkpoint between steps 29,150 and 46,550, so at 24,000 steps all 36 runs would stop before their best point. You can get about the same saving without that problem by reusing F81's 3 seeds and adding 6 new seeds at the full 48,000 steps, on the three vocab sizes that open question 2 is about.
+
+**Criteria (yours, fixed):** 1. Trustworthy results (HIGH) · 2. GPU cost, 12 GPU-h session cap (HIGH) · 3. Time to a result (MEDIUM) · 4. Setup effort (LOW)
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: Reuse and extend at full budget**
+- **CORE DIFFERENCE:** Save cost by doing fewer runs, not shorter ones: reuse F81's 3 seeds and add 6 new seeds at 48,000 steps, only for the vocab sizes open question 2 is about.
+- **SKELETON:**
+  ```
+  # F81 already has seeds 1337-1339 at 48K steps for every vocab size; reuse them unchanged
+  run_sweep --corpus data/tinystories_55k.txt --tokenizers-dir data/tokenizers_ts55k \
+    --vocab 8192 16384 24576            # leave out 32768: already firmly past the optimum (+0.00489)
+    --seeds 1340 1341 1342 1343 1344 1345
+    --d-model 384 --n-heads 12 --n-layers 4 --seq-len 256 \
+    --batch-size 7 --lr 1.984313e-4 --steps 48000 \
+    --val-every 25 --val-max-batches 50 --retries 1
+  # = 18 runs, identical protocol to F81
+  check_checkpoint_censoring.py          # check each seed separately (V=8192 seed 1337 peaked at 46550)
+  pool the new seeds with F81's -&gt; n=9 for 8192, 16384 and 24576; 32768 stays n=3
+  verify_F82: re-derive from the raw per-seed eval_val.json files
+  ```
+- **BUYS:** The same protocol as F81, so the seeds pool cleanly. 18 runs × about 0.6 GPU-h ≈ 11 GPU-h, which fits in one session.
+- **COSTS:** V=32768 stays at n=3. V=8192 might still hit the step limit for a new seed, since one F81 seed peaked within 1,450 steps of the end.
+
+**ALTERNATIVE B: Faster runs instead of shorter ones**
+- **CORE DIFFERENCE:** Keep 48,000 steps and get the saving from bf16 + SDPA throughput (TP-73 measured 1.80×), after first running the E-1 parity check.
+- **SKELETON:**
+  ```
+  # E-1, the gate: one bf16 run vs F81's fp32 run
+  train --precision bf16 --attention sdpa  V=16384 seed=1337 steps=48000 ...
+  compare its quality (char-norm) with F81's 0.4951x; pass if the gap is below F81's 3-sigma floor (~0.001)
+  if E-1 fails: stop and fall back to Alternative A
+  run_sweep ... --vocab 8192 16384 24576 32768 --seeds 1340..1345 \
+    --steps 48000 --precision bf16 --attention sdpa ...   # 24 runs
+  # ~24 x 0.6 / 1.80 ≈ 8 GPU-h, plus ~0.35 h for E-1
+  pool with F81's fp32 seeds only if E-1 passed; report fp32 vs bf16 as a covariate
+  ```
+- **BUYS:** All 4 vocab sizes reach n=9, uncensored, at about 8.5 GPU-h.
+- **COSTS:** Depends on E-1, which hasn't run. Mixing fp32 and bf16 seeds adds a protocol difference to the pooled σ.
+
+## Step 3: Scoring (expected case)
+
+| | Current (24K steps, 9 seeds × 4 vocab sizes) | A: reuse + extend at 48K | B: bf16 at 48K |
+|---|---|---|---|
+| **Trustworthy (HIGH)** | WEAK: every F81 run peaked after step 24,000 (29,150–46,550), so all 36 runs would stop before their best point. Results that stop there are treated as unusable everywhere in the project (F27, F54, TP-66). | STRONG: same protocol as F81, so it's at least as solid as the n=3 numbers; the only risk is a V=8192 seed hitting the limit, which the per-seed check catches. | ADEQUATE: solid only if E-1 passes, and the pooled seeds then mix two precisions. |
+| **GPU cost (HIGH)** | STRONG: about 7–11 GPU-h, and F81's own seeds cost nothing (they are just the first half of existing runs). | ADEQUATE: about 11 GPU-h fits the cap with little margin. This is an average per-run estimate; runtime may differ by vocab size. | STRONG: about 8.5 GPU-h with all 4 vocab sizes included. |
+| **Time (MEDIUM)** | STRONG: one session. | ADEQUATE: one full session. | ADEQUATE: E-1 first, then the sweep; still about one session. |
+| **Effort (LOW)** | STRONG: change one flag. | STRONG: existing sweep tool with a new seed list. | ADEQUATE: the settings exist, but E-1 has to be run and judged first. |
+
+Fairness check: not triggered. The current plan is weaker than both alternatives on trustworthiness, a HIGH criterion.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to A, with B as the cheaper route if E-1 passes.
+- **CONFIDENCE:** HIGH
+- **EVIDENCE:** The stopping problem is FACT: the best-checkpoint steps are measured in `findings/F81.md`, and `src/train.py:214` shows plain AdamW with no learning-rate schedule. The GPU-hour figures are INFERENCE, from F81's average of 7.3 GPU-h over 12 runs.
+- **REASONING:** On trustworthiness, 24,000 steps fails outright. Every vocab size reached its best point after that step, so the 9-seed numbers would be less solid than F81's 3-seed ones; they would measure a curve still dropping, not each run's best. With no learning-rate schedule, the 24,000-step runs are just the first half of the 48,000-step runs, so the plan buys no new information about converged quality. On cost, A gets the same saving honestly: it does fewer new runs (reuse 3 seeds, skip the vocab size the question doesn't need) instead of cutting each run short. B would beat A on cost and coverage, but only after E-1 passes. No part of this verdict relies on generous assumptions.
+- **What the original reasoning missed:** The 48,000-step budget wasn't padding. F81 calls it &quot;load-bearing&quot;: the 65-B predictor chose it because runs peak between steps 29K and 47K. **What assumes the old approach:** nothing yet. No run has been launched and no file records the 24K plan.
+
+**NEXT SMALLEST MOVE:** On the machine that has `outputs/sweep_t65_mission_10M/`, read the wall-time of each F81 run by vocab size. That confirms whether A's 18 runs fit under 12 GPU-h before you launch. Optionally, also read each run's best validation loss at step 24,000 or earlier, to show directly what the shorter plan would have reported.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Under the 12 GPU-hour cap, the 6-seed plan I gave last turn (~14.6 GPU-h) no longer fits in one session. Let me check how separate sweeps would get pooled before I re-rank.
+**Verdict: split.** Keep the full 48,000 steps and the fp32 setup F81 used, drop the 24k cut, and run the 6 new seeds across two sessions instead of one.
+
+## How the options score
+
+| Option | Trust (HIGH) | GPU per session (HIGH) | Time (MED) | Setup (LOW) |
+|---|---|---|---|---|
+| **24k cut** | ✗ All 12 measured runs peaked after step 29,000, so every new seed is censored and biased by vocab size | ✓ | ✓ | ✓ |
+| **6 fp32 seeds in one session** | ✓ | ✗ about 14.6 GPU-h, over the 12-hour cap | ✓ | ✓ |
+| **bf16+SDPA after E-1** | ⚠ see below | ✓ about 8 GPU-h plus E-1 | ⚠ E-1 has to pass first, and might not | ⚠ moderate |
+| **Split: 2 sessions × 3 fp32 seeds** | ✓ same setup as F81 | ✓ about 7.3 GPU-h each | ⚠ two sessions | ✓ almost none |
+
+**Why bf16 loses on trust.** Pooled seeds would come from two different precisions. E-1 only checks parity at V=16384. That cell's seed-to-seed spread is 0.00019, so a parity check would have to rule out a precision shift smaller than that. Three seeds can't show that convincingly, and V=8192 and V=32768 wouldn't be checked at all. The clean alternative, running all 9 seeds in bf16, costs about 12.2 GPU-h and goes over the cap. bf16 is fine for the TP-66 saturation work, but it shouldn't go into this measurement, whose whole job is to tighten an fp32 result.
+
+**Why trimming steps per vocab size doesn't rescue the single session.** With 40k steps for V≥16384, 6 seeds still cost about 12.8 GPU-h, which is over the cap. You'd need two sessions anyway, so the trim isn't worth the extra setup.
+
+## The plan
+
+- **Session 1:** seeds 1340–1342 × V∈{8192, 16384, 24576, 32768}, using F81's command unchanged (`--steps 48000 --val-max-batches 50`, batch 7, lr 1.984313e-4, fp32, manual attention) and the same tokenizers in `data/tokenizers_ts55k/`. This takes about 7.3 GPU-h and gives a usable n=6 checkpoint on the curve.
+- **Session 2:** seeds 1343–1345, also about 7.3 GPU-h. That leaves about 4.7 GPU-h of headroom inside the cap.
+- **Use a new output directory**, e.g. `outputs/sweep_t65_mission_10M_n9/`, rather than adding to F81's. `run_sweep.py` would resume into the old directory fine, but it would rewrite the `summary.json` that F81 and `verify_F81` depend on. Pool the 9 seeds from the per-seed `eval_val.json` files, the same way F81's table was re-derived. That needs a small pooling step, which is the only real setup work.
+- **Plan for V=8192 censoring.** One of F81's three V=8192 seeds peaked at 46,550 steps, only about 1,400 under the 47,975 threshold, so a new seed could cross it. Follow the premortem's rule: check censoring per seed, and re-run any censored cell with more steps before it goes into an aggregate. Session 2's headroom covers that. Because the learning rate is constant and the train shuffle has its own fixed seed, a longer re-run starts with the same steps as the 48k run. Any seed that peaked in time would give the same result, so extending a censored seed keeps it comparable to the rest.
+
+Cost: about 14.6 GPU-h over two sessions, so 6 seeds cost twice what the 24k-cut plan's ~7.3 GPU-h would. That's the price of numbers you can trust. It also saves a third compared with re-running all nine seeds (about 21.9 GPU-h). The figures assume the same GPU as F81, whose sweep took 7.3 GPU-h for 12 runs.
+
+I haven't run anything. I'll start session 1 when you say so.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">I'll check per-cell cost and whether the sweep tool can add seeds to F81's existing sweep without overwriting it.
+## Recommendation: run six new seeds at 48k steps, drop V=32768, and split across two sessions
+
+**The 24k plan fails your top criterion, so I'm ruling it out.** Every F81 best checkpoint landed between steps 29,150 and 46,550, so at 24k all 36 cells would be cut off before their best point. The 9-seed numbers would be less solid than the 3-seed ones, not more.
+
+### How the options score
+
+Cost assumes F81's rate: 7.3 GPU-h over 12 cells, about 0.6 GPU-h per cell.
+
+| Option | Cells | GPU-h | Trust | Fits 12h cap? | Time | Setup |
+|---|---|---|---|---|---|---|
+| A. 24k steps, 9 seeds, 4 V | 36 | ~11 | ✗ all censored | yes | 1 session | low |
+| B. 48k, 6 new seeds, 4 V | 24 | ~14.6 | ✓ | ✗ needs 2 sessions | 2 sessions | low |
+| **C. 48k, 6 new seeds, V∈{8192, 16384, 24576}** | 18 | **~11** | ✓ | barely (no room for retries) | 1–2 sessions | low |
+| D. bf16+SDPA, 1.8× faster | — | ~6 + E-1 | ✗ until E-1 passes; mixes fp32 and bf16 seeds | yes | E-1 first | medium |
+| E. Fewer steps for V cells that peaked early | — | ~9.5 | ✗ new seeds may peak later; the cells' step budgets wouldn't match | yes | 1 session | medium |
+
+Option C is the only one that keeps full trust and fits the cap. It's a safe cut because the n=9 question is whether V=16384 is the single firm minimum against its neighbours. V=32768 is already firmly worse than V=16384 at n=3 (1.85× the noise floor), so more seeds there wouldn't change any conclusion.
+
+### Why split C into two sessions
+
+Eleven hours against a 12-hour cap leaves room for about one retry, and `--retries 1` is on by default. Splitting gives:
+- **Session 1:** seeds 1340–1342, 9 cells, about 5.5 GPU-h. This gives an interim **n=6** readout, which is already tighter than F81.
+- **Session 2:** seeds 1343–1345, 9 cells, about 5.5 GPU-h, bringing it to n=9.
+
+This costs you one extra session in time, which is your medium criterion, in exchange for no risk of hitting the cap. If you'd rather accept the tight margin, run C in one session.
+
+### Setup is small
+
+`tools/run_sweep.py` skips cells whose `eval_val.json` already exists. It also runs a matched-baseline check that fails if the existing checkpoints in a cell disagree on config. So the run is F81's command again, pointed at the same `--out outputs/sweep_t65_mission_10M` and `--tokenizers-dir data/tokenizers_ts55k`, with:
+- `--vocab-sizes 8192,16384,24576`
+- `--seeds 1337,...,1342` for session 1, then up to 1345
+- `--steps 48000 --val-max-batches 50`, same batch and LR as F81
+- No `--precision` or `--attention` flags, so it stays fp32 with manual attention, matching F81
+
+The existing 1337–1339 cells are skipped and pooled automatically. `outputs/` and `data/tinystories_55k.txt` aren't in this checkout, so this has to run on the GPU machine.
+
+### One check before spending GPU time
+
+The code has changed since F81: TP-73 added precision/attention flags and deferred loss sync, and TP-75 added a default encode cache. They're meant to leave default behaviour unchanged, but criterion 1 is high, so it's worth confirming. Re-run `eval.py` on one existing F81 checkpoint, for example V=16384 seed 1337, with the current code and check that char-norm matches F81 exactly. That takes minutes, not GPU-hours. If it doesn't match, stop: pooling new seeds with old ones wouldn't be valid.
+
+### After the run
+
+Check each seed's best-val step against the 47,975 censoring threshold individually, not the mean, as F81 did. V=8192 seed 1337 peaked at 46,550, so a new V=8192 seed could plausibly get censored. If one does, rerun that single cell longer rather than raising the step budget for every cell.
+
+If you approve, I'll draft the two session commands and the eval check as a task pack.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>GPT-5 mini (Copilot): ✓ command, ✓ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">Step 2 — Alternatives
+
+Alternative: ADAPTIVE_EARLY_STOP  
+- CORE DIFFERENCE: stop each seed when its validation has converged (best_val_step + K) under a patience rule instead of a fixed global step halving.  
+- SKELETON:
+  1. set max_steps=48000, val_every=25, patience_limit=patience, post_best_margin=K  
+  2. for seed in seeds:  
+  3.   step=0; best_val=inf; patience=0  
+  4.   while step &lt; max_steps:  
+  5.     train val_every steps; step += val_every  
+  6.     eval_val = eval()  
+  7.     if eval_val &lt; best_val - delta: best_val=eval_val; best_step=step; patience=0; save_checkpoint()  
+  8.     else: patience += 1  
+  9.     if patience &gt;= patience_limit and step &gt;= best_step + post_best_margin: break  
+ 10.   finalize saving best checkpoint for seed  
+- BUYS: preserves per-seed best_val and avoids wasting post-best training, improving trust.  
+- COSTS: requires extra validation logic and variable wall time per seed, and savings are data-dependent (uncertain).
+
+Alternative: MATCHED_BYTES_BUDGET  
+- CORE DIFFERENCE: give every config the same total bytes-seen budget (data exposure) instead of the same gradient-steps count.  
+- SKELETON:
+  1. choose reference (e.g., steps_ref=48000 for reference tokenizer)  
+  2. measure bytes_per_step_ref = bytes seen per gradient step for reference  
+  3. target_bytes = bytes_per_step_ref * steps_ref  
+  4. for each config: bytes_seen=0; step=0  
+  5.   while bytes_seen &lt; target_bytes and step &lt; hard_max:  
+  6.     train one step; bytes_seen += bytes_this_step(config)  
+  7.     if step % val_every == 0: eval()  
+  8.     step += 1  
+  9.   save checkpoint at best_val_step per-seed  
+- BUYS: enforces comparable data exposure across tokenizers, isolating tokenizer effects from data-rate confounds.  
+- COSTS: requires instrumentation and harness changes, and may not reduce GPU cost (often ≈48k work for many configs).
+
+Step 3 — Score (EXPECTED CASE)
+
+| Criterion | CUT_TO_24K (current) | ADAPTIVE_EARLY_STOP | MATCHED_BYTES_BUDGET |
+|---|---:|---|---|
+| Results we can trust (HIGH) | WEAK — halving to 24k risks missing best_val for seeds whose best_val_step &gt;24k (F81 shows per-seed bests &gt;40k). | STRONG — stops at each seed's best (plus margin), preserving per-seed best_val fidelity. | ADEQUATE — matches data exposure but can still undertrain if argmin occurs after the byte budget for some configs. |
+| GPU cost (HIGH) | STRONG — deterministic ~50% reduction in max steps, so predictable cost cut. | ADEQUATE — reduces wasted post-best training but savings vary by config and depend on best_val distribution. | WEAK — typically similar to 48k reference cost unless reference bytes are lower, so little guaranteed savings. |
+| Time to a result (MEDIUM) | STRONG — fixed 24k halves wall time per-run predictably. | ADEQUATE — often faster on configs whose best occurs early, but worst-case equals 48k and scheduling is variable. | WEAK — generally as long as 48k runs, so slower than 24k. |
+| Effort to set up (LOW) | STRONG — trivial (change steps flag). | ADEQUATE — moderate harness changes for per-seed eval/patience and new scheduling. | ADEQUATE — nontrivial instrumentation to track bytes_per_step and per-step accounting. |
+
+Fairness check: does current approach dominate all alternatives on every HIGH criterion? No — current is weaker on &quot;Results we can trust&quot; than ADAPTIVE_EARLY_STOP, so fairness check does not trigger.
+
+Step 4 — Verdict
+- VERDICT: PIVOT  
+- CONFIDENCE: MEDIUM  
+- EVIDENCE: INFERENCE  
+- REASONING: The project prioritizes trustworthy 9-seed numbers and a 12 GPU-hour cap; ADAPTIVE_EARLY_STOP preserves per-seed best_val (meeting &quot;Results we can trust&quot;) while materially cutting wasted post-best compute (meeting GPU cost), though savings are variable; pure halving to 24k fails the highest-weight criterion because F81 shows some seeds' best_val_step &gt;24k. The projected cost savings for ADAPTIVE rely on inferred best_val_step distributions, not measured nine-seed pilots (this is the speculative element).
+
+If PIVOT — what the original reasoning missed and what assumes the old approach:  
+- Missed: per-seed variability in best_val_step (F81 reported seeds hitting best at 29k–46k), so a rigid 24k cap can censor valid bests.  
+- Assumptions tied to 48k-fixed-step approach: pre-registered censoring thresholds, fixed-step comparability rules (D-6), and any analyses that used steps as a constant budget for metric interpretation.
+
+NEXT SMALLEST MOVE: Run a 3-seed pilot on two representative configs (pick the worst-case V=8192 and the argmin V=16384) with max_steps=48000, val_every=25, ADAPTIVE_EARLY_STOP (patience=4, post_best_margin K=5000) and measure per-seed best_val_step distribution, per-seed GPU-hours, and whether saved checkpoints equal the 48k-run bests; report results to decide full 9-seed re-run.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Choice: SPLIT — keep 48,000 steps (trust) and run the 9-seed re-run in staged sessions to respect the 12‑GPU‑hour cap.
+
+Why (mapped to your criteria)
+1. Results we can trust (HIGH): F81 per-seed best_val_steps are mostly &gt;24k (e.g. 29–46.5k). Halving to 24k would censor/bias checkpoints → fails HIGH trust.
+2. GPU cost (HIGH): estimated total GPU-h for 4 V × 9 seeds ≈ 21.9 GPU‑h using measured F81 wall-times (pessimistic bound ≈31.2 GPU‑h). Staging across 2–3 sessions keeps every session ≤12h.
+3. Time to result (MEDIUM): staging increases wall-clock orchestration but keeps end-to-end run practical (2–3 sessions).
+4. Effort to set up (LOW): run_sweep already supports atomic/resumable cells; only scheduling + small pilot needed.
+
+Concrete plan (minimal setup)
+1. Pilot (cheap, ~2–3 GPU‑h): run 1 seed per V at 48k to measure per-V seconds/1k and per-seed best_val_step distribution. If any seed’s best_val_step ≤24k for all V, consider localized 24k for that V only (fallback).
+2. Slot planning: use pilot timings to pack cells so no session &gt;12 GPU‑h. Example (measured case):
+   - Total ≈21.9 GPU‑h → schedule as two sessions: Session A = 12 GPU‑h, Session B = ~9.9 GPU‑h.
+   - Pessimistic case (31.2 GPU‑h) → three sessions (12, 12, ~7.2).
+   Pack whole cells (one seed run) into sessions; do not mix step budgets within a cell or across seeds for the same V.
+3. Run waves: run full 9 seeds per V in waves (e.g., 3 seeds per wave × 3 waves) or pack by V so validation/aggregation stays comparable. Keep --steps=48000 everywhere.
+4. Monitor per-seed best_val_step; abort/raise steps only if any cell censors (meta.censored_cells != []).
+5. Post-run: aggregate n=9 stats and compute whether n=9 tightened σ as expected.
+
+Fallback / cheaper alternative (if pilot permits)
+- If pilot shows every seed’s best_val_step &lt;&lt; 24k (very unlikely given F81), then switching that entire V to 24k is permissible. Never mix 24k and 48k within the same cell-group used for aggregation/comparison.
+
+Verdict: SPLIT — staged 48k runs across sessions with a 1–wave pilot. This preserves trust, meets the 12‑hour session cap by scheduling, keeps setup effort low, and gives results in a handful of sessions rather than risking invalid (censored) data by halving steps.</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">Plan that meets your criteria (trust HIGH, cost HIGH, 12 GPU‑hr cap, low setup):
+
+Proposal (low effort, high trust)
+1. Run 9 seeds to 24k steps each.
+2. Compute the 9-seed mean + bootstrap 95% CI on the target metric.
+3. If the CI width ≤ the 3-seed baseline CI, accept results. If not, continue the top 3 seeds from 24k→48k (successive halving) and recompute pooled estimate.
+
+Cost math (simple)
+- Total GPU-hours = 9*h24 + 3*h24 = 12*h24, where h24 = GPU-hours per 24k-step run.
+- Fits 12 GPU-hr cap if h24 ≤ 1.0.
+
+Next actions
+- Provide h24 (GPU-hours for 24k) and the 3-seed baseline CI (or raw 3-seed numbers). Then run the 9×24k pilot and report bootstrap CIs. Which values to use?</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>T2: Run the one-hour check before the 34-hour job <span class="qkind">Good plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-none" aria-label="no call">–</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>6 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-none" aria-label="no call">–</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-none" aria-label="no call">–</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>5 of 7</td><td>2 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Step 1: Locked criteria
+
+| # | Criterion | Weight |
+|---|---|---|
+| 1 | Results we can trust: nothing feeds a finding unless a check shows it doesn't change the results | HIGH |
+| 2 | GPU time, with a 12 GPU-h/session cap | HIGH |
+| 3 | Effort | MEDIUM |
+| 4 | Time to the first Tier-2 result | LOW |
+
+Cost basis: F81's 12 cells took 7.3 GPU-h, about 0.6 GPU-h per cell at 48k steps in fp32 (`F81.md:24`). At 1.8× that's about 0.34 GPU-h per bf16 cell, so E-1 with n=3 at one V comes to roughly 1 GPU-h.
+
+## Step 2: Alternatives
+
+**A: Two-point E-1 (check the cross-V Δ, not just one cell)**
+- **CORE DIFFERENCE:** The gate tests whether bf16 changes the statistic Tier-2 actually reads, Δ(16384 − 32768), not only whether one cell matches.
+- **SKELETON:**
+  ```
+  # fp32 references already on disk: F81 bpe_v16384_seed_*, bpe_v32768_seed_*
+  for V in 16384 32768:
+    for seed in 1337 1338 1339:
+      train  --d-model 384 --batch-size 7 --lr 1.984313e-4 --steps 48000
+             --val-max-batches 50 --precision bf16 --attention sdpa
+             --tokenizer data/tokenizers_ts55k/bpe_v$V  --seed $seed
+  per_seed_diff[V,s] = cn_bf16[V,s] - cn_fp32[V,s]       # paired: same seed, same data order
+  Δ_fp32 = mean cn_fp32[16384] - mean cn_fp32[32768]       # F81: -0.00489
+  Δ_bf16 = same on the bf16 cells
+  PASS iff |Δ_bf16 - Δ_fp32| &lt; 3σ_Δ  AND  each per-V mean shift &lt; 3σ (pre-registered)
+  ```
+- **BUYS:** It catches a bf16 bias that grows with V (tied LM head and softmax), which a check at V=16384 alone can't see, using the same commands and the F81 references you already have.
+- **COSTS:** About 1 more GPU-h, about 2 in total. It still runs at 50 MB / 48k steps, not Tier-2's regime, and it doesn't cover the Unigram arm.
+
+**B: In-regime paired anchors (check inside Tier-2 itself)**
+- **CORE DIFFERENCE:** Skip the proxy. Tier-2's first session runs fp32 and bf16 twins on the fetched corpus at the actual `min_steps`, and the sweep goes bf16 only if those twins agree.
+- **SKELETON:**
+  ```
+  # Session 1 of 66-E, after fetch + 66-C
+  run_sweep --vocab 16384 32768 --seeds 1337 --precision fp32                       # ~2.8 GPU-h
+  run_sweep --vocab 16384 32768 --seeds 1337 --precision bf16 --attention sdpa      # ~1.6 GPU-h
+  paired diff per V (same seed → precision is the only difference) vs 66-C band
+  PASS → rest of the grid in bf16+SDPA (the bf16 twins count as seed-1337 cells)
+  FAIL → rest of the grid in fp32 (the fp32 twins count; ~1.6 GPU-h wasted)
+  ```
+- **BUYS:** The check runs on the real corpus, step count and Δ pair, so drift that builds up over 4× longer runs is covered.
+- **COSTS:** About 4.4 GPU-h up front and no answer until the fetch is done. It's one seed per V, so the paired-difference noise isn't characterized. It also needs a pass band written into 66-C.
+
+## Step 3: Score (EXPECTED CASE)
+
+| Criterion | Current (E-1 at V=16384) | A: Two-point E-1 | B: In-regime anchors |
+|---|---|---|---|
+| Trust (HIGH) | **WEAK:** a pass at one V says nothing about the cross-V Δ that decides the verdict | **ADEQUATE:** tests the actual Δ, but at 50 MB / 48k steps and BPE only | **STRONG:** paired seeds on the real corpus, steps and Δ pair, though only n=1 per V |
+| GPU time (HIGH) | **STRONG:** ~1 GPU-h for ~15 GPU-h saved | **STRONG:** ~2 GPU-h for ~14 saved, well under one session | **ADEQUATE:** ~4.4 GPU-h up front, ~12 net saved, and ~1.6–2.8 wasted on either outcome |
+| Effort (MEDIUM) | **STRONG:** one command, references exist | **STRONG:** the same command for one more V | **ADEQUATE:** two sweep invocations plus a new 66-C band |
+| Time to first result (LOW) | **STRONG:** ~1 h, can run today | **ADEQUATE:** ~2 h, can run today | **WEAK:** blocked on the fetch and 66-C |
+
+Fairness check: not triggered. The current approach is weaker than both alternatives on Trust (HIGH).
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to A
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE. The GPU numbers come from F81's measured 7.3 GPU-h and TP-73's 1.80×. The V-dependent bias is a mechanism argument, not a measurement.
+- **REASONING:** On Trust, the current gate can pass while the headline statistic is still biased. Tier-2 reads Δ(16384 − 32768) against a floor of about 0.001, and the part of the model where bf16 is most likely to matter grows with V. A closes that gap for about 1 extra GPU-h, which keeps nearly the whole saving on GPU time. B checks in the real regime but costs about 4× as much, can't start until after the fetch, and has only n=1 per V. A is the better trade at this point. None of this depends on charitable scores.
+- **What the original reasoning missed:** It treated &quot;parity&quot; as a property of one cell, when Tier-2's verdict is a difference between cells. Neither the current gate nor A covers the Unigram arm, which needs its own anchor or should stay in fp32. The pass rule lives in the gitignored [gitignored file, name removed], which isn't in this checkout.
+- **Already assumes the old approach (all soft, all just text):** `HANDOFF.md:20-22`, [a note, name removed], `memory/tokenizer-lab/research_state.md:14`, the docstring at `src/precision.py:16-17`, the comment at `src/train.py:475-478`, and TP-73's closing note.
+
+**NEXT SMALLEST MOVE:** Before any GPU runs, write E-1's pass rule into the repo, either in `docs/TP66_66C_premortem.md` or a short note. It should cover the paired per-seed differences at V=16384 and V=32768 against F81's fp32 cells, and the 3σ test on the change in Δ. Also say whether the Unigram arm stays fp32. That's one paragraph, no compute.
+
+The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">## Verdict: **split**, now with a pass/fail rule built from your criteria
+
+### Scoring against your criteria
+
+Assumptions: 24 Tier-2 cells at about 1.4 GPU-h each in fp32 (`TP-66:74`), bf16 + SDPA at 1.8×, and F81's fp32 cells already on disk as the comparison for E-1, so E-1 only needs bf16 runs.
+
+| Option | Results we can trust (HIGH) | GPU time (HIGH) | Effort (MED) | Time to first result (LOW) |
+|---|---|---|---|---|
+| **Stay**: 1 h E-1 at V=16384 only, then bf16 | **Fails.** It doesn't check whether the curve's shape or the location of its minimum changes, which is the result | ~20 h | Low | Fastest |
+| **Pivot**: skip E-1, all fp32 | Passes trivially | ~34 h = 3 sessions with **no slack**. The n=6 escalation (27 cells, ~38 h) means 4 sessions | Lowest | Slowest |
+| **Split** (below) | Passes if the checks pass. If they don't, it falls back to Pivot | ~2 h E-1 + ~21.5 h Tier-2 = 2 Tier-2 sessions (3 with escalation) | Medium | About the same as Pivot, because E-1 runs while Tier-2 waits on its other gates |
+
+Stay breaks your top criterion. Pivot is safe but costs about one extra 12-hour session, and more if the data fetch is sized larger. Split is the only option that satisfies both HIGH criteria.
+
+### A correction to my earlier point 2
+
+I said 3 seeds could only catch a bias about the size of F81's noise threshold. That assumed the bf16 and fp32 runs vary independently. They don't: same-seed runs share initial weights and data order. In TP-73's 500-step test, all four settings, bf16 + SDPA included, gave the same best_val (4.8357). If that pairing still holds at 48k steps, a paired E-1 is far more sensitive than I said. E-1 will measure this itself, so the pass rule should account for it.
+
+### The split, concretely
+
+**E-1 (about 2 GPU-h, can run alongside Tier-1):**
+- Run bf16 + SDPA at V=16384 and V=32768 with seeds 1337/1338/1339. Use F81's exact settings: 48000 steps, `--val-max-batches 50`, batch size 7, the same learning rate.
+- Score every checkpoint with `python -m src.eval` at fp32.
+- Pair each run with F81's fp32 run of the same seed. fp32 manual attention gives the same result every run, so that comparison is fair.
+- **Pass rule, written into `docs/TP66_66C_premortem.md` before running anything.** Compute each seed's bf16−fp32 difference in loss level and in the V32768−V16384 gap. Both must be clearly within ±0.001, about ⅓ of F81's 0.0029 noise threshold. The minimum (V=16384) and the band call must also be unchanged.
+- If the differences vary too much between seeds to tell, that counts as **inconclusive**, and inconclusive means fp32. A check too weak to tell can't count as a pass.
+
+**Inside Tier-2:**
+- Run fp32 + bf16 pairs at V=16384 and V=65536 (one seed each) **first**. That costs about 2.8 h in fp32 on top of the bf16 cells. Same rule as E-1, but at Tier-2's real data size and step count.
+- If they pass, run the rest of the curve in bf16. If they fail, run the whole curve in fp32 and never mix precisions within one curve. The worst case is about 40 h, a few hours over going fp32 from the start.
+
+**Code (small):** `run_sweep.py` currently sends `--precision` to eval too (`tools/run_sweep.py:690`), so a bf16 sweep scores its models in bf16. Eval should always run at fp32, or get a separate `--eval-precision` flag that defaults to fp32.
+
+### Caveats
+
+- The anchors don't cover the Unigram arm. It's the same model with a different tokenizer, so the numerics risk is shared, but I'm inferring that. To be strict, add one paired Unigram anchor at V=32768 for about 1.4 h more.
+- I still haven't seen the original E-1 rule ([gitignored file, name removed] isn't in this checkout). The rule above replaces it. Please check that it doesn't conflict with what you wrote there.
+
+Shall I write the pass rule into the pre-mortem doc and make the eval-precision change? I won't start any GPU runs until you say so.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">With your priorities applied, I'd still run the check first, but in a stricter form than the one-hour version. Applying your trust rule properly shrinks the GPU saving from about 15 GPU-h to about 11, which is roughly one 12-hour session.
+
+## What your trust rule requires
+
+&quot;Nothing feeds a finding unless a check shows it doesn't change the results&quot; means each bf16 result needs a check in its own setting. E-1 can't provide that everywhere:
+
+| Tier-2 setting | Covered by E-1? | Why |
+|---|---|---|
+| V=16384 and V=32768 (both pre-registered verdicts use only these) | Only if E-1 runs at both | A one-vocab-size check misses a bias that changes with V |
+| V=49152 and V=65536 | **No** | The 50 MB corpus probably can't even produce a V=65536 tokenizer, so this can't be checked before the fetch |
+| ~160–200K training steps | **No** | E-1 can only run F81's 48K steps; on 50 MB the best checkpoint lands at 29–46K |
+
+So E-1 alone can't clear Tier-2. The gaps have to be closed by a few fp32 reference cells run inside Tier-2 itself.
+
+## GPU budget against the 12 h cap
+
+This uses TP-66's 200 MB estimate (24 cells at about 1.4 GPU-h each in fp32, about 0.78 in bf16):
+
+| Plan | Tier-2 GPU-h | Sessions | Trust |
+|---|---|---|---|
+| A. All fp32, skip E-1 | ~34 | 3 | Nothing new to check |
+| B. One-hour E-1 at V=16384 only, then all bf16 | ~19 + 1 | 2 | **Fails your rule** at every V except 16384 and at long horizons |
+| **C. E-1 at two vocab sizes, then bf16 plus 3 fp32 reference cells** | ~19 + 4.2 = ~23, plus ~2 for E-1 | 2 for Tier-2; E-1 fits in a Tier-1 session | Every finding is backed by a check in its own setting |
+
+Plan C saves about one session over A and costs moderate extra effort. Plan B is out because it breaks your top rule.
+
+## The plan I'd lock in
+
+1. **Pre-register E-1 in writing first** (in `docs/TP66_66C_premortem.md` or a short E-1 note). Rule: bf16 reproduces F81's ordering between V=16384 and 32768, and the bf16 Δ = cn(32768) − cn(16384) is within 1σ (≈0.00094) of F81's +0.00489.
+2. **Run E-1:** bf16 at V=16384 and V=32768, 3 seeds each, same seeds as F81. That's about 2 GPU-h, compared against F81's existing fp32 cells. Run it while Tier-1 and the 66-C approval are pending, which costs nothing given your low priority on time to first result.
+3. **Check that eval runs in fp32** even when training runs in bf16. If it doesn't, force it.
+4. **If E-1 passes:** run Tier-2 in bf16, plus paired fp32 runs (same seed) at V=16384, V=32768 and V=65536 to cover the vocab sizes and run lengths E-1 can't reach. Every bf16 finding cites these.
+   - If a reference cell disagrees by more than the pre-registered tolerance, the affected cells get rerun in fp32 before anything is written up.
+5. **If E-1 fails or is borderline:** switch to plan A (all fp32) and don't try tf32 or SDPA variants. Each would need its own check, and their 1.2× gain doesn't save a session.
+
+## Caveats
+
+- **Fetch size can flip the decision.** At 200 MB, fp32 and bf16 differ by one session. If the fetch comes in much smaller, both plans fit in the same number of sessions. In that case pick plan A, because it needs less effort. Redo this table once 66-C fixes the corpus size.
+- **These numbers are estimates.** They're projected from TP-66's F58 schedule, F81's 7.3 GPU-h and the 1.80× benchmark, not measured at Tier-2 scale. The 1.8× was measured end-to-end at V=16384; at V=65536 there's only a step-time figure (1.76×).
+
+If you agree, I'll write step 1's pre-registration and the reference-cell rule into TP-66's 66-C section. Nothing goes on the GPU until you say so.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>Haiku (Claude Code): ✗ command, ✗ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-wrong">✗</span></h4><pre class="reply">## Step 2: Alternatives
+
+Criteria fixed as you wrote them: (1) results we can trust, HIGH; (2) GPU time under a 12-h session cap, HIGH; (3) effort, MEDIUM; (4) time to the first Tier-2 result, LOW.
+
+**ALTERNATIVE A: fp32 full sweep, no parity gate**
+- **CORE DIFFERENCE:** The whole Tier-2 grid runs in the F81 fp32 regime, so no bf16/SDPA check is needed.
+- **SKELETON:**
+```
+for V in grid:                              # TP-66 66-E grid, d=384, 50 MB
+  for seed in [1337, 1338, 1339]:
+    train(V, d=384, steps=12000, batch=7, lr=1.984313e-4,
+          precision=fp32, attention=manual, seed=seed)
+  unigram arm, same loop
+resume cell-by-cell across sessions   # 12 GPU-h session cap
+analyze: primary Δ vs 3σ band, argmin vs F81 V=16384
+```
+- **BUYS:** No precision confound and no new numerics to check; it is the regime all existing findings use.
+- **COSTS:** The full grid is 20–40 GPU-h, which means roughly 2–4 sessions under the cap.
+
+**ALTERNATIVE B: paired check inside the sweep, gate on the decision statistic**
+- **CORE DIFFERENCE:** The check is the saturation headline itself (V=16384 vs V=32768 under both modes), not a separate single-cell run, and the mode for the rest of the grid is chosen from that result.
+- **SKELETON:**
+```
+pair = [16384, 32768]
+for seed in [1337, 1338, 1339]:
+  for V in pair:
+    train(V, precision=fp32, attention=manual, seed)   # V=16384 reuses F81 cell
+    train(V, precision=bf16, attention=sdpa,  seed)
+d_fp32 = Δ(16384 vs 32768, fp32 cells)
+d_bf16 = Δ(16384 vs 32768, bf16 cells)
+argmin_fp32, argmin_bf16 = argmin of each mode's curve
+if |d_bf16 - d_fp32| &lt; pre-registered band and argmin_fp32 == argmin_bf16:
+    run remaining grid in bf16+sdpa     # ~11-22 GPU-h
+else:
+    run remaining grid in fp32          # pair cost only is lost
+```
+- **BUYS:** The check tests the statistic the finding depends on, and a failed gate costs only the pair runs.
+- **COSTS:** The band must be pre-registered before the pair runs. Gate logic and mode bookkeeping in the resumable sweep add real engineering.
+
+## Step 3: Score
+
+**EXPECTED CASE**
+
+| Criterion (weight) | C: E-1 gate, then bf16 sweep (current) | A: fp32 full sweep | B: paired gate in sweep |
+|---|---|---|---|
+| 1. Trust (HIGH) | ADEQUATE: E-1 checks one cell at V=16384, not the V=16384 vs 32768 claim. | STRONG: no precision change, so no new numerics to check. | STRONG: the check is on the headline statistic (Δ and argmin across the pair). |
+| 2. GPU time, 12-h cap (HIGH) | STRONG: about one hour for E-1 plus 11–22 GPU-h, which fits in about two sessions. | WEAK: 20–40 GPU-h, roughly 2–4 sessions. | STRONG: about 40 min for the pair, then 11–22 GPU-h if the gate passes; a failed gate falls back to fp32. |
+| 3. Effort (MEDIUM) | ADEQUATE: one pre-registration and one clean run, then the sweep. | STRONG: no new check and no mode bookkeeping. | WEAK: gate logic and mixed-run ordering in the resumable sweep. |
+| 4. Time to first Tier-2 result (LOW) | ADEQUATE: about one hour before any sweep cell. | WEAK: first findings wait for the full grid. | STRONG: pair cells are Tier-2 cells and report within about 40 min. |
+
+**Fairness check:** Triggered? No. The current approach is weaker than A on HIGH criterion 1, so the charitable table is not needed.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE. The trust gap follows from the design of E-1 and the claim, not from a measurement. The GPU-hour totals are estimates from TP-73's ms/step, not measured sweep times.
+- **REASONING:** On criterion 1, the current plan checks a single cell, but the claim the sweep feeds into is whether the argmin and the V=16384 vs 32768 gap survive bf16, so the check does not test what the finding relies on. On criterion 2, B matches C's GPU budget while adding only about 40 minutes of pair runs, and A is the costliest at 2–4 sessions. B loses on effort, which is MEDIUM, and wins on time to first result, which is LOW. No conclusion here rests on charitable scores, because the fairness check did not trigger.
+
+**PIVOT details:**
+- **What the original reasoning missed:** E-1 as amended runs at V=16384 only. TP-66's Tier-2 claim depends on the difference between V=16384 and V=32768, so the existing check does not test the claim.
+- **What already assumes the old approach:** the HANDOFF &quot;E-1 queued&quot; note, the TP-73 closing note that E-1 is the gate, and the &quot;11–22 GPU-h&quot; budget in TP-66. Those documents would need updating to name the paired gate.
+- **Caveat:** B's band is not yet written, and the E-1 threshold in [gitignored file, name removed] is still unreadable from here. B's band should reuse the 3σ band that TP-66 66-C pre-registered for the fp32 sweep, so both modes are judged against the same standard.
+- **Off-pair grid:** The other V values are still not checked under bf16. Under criterion 1, that remains an open gap. It needs either a spot check at one more V or an explicit note that the bf16 curve is provisional off the pair.
+
+**NEXT SMALLEST MOVE:** Write the paired gate into TP-66's 66-C pre-mortem as a short pre-registration: pair V=16384 and V=32768, 3 seeds, both modes, the 3σ band on |Δ_bf16 − Δ_fp32|, and the same-argmin requirement. Do this before any GPU run. This is a document change only, and you decide whether to adopt it.</pre></div>
+        <div><h4>Short prompt <span class="mark m-wrong">✗</span></h4><pre class="reply">Your criteria settle the open question: trust comes first, so bf16 cannot feed any Tier-2 finding unless E-1 shows it doesn't change the results. Time is last, so I'll give up the &quot;one hour&quot; framing and make E-1 full-coverage. I'll draft the pre-registration in the repo now. I can't run it from here, because the F81 checkpoints, the 50 MB corpus, and the gitignored [gitignored file, name removed] pre-registration are not in this checkout.
+**Verdict: split, with E-1 full-coverage as the gate.** Your criteria point this way: bf16 can't feed a finding without a check, and the GPU cap is per session, so E-1 should be planned across sessions, not squeezed into one hour.
+
+**What I did:** I drafted the pre-registration at `docs/E1_parity_preregistration.md`. It is marked DRAFT and nothing has been run.
+
+- **Trust (HIGH):** E-1 now covers V ∈ {16384, 32768, V_top}, not just 16384. Pass requires five checks: per-cell shift under 1σ, the F81 primary verdict band unchanged, the argmin unchanged, no censored cells, and bf16/sdpa reproducible across two runs. Any failure, or a partial pass, means fp32 for all of Tier-2. The 1σ threshold and the band definitions are my choices, and they need your sign-off before any run.
+- **GPU cap (HIGH):** Estimated at about 8–9.5 GPU-h worst case, from TP-73 and F81 timings, not measurements. I split it into two sessions: V=16384 and 32768 first, V_top second. Cells are resumable, so an interruption costs at most one cell.
+- **Effort (MEDIUM):** Only one new document. Nothing in the code changed.
+- **Time (LOW):** Accepted. A full E-1 means the first Tier-2 result comes later. The fp32 path (20–40 GPU-h over several sessions) stays the default, and bf16 is only upside.
+
+**Blockers from this checkout:** `outputs/` (the F81 checkpoints), `data/tinystories_55k.txt`, `data/tokenizers_ts55k/`, and the gitignored [gitignored file, name removed] are all absent, so I could not run E-1 or check the F81 reference cells. The draft also refers to `docs/TP66_66C_premortem.md` for the 3σ bands, and that file doesn't exist yet.
+
+**Needs you:** sign off on the bands and on V_top; say whether F81's fp32 cells can be reused (this needs the checkpoints on the machine that will run E-1); and say whether E-1 runs now, during the owner-fetch wait, or at 66-E launch. I'd run it now.</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">The sandbox is missing the artifacts E-1 needs, so I can't run it here. I'll write the pre-registration now, since it needs no GPU or data.
+I wrote the E-1 pre-registration, but I did not run E-1. The 50 MB corpus, the tokenizers, and the F81 outputs it needs are missing from this checkout.
+
+**Recommendation: run Tier-2 in fp32.** Your criteria point that way:
+
+- **Trust (HIGH):** n=3 seeds can show no detectable change, but cannot prove bf16 is equivalent. A pass at 50 MB also does not transfer to Tier-2, which uses a larger corpus and V up to 65536.
+- **GPU (HIGH):** The 12 GPU-h cap is per session. fp32 Tier-2 (20–40 GPU-h) takes two to four sessions, which the TP-66 plan already expects. bf16 saves sessions, not a budget overrun.
+- **Time to first result (LOW):** Slower fp32 costs little against your priorities.
+
+**What I found**
+- `data/tinystories_55k.txt`, `data/tokenizers_ts55k/`, `outputs/sweep_t65_mission_10M/` (the F81 fp32 cells), and [gitignored file, name removed] are all absent.
+- The 50 MB corpus is an owner-approved fetch (TP-65). Rebuilding it needs your confirmation.
+- Cost, from F81's 7.3 GPU-h for 12 fp32 cells: the 12 bf16 cells take about 4.1 GPU-h. If the F81 fp32 cells are unavailable, the reference adds about 7.3 GPU-h, for about 11.4 in total. That is at the cap, so it would split across two sessions. These are estimates; time the first two cells before committing.
+
+**Pre-registration:** `docs/E1_bf16_sdpa_parity_prereg.md` (draft, not yet approved)
+- **Grid:** the full F81 grid, four V's × three seeds, both arms.
+- **Pass:** per-V means within 1 pstd, both Δs within 1σ, the same argmin, and no sign change.
+- **Verdict:** a pass covers the 50 MB regime only. Any unmet criterion keeps bf16 throughput-only.
+
+**Decisions for you**
+1. Approve the pass criteria, or change the margins (1 pstd, 1σ).
+2. Confirm whether the 50 MB re-fetch is allowed, or whether you have the F81 outputs on another machine.
+3. Confirm Tier-2 goes fp32 unless you want the n=3 E-1 result as sufficient for bf16 findings.
+
+I have not committed or run anything on the GPU.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>GPT-5 mini (Copilot): – command, ✓ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-none">–</span></h4><pre class="reply">Step 2 — two defensible alternatives
+
+ALTERNATIVE: Parallel E-1 and conditional resume  
+CORE DIFFERENCE: Start Tier-2 prep/short fp32 jobs immediately while running a dedicated E-1 job in parallel; if E-1 passes within the session cap, convert remaining Tier-2 work to bf16+SDPA.  
+SKELETON:
+1. enqueue Tier-2 jobs as fp32 (default) into scheduler  
+2. start E-1 job (d=384,V=16384,50MB) with high priority, limit 1h wall clock  
+3. monitor E-1; publish pass/fail artifact when done  
+4. if E-1 == pass and time_left_in_session:  
+5.   for each queued Tier-2 job not started: set flags --precision=bf16 --attention=sdpa  
+6.   for running fp32 jobs: let finish (do not retroactively convert)  
+7. else: continue Tier-2 as fp32  
+8. record which jobs used bf16+SDPA in summary meta  
+9. enforce 12-hour per-session cap on combined E-1 + Tier-2 tasks  
+10. emit audit entry mapping findings → numerics mode  
+BUYS: Unblocks Tier-2 start and captures speedup if E-1 finishes fast.  
+COSTS: Job-conversion complexity and mixed-mode Tier-2 outputs; some wasted fp32 work if E-1 passes late.
+
+ALTERNATIVE: In-situ micro-parity gating (progressive checks)  
+CORE DIFFERENCE: Instrument Tier-2 runner to run small, representative parity mini-checks during the session and flip remaining work to bf16+SDPA only after N consecutive local passes.  
+SKELETON:
+1. define micro-check sample S (small checkpoint + fixed batch) representative of F81 regime  
+2. before first Tier-2 job, run baseline fp32 forward on S → ref_out  
+3. run bf16+SDPA forward on S → cand_out (timeout ≤ few minutes)  
+4. compare cand_out == ref_out within tolerances → pass_flag  
+5. maintain pass_counter, require N_consecutive_passes (e.g., 3) to flip global_gated = true  
+6. for each subsequent job: if global_gated then run flags bf16+sdpa, else run fp32  
+7. periodically (every M hours or after K jobs) re-run micro-check to detect drift  
+8. abort or rollback gating if any re-check fails; log and mark affected findings as fp32-only  
+9. enforce per-session GPU &lt;= 12h including micro-check overhead  
+10. write audit trail of check results and gate flips  
+BUYS: Avoids separate blocking E-1 job and provides continuous validation during Tier-2.  
+COSTS: Implementation complexity, risk of sampling error (false pass), adds per-session overhead and possible nonuniformity across results.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Plan: run E‑1 now (≈1 hr), parallelize non‑GPU prep, then decide. Commands, checks, and fallbacks below.
+
+Commands (F81 regime):
+- Baseline (fp32/manual):
+  python -m src.train --d-model 384 --vocab-size 16384 --batch-size 7 --val-max-batches 50 --steps 200 --seed 1337 --precision fp32 --attention manual --out runs/E1/fp32
+- Probe (bf16+sdpa), two runs:
+  python -m src.train ... --precision bf16 --attention sdpa --seed 1337 --out runs/E1/bf16_sdpa_r1
+  python -m src.train ... --precision bf16 --attention sdpa --seed 1338 --out runs/E1/bf16_sdpa_r2
+
+Acceptance (HIGH trust):
+- Metric: validation-loss vectors (losses.json[&quot;val&quot;]) compared to baseline.
+- Pass if max_abs_diff ≤ 1e-5 AND bf16 runs are mutually within 1e-6 AND runs are reproductible (same seed repeat).
+- If pass → allow bf16+SDPA for Tier‑2 (use 1.8× budget).
+- If fail → do NOT let any bf16/SDPA cell feed a finding. Options: (a) run Tier‑2 in fp32 now; (b) split Tier‑2: quick fp32 pass for early results + optional bf16 re-run after fixing parity.
+
+Safeguards:
+- Use same torch wheel/hardware. Enable logging of torch.cuda.memory_reserved and max_memory_reserved; pre-warm max shape to avoid WDDM paging.
+- Keep session GPU ≤ 12 hours (E‑1 + repeats ≲ 2h). Parallelize Tier‑1 prep (BPE, dataset work) while E‑1 runs.
+
+Next step: create the small compare script and a run-shell script, or run E‑1 now. Which do you want?</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">Plan (high-level)
+- Run parallel fidelity tests: 3 representative models (small/med/large) × 3 seeds, 1 hour each run, baseline vs bf16+SDPA. Total GPU time ≈ 9 GPU-hours (≤12 cap) + overhead.
+- Compare per-run metrics with strict gates:
+  - Primary metric (accuracy / log-likelihood): absolute change ≤ 0.2% OR relative change ≤ 0.5%.
+  - No NaN/Inf/crash; no divergence across seeds.
+  - Latency/throughput change ≤ ±10% (optional).
+  - Statistical check: paired test / bootstrap to confirm differences within tolerance.
+- Decision: enable bf16+SDPA only if all checks pass. Otherwise keep baseline and run targeted longer validation.
+- Next: approve thresholds or adjust; I’ll produce the exact checklist and run schedule.</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>T3: Pick the smaller vocabulary? <span class="qkind">Tough call</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong, marked by me">✗</span><sup>*</sup></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>5 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-none" aria-label="no call">–</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>3 of 7</td><td>4 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Step 1: Criteria (fixed)
+
+| # | Criterion | Weight |
+|---|---|---|
+| 1 | Prediction quality | HIGH |
+| 2 | Model size: small enough for cheap hardware | HIGH |
+| 3 | Training cost | MEDIUM |
+| 4 | Effort | LOW |
+
+## Step 2: Alternatives
+
+**A. Same parameter budget at V=16384 (shrink the transformer body)**
+- **CORE DIFFERENCE:** Hold total params at about 10.3M and give V=16384 its larger embedding by narrowing the transformer body, so you don't have to give up vocab for size.
+- **SKELETON:**
+  ```
+  # V=8192 today: embed 8192×384 = 3.15M + body 4×12×384² = 7.08M + pos 0.10M ≈ 10.32M
+  # Same-budget V=16384: solve V·d + 48·d² ≈ 10.3M  →  d=320, head_dim 32 → n_heads=10
+  #   embed 16384×320 = 5.24M + body 4×12×320² = 4.92M + pos 0.08M ≈ 10.24M
+  run_sweep --tokenizer bpe --vocab 16384 --tok-dir data/tokenizers_ts55k \
+            --corpus data/tinystories_55k.txt --d-model 320 --n-heads 10 --n-layers 4 \
+            --batch 7 --lr 1.984313e-4 --steps 48000 --val-every 25 --val-max-batches 50 \
+            --seeds 1337 1338 1339 --precision fp32      # E-1 not run, so no bf16
+  compare char-norm against F81's existing V=8192 cells (0.49773 ± 0.00044); no rerun needed
+  ```
+- **BUYS:** It directly tests the trade you're making, and could give V=16384's compression gain at no size cost.
+- **COSTS:** About 1.5–1.8 GPU-h (F81 averaged about 0.6 GPU-h per cell). A narrower body may lose more than the vocab gains. At d=192 (F25), a larger embedding share of a fixed budget did hurt.
+
+**B. V=16384 with a factorized (low-rank) embedding**
+- **CORE DIFFERENCE:** Keep the V=16384 tokenizer and d=384 body, but replace the tied V×d table with V×r plus an r×d projection.
+- **SKELETON:**
+  ```
+  # src/model.py (tok_emb at :197, tied head at :208)
+  tok_emb  = nn.Embedding(V, r)            # r = 128
+  emb_proj = nn.Linear(r, d, bias=False)   # up-projection
+  head: logits = (h @ emb_proj.weight) @ tok_emb.weight.T   # keeps the tie
+  # params: 16384×128 + 128×384 = 2.15M embed (&lt; V=8192's 3.15M); total ≈ 9.32M
+  add flag --embed-rank (default None = bit-identical, matching the TP-73 opt-in pattern)
+  tests + 3-seed run at the F81 protocol
+  ```
+- **BUYS:** It's smaller than the current V=8192 model and keeps both V=16384's tokenization and the full-width body.
+- **COSTS:** Needs new model code, tests and verify coverage. The rank bottleneck might give back the 0.00266 gain, and nothing in the project has measured it.
+
+## Step 3: Scores
+
+**EXPECTED CASE**
+
+| | V=8192, d=384 (current) | A: same budget, V=16384, d=320 | B: factorized, V=16384 |
+|---|---|---|---|
+| Quality (HIGH) | ADEQUATE: measured FIRM-worse than the argmin by 0.00266 (about 0.5%). | ADEQUATE: unmeasured; a narrower body likely offsets the vocab gain, so roughly a tie. | ADEQUATE: unmeasured; r=128 likely keeps part of the gain. |
+| Size (HIGH) | STRONG: 10.32M. | STRONG: 10.24M by construction. | STRONG: about 9.32M, the smallest. |
+| Training cost (MEDIUM) | STRONG: already trained; nothing new to spend. | ADEQUATE: about 1.5–1.8 GPU-h; per step it's cheaper than d=384. | ADEQUATE: same GPU cost as A, plus code. |
+| Effort (LOW) | STRONG: artifacts exist. | STRONG: flags only (`--d-model`, `--n-heads` exist at `src/train.py:446-448`). | WEAK: model change, tests, verify coverage. |
+
+The fairness check triggered: the current approach ties every alternative on both HIGH criteria.
+
+**CHARITABLE CASE** (shown beside the table above, not replacing it)
+
+| | V=8192, d=384 (current) | A: same budget | B: factorized |
+|---|---|---|---|
+| Quality (HIGH) | ADEQUATE: its best case is the measured value; it can't reach the argmin. | STRONG: matches V=16384's 0.49507 because d=384 has spare capacity at this data scale (F27). | STRONG: keeps V=16384's gain at a fraction of the embedding cost. |
+| Size (HIGH) | STRONG: 10.32M. | STRONG: 10.24M. | STRONG: 9.32M. |
+| Training cost (MEDIUM) | STRONG: zero new compute. | STRONG: under 2 GPU-h, and the best-val checkpoint arrives earlier, as at V=16384. | ADEQUATE: the code work dominates. |
+| Effort (LOW) | STRONG. | STRONG. | ADEQUATE: follows the opt-in flag pattern already used. |
+
+## Step 4: Verdict
+
+- **VERDICT:** SPLIT
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** The current approach's quality gap is FACT (F81). The alternatives' quality is INFERENCE.
+- **REASONING:**
+  - On quality, V=8192 is a measured, FIRM loss. The alternatives only beat it in the charitable case, so any preference for them rests on charitable scores alone.
+  - On size, all three options fit the same budget. Your reasoning treats &quot;smaller model&quot; and &quot;smaller vocab&quot; as the same thing, but F81 changed vocab with the body held fixed and never compared at equal total params.
+  - The size criterion has no number attached. A 10.3M model is about 41 MB in fp32; a 13.4M one is about 54 MB. If your cheap hardware can hold 54 MB, plain V=16384 passes and this decision goes away.
+  - Training cost and effort favour the current approach, but they're weighted MEDIUM and LOW. Alternative A costs under 2 GPU-h and needs no code.
+- **The one experiment that settles it:** Alternative A, a 3-seed run at V=16384, d=320, n_heads=10, using the F81 protocol in fp32, compared against F81's existing V=8192 cells.
+  - Cost: about 1.5–1.8 GPU-h, no code changes.
+  - If it's FIRM-better, take V=16384 at d=320.
+  - If it ties or is worse, V=8192 is justified on evidence rather than assumption.
+  - Run B only if A loses.
+
+**NEXT SMALLEST MOVE:** Write down the size limit for your target hardware as a number (MB or params). If 13.4M fits, take V=16384 as-is. If not, run Alternative A against that limit.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">## Verdict: **split.** Use 16,384 unless the hardware has a hard limit around 10 MB
+
+With model size weighted as high as prediction quality, the answer depends on one number you haven't given me: how much memory the target hardware has for the model. Here's how each option scores against your criteria.
+
+### 1. Prediction quality (HIGH): 16,384 wins
+
+16,384 is about 0.5% better (char-norm 0.49507 vs 0.49773), and the gap passes the project's 3σ threshold for a firm result. Its results also vary less between seeds. On this criterion alone you'd pivot.
+
+### 2. Model size (HIGH): 8,192 wins by about 30%
+
+The transformer body is the same in both, about 7.18M parameters. All of the difference is the embedding table (shared between input and output).
+
+| V | Total params | fp16 | int8 | Compute per byte vs 8,192 |
+|---|---|---|---|---|
+| 8192 | 10.33M | 20.7 MB | 10.3 MB | 1.00× |
+| 12288 *(not tested at 50 MB)* | 11.90M | 23.8 MB | 11.9 MB | ~1.12× |
+| 16384 | 13.47M | 26.9 MB | 13.5 MB | ~1.25× |
+
+Whether a 3 MB difference (at int8) matters depends on the device class:
+- **Anything with an OS** (phone, Raspberry Pi, old laptop): it doesn't matter. Both fit easily, and the extra compute is negligible at this size. **Pivot.**
+- **Microcontrollers** with about 8–16 MB of flash or external RAM (e.g. ESP32-S3): this is the size range where 10.3 MB fits and 13.5 MB may not. **Stay on 8,192**, or try one of the cheaper options below.
+
+### 3. Training cost (MEDIUM): roughly a wash, but not measured
+
+- Each step costs about 30% more compute, mostly from the larger output layer.
+- 16,384 reaches its best checkpoint sooner: about 34.8K steps vs 41.5K on average (16% fewer). If you stop at the best checkpoint, total compute is only about **+9%**. With F81's fixed 48K steps, it's about +30%.
+- Actual training speed is unknown. One earlier sweep (noted in TP-65) clocked V=16384 at 62.5 s/1k steps against 25–28 at smaller vocabs, and nobody worked out whether that was real. This isn't enough to decide on.
+
+### 4. Effort (LOW): small for either
+
+The F81 checkpoints and tokenizers aren't on this machine (`outputs/sweep_t65_mission_10M` and `data/tokenizers_ts55k` don't exist here). Pivoting means copying them from wherever the GPU run happened, or rebuilding the 16,384 tokenizer. It's a minor task either way.
+
+### What I'd do
+
+1. **Pin down the hardware memory budget.** This decides the question.
+2. **If the target can run an OS:** standardize on **16,384**.
+3. **If it's microcontroller-class, don't settle on 8,192 yet.** Two cheap options might get most of the quality gain without most of the size cost:
+   - **V=12288.** It's the untested middle point at 50 MB, and the best vocab could be anywhere between about 12K and 20K. `tools/slice_bpe_tokenizer.py` can derive it exactly from the 16,384 tokenizer without retraining. Three seeds at 48K steps is about 1.1 GPU-hours.
+   - **Store only the embedding table at int4.** That shrinks the 16,384 table from 6.3 MB to 3.1 MB (at int8) without changing the vocab. Whether it hurts quality hasn't been tested.
+
+If you tell me the device or its memory budget, I can give you a final stay-or-pivot answer.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">With these criteria I'd switch to **16,384**, unless your target hardware has a hard memory cap that falls between the two model sizes.
+
+**1. Prediction quality (HIGH): 16,384 wins.** It scores about 0.5% better on char-norm, and that gap clears the project's 3σ bar. Its results are also the most consistent across seeds. The gain is small but real, and as the corpus grows it should widen rather than shrink.
+
+**2. Model size (HIGH): probably not a deciding factor.**
+
+| | Params | fp32 | fp16 | int8 |
+|---|---|---|---|---|
+| V=8192 | 10.33M | 41 MB | 21 MB | 10 MB |
+| V=16384 | 13.47M | 54 MB | 27 MB | 13.5 MB |
+
+On anything with tens of megabytes of RAM to spare (a phone, a Raspberry Pi, any cheap CPU), both fit easily. Size only decides this if the device has a ceiling that 10.3M fits under and 13.5M doesn't, which would mean a microcontroller-class device. The part that does grow is speed: I estimate about 25% more inference compute per byte of text, because the output layer is twice as wide. That matters only if latency on the device is tight.
+
+**3. Training cost (MEDIUM): a little higher.** This is my estimate from parameter counts, not measured wall-clock time:
+- Each training step costs about 1.3× as much.
+- But 16,384 reached its best validation score about 16% sooner (around 34.8k steps on average vs about 41.5k).
+- If you stop training at the best score, total cost is roughly 1.1×. If you always run a fixed 48k steps, it's 1.3×.
+- At this model size the GPU time is small either way.
+
+**4. Effort (LOW): no difference.** Both vocab sizes are already trained and measured.
+
+**Recommendation:** go with 16,384. It wins on the criterion you ranked highest, ties or costs very little on the other three, and is the safer choice if you add data later. Pick 8,192 only if you name a specific device whose memory or latency limit rules out 13.5M parameters. In that case, record the reason as &quot;hardware cap&quot; rather than &quot;smaller,&quot; along with the 0.5% quality cost.
+
+What's the target hardware? If it's an MCU or something with a known RAM limit, I can check the fit, including activations, rather than going by parameter count alone.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>Haiku (Claude Code): ✓ command, ✓ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Criteria (fixed)
+
+1. **Prediction quality (HIGH)**
+2. **Model size (HIGH):** must stay small enough for cheap hardware
+3. **Training cost (MEDIUM)**
+4. **Effort (LOW)**
+
+Criteria chosen by the user, so this run is not labeled &quot;criteria chosen by the model.&quot;
+
+## Step 2 - Alternatives
+
+Both alternatives keep V=16384, the measured argmin, and change the architecture. Neither is a vocab constant swap.
+
+**ALT-1: Factorized embedding at V=16384**
+- **CORE DIFFERENCE:** The embedding becomes a rank-128 bottleneck (V×128 plus 128×384), so the vocab can be 16384 without a 384-wide table.
+- **SKELETON:**
+```
+# model.py: factorized, tied embedding (r = 128)
+tok_emb  = Embedding(16384, 128)        # 2,097,152 params
+proj_in  = Linear(128, 384, bias=False) #    49,152 params
+blocks   = [Block(d=384, heads=12)] * 4 # unchanged, 7,183,104 params
+ln_f     = LayerNorm(384)
+
+def forward(idx):
+    h = proj_in(tok_emb(idx))           # embed -&gt; d=384
+    h = blocks(h); h = ln_f(h)
+    return h @ proj_in.weight @ tok_emb.weight.T   # tied output head, factorized
+
+# train: unchanged protocol (byte-normalized batch=7, lr=1.984e-4, 48000 steps)
+# eval:  char-norm per byte, same 50 MB val split as F81
+```
+- **BUYS / COSTS:** Buys the measured-best vocab at about 9.33M total, under the 10.33M baseline. Costs an untested bottleneck that could cost quality, and new model code with tests.
+
+**ALT-2: V=16384 at a narrower width, same total budget**
+- **CORE DIFFERENCE:** Hold the total at about 10.3M by shrinking the transformer width at V=16384, moving parameters from blocks to the vocab.
+- **SKELETON:**
+```
+# config only, existing model.py
+vocab_size = 16384
+d_model    = 320          # n_heads = 10 (head_dim 32)
+n_layers   = 4
+seq_len    = 256
+# params ≈ 16384*320 (5.24M embed) + 4 blocks at d=320 (~5.0M) ≈ 10.3M
+# count with model.num_params() before any run; the 5.0M is an estimate
+
+# train: byte-normalized batch=7, lr=1.984e-4, 48000 steps
+# eval:  char-norm per byte, same 50 MB val split as F81
+```
+- **BUYS / COSTS:** Buys the best vocab at the same nominal 10M size with no new code. Costs a 17% narrower transformer, which the README already calls starved, and a width change that F26/F27 show shifts the regime.
+
+## Step 3 - Score
+
+**EXPECTED CASE**
+
+| Option | Prediction quality (HIGH) | Model size (HIGH) | Training cost (MED) | Effort (LOW) |
+|---|---|---|---|---|
+| **Current: V=8192, d=384** | ADEQUATE: FIRM 0.0027 worse than the 16384 argmin, within the basin | STRONG: 10.33M, the stated 10M | STRONG: measured about 1.1 GPU-h per 3-seed point | STRONG: no change |
+| **ALT-1: factorized V=16384** | ADEQUATE: best vocab, but the bottleneck is unmeasured | STRONG: about 9.33M, under current | ADEQUATE: factorized head is cheaper, unmeasured | WEAK: new model path, tests, new sweep |
+| **ALT-2: V=16384, d≈320** | WEAK: expected to lose capacity from the already-starved blocks (inference) | STRONG: about 10.3M | ADEQUATE: smaller blocks, same logits width | ADEQUATE: config change, but needs a sweep to check |
+
+**Fairness check:** triggered. The current approach is at least as strong as every alternative on both HIGH criteria, so I added a charitable table.
+
+**CHARITABLE CASE** (each option at its best defensible case)
+
+| Option | Prediction quality (HIGH) | Model size (HIGH) | Training cost (MED) | Effort (LOW) |
+|---|---|---|---|---|
+| **Current: V=8192, d=384** | ADEQUATE: its measured value is already its best case | STRONG | STRONG | STRONG |
+| **ALT-1: factorized V=16384** | STRONG: rank 128 costs nothing and gets the 16384 argmin | STRONG | ADEQUATE | WEAK |
+| **ALT-2: V=16384, d≈320** | ADEQUATE: width may not be the bottleneck at this data scale (F27) | STRONG | ADEQUATE | ADEQUATE |
+
+## Step 4 - Verdict
+
+- **VERDICT:** SPLIT
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** FACT for the V=8192 and V=16384 numbers (F81). INFERENCE for every ALT-1 and ALT-2 score.
+- **REASONING:** On prediction quality, the current 8192 is FIRM-worse than the measured argmin, and the only option that could close that gap is ALT-1. ALT-1 is also under the current size, so it is at least as good on size. The ALT-1 win on quality rests only on the charitable case, since nothing has been measured for the factorized bottleneck. ALT-2 is weaker on quality in expectation and offers no size advantage over the current. The current approach's cost advantage (training and effort) is real and measured, so the call turns on whether factorization costs quality.
+
+**SPLIT:**
+- **Experiment:** Train ALT-1 (V=16384, r=128, d=384) on the existing 50 MB tokenizer and protocol, 3 seeds. Compare it to F81's V=8192 and V=16384 cells.
+- **Cost:** About 1.1 GPU-h for 3 seeds (TP-65's per-point estimate), plus a small `model.py` change.
+- **Also worth knowing:** At 10.33M the current model is already slightly above a strict &quot;10M&quot; label, while ALT-1 is clearly under. Whether 10.33M counts as &quot;small enough&quot; is your call, and it matters for this decision.
+
+Ending with the one bounded action:
+
+**NEXT SMALLEST MOVE:** With your go-ahead, count the parameters of the factorized V=16384 config (a few lines, no training, no GPU) to confirm the 9.33M figure before any GPU spend. I have not edited anything.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">I'll check the step-time evidence for 8192 vs 16384 before scoring the training-cost criterion.
+**Verdict: stay on 8192.** Your criteria tilt the decision, and it lands on the option the project already uses. My earlier &quot;split&quot; was a hedge that no longer holds under these weights.
+
+| Criterion (weight) | 8192 | 16384 | Edge |
+|---|---|---|---|
+| Prediction quality (HIGH) | 0.49773 nats/byte | 0.49507, about 0.5% better, FIRM at n=3 but a secondary contrast | 16384, small |
+| Model size (HIGH) | 10.33M total | 13.47M total (+30%) | 8192, clear on the 10M target |
+| Training cost (MEDIUM) | 25–28 s/1k steps at V≤12288 | 62.5 s/1k in one sweep, not separated from run conditions; likely slower from the larger softmax and extra params | 8192, probable but unmeasured at matched conditions |
+| Effort (LOW) | Used as the 10M reference throughout the findings and memory | Both tokenizers exist for the 50 MB corpus; switching means restating the reference everywhere | 8192, marginal |
+
+**Why it lands here:** Prediction favours 16384, but only by about 0.5% and only on a secondary contrast. Size is an equal-weight criterion, and 16384 breaks the 10M target by 30%. The two tilted criteria, training cost and effort, both point to 8192. Nothing on the 16384 side is large enough to outweigh that.
+
+**What would flip it:** A stated size ceiling of about 13.5M, or a param-matched run showing 16384 beats 8192 at equal total parameters (body shrunk to about 10.3M). The second is the only evidence that would change the prediction side. It needs GPU time, so I have not run it.
+
+**Record:** If you want it written down, the entry should be a proposed D-entry in `DECISIONS.md`, marked `[imagined]`. It would say 8192 is the standard for the 10M budget, that the choice is constrained by size rather than by the vocab optimum, and that F81 supports the trade-off. Promotion stays yours. I have not edited any files.</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">**Recommendation: keep V=16384 and shrink the body to d=320 (10 heads, head_dim 32).** This is the only option that scores high on both prediction quality and size.
+
+I computed parameter counts from the formula in `src/model.py`: body ≈ 12·L·d², embedding ≈ (V+256)·d with tied weights, L=4.
+
+| Option | Params | Quality (F81) | Size | Training cost | Effort |
+|---|---|---|---|---|---|
+| A. V=8192, d=384 (current plan) | ~10.3M | Gap of 0.00266 char-norm vs 16384, FIRM | Meets | Baseline | None |
+| B. V=16384, d=384 | ~13.4M | Best measured (argmin) | Misses by ~30% | Baseline | None |
+| **C. V=16384, d=320** | **~10.2M** | Untested | Meets | Lower (body ~31% smaller) | One sweep |
+
+Option C scores best on your two HIGH criteria, and its training cost is lower than the baseline. The only real cost is effort: one sweep to check that shrinking the body doesn't erase the 16384 advantage.
+
+**The sweep:** three seeds of V=16384 at d=320, compared against the existing F81 d=384 V=16384 cells, with the same protocol (byte-normalized batch, 48k steps, 50 MB corpus). I estimate about 2 GPU-hours from F81's ~0.6 GPU-h per cell. I haven't run it yet, and I haven't checked the exact `run_sweep` flags for vocab selection.
+
+**Decision rules:**
+- **d=320 at 16384 is within noise of the d=384 baseline:** lock option C.
+- **d=320 is clearly worse:** size is a hard constraint, so go with 8192 at d=384 and record the quality cost in DECISIONS.md. If size is only a soft target, use option B.
+
+Shall I launch the three-seed d=320 sweep? Once you approve, I'll check the flags first. I won't add a DECISIONS.md entry until the result is in, since D-10 is user-only.</pre></div>
+      </div>
+    </details>
+  </div>
+  <p class="note">For each mark that occurs, the replies shown are the first model's in the order above that got it, with its other two versions beside them, each as its final reply. No reply is picked by hand. The copy's folder path is shortened to &lt;copy&gt; and a home folder to &lt;home&gt;; where a reply quoted something private, the words are replaced and marked [removed] or [withheld].</p>
+</section>
+
+<section class="card" id="more" aria-labelledby="more-h">
+  <div class="card-head"><h2 id="more-h">The other repos in this test</h2></div>
+  <ul class="scope">
+    <li><a href="sibling-site-drift-lab.html">sibling-site-drift-lab</a>: a lab testing whether a checking routine stops AI agents leaving related files out of date.</li>
+    <li><a href="espalier-harness.html">espalier-harness</a>: my Claude Code harness. One command gives a repo safety hooks, agents, commands, skills and automated reviews, plus a memory that carries across sessions, seeded with knowledge a new user may not know about.</li>
+    <li><a href="role-aware-dashboard-toolkit.html">role-aware-dashboard-toolkit</a>: my toolkit for dashboards where what you see depends on your role, with a real auth layer: verified sign-in through your own provider, tied to roles the server grants.</li>
+    <li><a href="social-media-engine.html">A social media orchestration engine</a>: my harness that automates AI social media accounts and drafts posts for my personal, manually curated pages.</li>
+    <li><a href="specdec-sidechannels.html">specdec-sidechannels</a>: my research on whether untapped signals from the device itself, like which parts of the model each word touched in memory, can speed up speculative decoding (a small model drafts the next words, a big model checks them).</li>
+  </ul>
+</section>
+
+<p class="colophon">Questions, evidence and marking written 13 Oct 2026, before any run; later changes are dated on this page. The wording was edited for readers on 16 Oct 2026, after the runs; no question, answer or mark changed. Part of the free-public-tools test series.</p>
+
+</main>

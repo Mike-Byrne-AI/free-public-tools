@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social Media Engine Test Cards</title>
+<style>@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); }</style>
+<link rel="icon" href="data:,">
+<style>
+/* Layout: the free-public-tools look (generator/assets/style.css): parchment graph paper with the red margin line,
+   always light like the site. Every block is a notecard; a parchment wash around each card fades the grid as it
+   meets the card. No pen labels or speech bubbles here. */
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --focus: #1f5fd6;
+  --good: #2f7d32;
+  --bad: #c8372a;
+  --tough: #6a4c9c;
+  --none: #8a6d1e;
+  --dot: #0a8a73;
+  --cut: #f6e2da;
+  --radius: 14px;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --label: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* the red margin line of writing paper, near the screen's left edge */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+.wrap { max-width: 48rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 3.25rem; }
+@media (max-width: 900px) { .wrap { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+
+h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.55rem); }
+h3 { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; font-variant-ligatures: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* a notecard: the parchment wash around it fades the grid where the grid meets the card */
+.card, .masthead {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem clamp(1rem, 4vw, 1.9rem) 1.6rem; display: grid; gap: 1.1rem; min-width: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .05), 0 8px 22px rgb(0 0 0 / .06), 0 0 22px 12px var(--wash);
+}
+.masthead { background: var(--wash); border-color: transparent; box-shadow: 0 0 26px 18px var(--wash); gap: .9rem; }
+/* the index card's ruled header line */
+.card-head { display: grid; gap: .45rem; padding-bottom: .8rem; border-bottom: 2px solid var(--margin); }
+
+.series { font: 700 .95rem/1.2 var(--label); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+.draft { justify-self: start; font-size: .8rem; font-weight: 600; color: var(--muted); border: 1px dashed var(--border); border-radius: 999px; padding: 2px 10px; background: var(--surface); }
+.lede { font-size: 1.08rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 0; padding-top: .8rem; border-top: 1px solid var(--border); }
+.facts div { display: grid; gap: .05rem; }
+.facts dt { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.block { display: grid; gap: .65rem; min-width: 0; }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: .7rem; }
+.kind { display: grid; gap: .3rem; padding: .8rem .95rem; border: 1px solid var(--border); border-radius: 10px; background: var(--code-bg); min-width: 0; }
+.kind strong { display: flex; align-items: center; gap: .5rem; }
+.swatch { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+.sw-good { background: var(--good); }
+.sw-bad { background: var(--bad); }
+.sw-tough { background: var(--tough); }
+
+.versions { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.versions li { display: grid; grid-template-columns: 8.5rem 1fr; gap: .25rem 1rem; align-items: baseline; }
+.versions li > span { font-weight: 600; }
+.versions code { display: block; padding: .45rem .6rem; border-radius: 8px; }
+.copy-btn { display: block; margin-top: .4rem; padding: .2rem .7rem; font: 600 .78rem/1.4 var(--sans); color: var(--accent); background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+@media (max-width: 34rem) { .versions li { grid-template-columns: 1fr; } }
+
+.models { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+.models li { border: 1px solid var(--border); border-radius: 999px; padding: .15rem .7rem; font-size: .9rem; background: var(--code-bg); }
+.models li b { font-weight: 600; color: var(--muted); }
+
+.marks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.marks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+.marks li > div { min-width: 0; }
+.mark { font-weight: 700; font-size: 1.1rem; line-height: 1.45; text-align: center; }
+.m-right { color: var(--good); }
+.m-wrong { color: var(--bad); }
+.m-none { color: var(--none); }
+.marks em { font-style: normal; font-weight: 600; }
+
+.gloss { display: grid; grid-template-columns: 7.5rem 1fr; gap: .55rem 1.2rem; margin: 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; min-width: 0; }
+@media (max-width: 34rem) { .gloss { grid-template-columns: 1fr; gap: .1rem; } .gloss dd { margin-bottom: .5rem; } }
+
+.chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.chip .id { font: 700 .8rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+/* a question's card: its kind is the heading, with the colour block; the plan or decision is the line under it */
+.kind-h { display: flex; align-items: center; gap: .55rem; }
+.kind-h .swatch { width: 1.05rem; height: 1.05rem; border-radius: 3px; }
+.kind-h .id { font: 700 .95rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+.plan { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+.plan .k { font: 700 .76rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.analogy { display: grid; gap: .3rem; padding: .8rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.analogy .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+.prompt { display: grid; gap: .6rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; font: .9rem/1.55 var(--mono); font-variant-ligatures: none; overflow-wrap: anywhere; }
+.prompt .k { font: 700 .72rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prompt ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .3rem; }
+
+.evidence { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.evidence li { display: grid; gap: .2rem; padding-left: .9rem; border-left: 2px solid var(--border); min-width: 0; }
+.evidence q { font: .86rem/1.5 var(--mono); quotes: none; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.evidence .src { font: .76rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .93rem; }
+th, td { text-align: right; padding: .4rem .7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+/* the test's results table: its row labels wrap and its cells are a little tighter, so it fits the card without a
+   sideways scroll on a computer */
+.results th, .results td { padding-inline: .55rem; }
+.results th[scope=row] { white-space: normal; }
+thead th { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+caption { caption-side: bottom; text-align: left; padding-top: .45rem; font: .76rem/1.4 var(--mono); color: var(--muted); }
+
+figure { margin: 0; display: grid; gap: .5rem; }
+figcaption { font-size: .92rem; color: var(--muted); }
+.chart svg { display: block; width: 100%; min-width: 32rem; height: auto; }
+.chart .zone { fill: var(--cut); }
+.chart .cutline { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .guide { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 13px; }
+.chart .strong { fill: var(--text); font-weight: 600; }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .7rem; }
+.side { display: grid; gap: .45rem; padding: .85rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.side h4 { margin: 0; font-size: 1.1rem; }
+.side dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: .3rem .75rem; font-variant-numeric: tabular-nums; }
+.side dt { color: var(--muted); }
+.side dd { margin: 0; text-align: right; font-weight: 600; }
+
+.voice { margin: 0; display: grid; gap: .55rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; }
+.voice p { font-size: 1.04rem; }
+.voice footer { font-size: .85rem; color: var(--muted); }
+
+.note { font-size: .93rem; color: var(--muted); }
+.note strong { color: var(--text); }
+.scope { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.scope li { padding-left: .9rem; border-left: 2px solid var(--border); }
+.pending { border-style: dashed; box-shadow: 0 0 22px 12px var(--wash); }
+.colophon { justify-self: center; font-size: .85rem; color: var(--muted); background: var(--wash); box-shadow: 0 0 16px 10px var(--wash); padding: .2rem .6rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* linked sources, the time-limit chart, side-by-side code and lists */
+.evidence a.src, .side a.src { font: .76rem/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.chart .limit { stroke: var(--text); stroke-width: 1.5; }
+.chart .val { fill: var(--text); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.side code { display: block; white-space: pre-wrap; padding: .5rem .6rem; border-radius: 8px; font-size: .8rem; background: var(--surface); }
+.side { align-content: start; }
+.side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; align-content: start; }
+/* results: the mark grids (tools/card-results.mjs) and the replies */
+.grids { display: grid; gap: 1.2rem; margin-top: .6rem; }
+.marks-grid caption { caption-side: top; padding: 0 0 .4rem; font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--text); }
+.marks-grid td, .marks-grid th[scope="col"] { text-align: center; }
+.marks-grid th[scope="row"] { text-align: left; font-weight: 600; }
+.marks-grid .where { display: block; font-size: .72rem; font-weight: 400; color: var(--muted); }
+.marks-grid .total th, .marks-grid .total td { font-weight: 700; border-top: 2px solid var(--border); }
+.marks-grid sup { color: var(--muted); }
+h3 .qkind { margin-left: .4rem; color: var(--muted); }
+.replies { margin-top: .8rem; }
+.replies summary { cursor: pointer; font-weight: 600; }
+.reply-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+.reply-cols h4 { margin: 0 0 .3rem; font-size: .95rem; }
+pre.reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.45 var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem; max-height: 32rem; overflow: auto; }
+</style>
+
+<main class="wrap">
+
+<header class="masthead">
+  <p class="series">Free-public-tools · Decision-challenge test</p>
+  <h1>Social media engine test cards</h1>
+  <p class="lede">Three questions from a social media orchestration engine I'm building, each put to seven AI models three ways. Each card shows the exact words the models get, the lines in the repo that decide the answer, and how each reply is marked. It was all written before any model answered, except the changes dated in the notes on this page.</p>
+  <dl class="facts">
+    <div><dt>Repo</dt><dd>Social media orchestration engine</dd></div>
+    <div><dt>Snapshots</dt><dd>10 Aug, 7 and 10 Oct 2026</dd></div>
+    <div><dt>Questions</dt><dd>3</dd></div>
+    <div><dt>Status</dt><dd>Run and marked, 14 Oct 2026</dd></div>
+  </dl>
+</header>
+
+<section class="card" id="how" aria-labelledby="how-h">
+  <div class="card-head"><h2 id="how-h">How the test works</h2></div>
+
+  <div class="block">
+    <h3>Three kinds of question</h3>
+    <div class="kinds">
+      <div class="kind"><strong><span class="swatch sw-good" aria-hidden="true"></span>Good plan</strong><p>The repo's own files back the plan. The right reply is yes, go ahead.</p></div>
+      <div class="kind"><strong><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan</strong><p>The repo's own files sink the plan. The right reply is no, with the reason.</p></div>
+      <div class="kind"><strong><span class="swatch sw-tough" aria-hidden="true"></span>Tough call</strong><p>All the facts are in the repo and both choices hold up. The right reply says it's close and helps you weigh it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three versions of every question</h3>
+    <p>Each model gets each question three times, in a fresh session each time. Only the first message changes.</p>
+    <ul class="versions">
+      <li><span>Plain request</span><code>Challenge this decision before we lock it in: [decision].</code></li>
+      <li><span>Short prompt<button type="button" class="copy-btn" data-copy>Copy</button></span><code>Challenge this decision before we lock it in: [decision]. Read the project files it depends on, and end with a verdict: stay, pivot or split.</code></li>
+      <li><span>The command</span><code>/decision-challenge [decision]</code></li>
+    </ul>
+    <p>Then every version gets the same <strong>second message</strong>: the user's priorities, each marked HIGH, MEDIUM or LOW, ending with "Go on." The reply that's marked is the AI's answer to that second message.</p>
+    <p class="note"><strong>What that second message means.</strong> In real use, nobody sends their priorities to a plain request unless it asks for them; only the command asks. So this test compares how the three versions reason when they get the same information, which is generous to the two without the command. As a second reading, decided after the runs, I also marked the first reply of those two versions on its own, where a real conversation would usually stop.</p>
+    <script>
+    // Copy: the prompt exactly as shown beside the button; the clipboard, else the older copy command, else the text selected
+    for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+      const code = b.closest('li').querySelector('code'), say = (t) => { b.textContent = t; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      try { await navigator.clipboard.writeText(code.textContent); return say('Copied'); } catch (e) {}
+      const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { if (document.execCommand('copy')) return say('Copied'); } catch (e) {}
+      say('Selected: copy it');
+    });
+    </script>
+    <p class="note"><strong>Why a short-prompt version?</strong> It asks for two of the command's moves, reading the files and ending with a verdict, in a prompt anyone can type. If it does as well as the command, the results say so, and you can use the prompt.</p>
+  </div>
+
+  <div class="block">
+    <h3>Seven models, one run each</h3>
+    <ul class="models">
+      <li><b>Claude Code</b> Opus</li>
+      <li><b>Claude Code</b> Sonnet</li>
+      <li><b>Claude Code</b> Haiku</li>
+      <li><b>Copilot</b> GPT-5 mini</li>
+      <li><b>Copilot</b> GPT-6 Luna</li>
+      <li><b>Copilot</b> MAI-Code 1.1 Flash</li>
+      <li><b>Copilot</b> Gemini 3.8 Flash</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How a reply is marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right call.</em> What counts is written on each card.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong call.</em> The wrong side, or treating a settled question as open, or an open one as settled.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call.</em> No verdict, or pros and cons with no help deciding.</div></li>
+    </ul>
+    <p>A few rules hold on every card. On a Bad plan, a ✓ needs the real reason, not a general warning. On a Good or Bad plan, a middle way or "run a test first" is ✗ when the files already settle it. On a Tough call, a lean either way can earn ✓, and so can a middle way argued as a trade. Each turn has a 30-minute limit; a reply cut off by it is marked on what it had said by then.</p>
+  </div>
+
+  <div class="block">
+    <h3>Who marks the replies</h3>
+    <p>Two AI models mark every reply, each on its own: Claude Sonnet and GPT-6 Luna. They aren't told which version or model wrote it, but what the user typed shows the version, and the agent's tool-call style can show whether it ran in Claude Code or Copilot. Where they disagree, Claude Opus decides, also without being told. I marked 15 Tough-call replies myself, shuffled and without names, starting with ones the two markers disagreed on.</p>
+  </div>
+</section>
+
+<section class="card" id="repo-social" aria-labelledby="repo-social-h">
+  <div class="card-head"><h2 id="repo-social-h">The repo: a social media orchestration engine</h2></div>
+  <p>An engine I'm building that drafts social media posts with a free AI model, ranks them, and queues them for me to review, across several pages that are clearly labelled as AI-made.</p>
+  <p>The project is ongoing and planned for future release, so each card quotes the lines that decide its question.</p>
+  <div class="block">
+    <h3>Words you'll see</h3>
+    <dl class="gloss">
+      <dt>AI call</dt><dd>One request to an AI model, such as "write three drafts on this topic".</dd>
+      <dt>Provider</dt><dd>The company whose AI model answers. The backup provider is the one tried when the first fails.</dd>
+      <dt>Run</dt><dd>One pass of the engine: read a topic, draft posts, rank them, queue them for review.</dd>
+      <dt>Publish mode</dt><dd>One word in a settings file that says what to do with a post: "mock" (pretend), "review_required" (wait for me) or "live" (really post).</dd>
+      <dt>Page</dt><dd>One social media account the engine writes for, each with its own topic.</dd>
+      <dt>AI label</dt><dd>The line on every post that says it was made with AI.</dd>
+    </dl>
+  </div>
+</section>
+
+<article class="card" id="s1" aria-labelledby="s1-h s1-t">
+  <div class="card-head">
+    <h2 id="s1-h" class="kind-h"><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan <span class="id">S1</span></h2>
+    <p class="plan" id="s1-t"><span class="k">The plan:</span> Limit every AI call to 5 seconds</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The engine asks an AI model to write each batch of drafts. The plan adds a 5-second time limit to every AI call, so a slow or stuck provider can't hang a scheduled run.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a bad plan</h3>
+    <p>The engine's own files settle it, with a little arithmetic. One day's usage file shows 4 AI calls taking 36.7 seconds in all, about 9 seconds each. That day's run made 3 of those calls and lasted 29.5 seconds, so the fourth, a test call that asks for the single word "ok", took at least 7 seconds by itself. A 5-second limit would cut off nearly every call. Retries hit the same limit, and the backup provider has no key, so every run would end with no drafts. After a second empty run, the topic is set aside as an error.</p>
+    <div class="scroll">
+      <table>
+        <caption>state/provider_usage.json:2–7; state/run_history.json:8–9; docs/RUNBOOK_REPAIRS.md:621</caption>
+        <thead><tr><th scope="col">4 Oct 2026</th><th scope="col">Seconds</th></tr></thead>
+        <tbody>
+          <tr><td>All 4 AI calls that day</td><td>36.7</td></tr>
+          <tr><td>Average per call</td><td>9.2</td></tr>
+          <tr><td>The run, with its 3 drafting calls</td><td>29.5</td></tr>
+          <tr><td>So the one-word test call took at least</td><td>7.2</td></tr>
+          <tr><td>The plan's limit</td><td>5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note"><strong>Not from the repo:</strong> the average and the test call's minimum are arithmetic on the repo's numbers (36.7 ÷ 4, and 36.7 − 29.5).</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A bakery's oven takes about 9 minutes per batch. Worried about a stuck oven, someone sets an alarm that pulls every batch out at 5 minutes. Every batch comes out raw. Trying again pulls it at 5 minutes too, and the backup oven isn't plugged in. The bakery opens with nothing to sell.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Add a 5-second time limit to every AI model call, so a slow or stuck provider can never hang the scheduled run.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Every scheduled run still ends with drafts to review; a day with no drafts is a lost day (HIGH).</li>
+        <li>A slow or stuck call must not freeze the run (MEDIUM).</li>
+        <li>Stay on the free AI tier (MEDIUM).</li>
+        <li>Keep it to one setting (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <ul class="evidence">
+      <li><q>"date": "2026-10-04", … "count": 4, … "total_latency_ms": 36701.117753982544</q><span class="src">state/provider_usage.json:2, 5, 7</span><span>4 AI calls that day, 36.7 seconds in all.</span></li>
+      <li><q>"started_at": "2026-10-04T07:28:04.163414Z", "ended_at": "2026-10-04T07:28:33.620380Z"</q><span class="src">state/run_history.json:8–9</span><span>That day's run lasted 29.5 seconds.</span></li>
+      <li><q>the self-test reported ok … One run: 3 Gemini calls</q><span class="src">docs/RUNBOOK_REPAIRS.md:621</span><span>The 4 calls were one test call plus the run's 3 drafting calls.</span></li>
+      <li><q>_SELF_TEST_USER = "Reply with the single word: ok"</q><span class="src">tools/llm_router.py:488</span><span>The test call asks for just one word. A drafting call asks for whole posts.</span></li>
+      <li><q>"max_retries_per_call": 2, "retry_delay_seconds": 3</q><span class="src">config/providers.json:184–185</span><span>A failed call is tried again, against the same limit.</span></li>
+      <li><q>The drafting fallback, mistral, is valid but has no key.</q><span class="src">cc/sharp_edges/inputs_and_drafting.md:211–212</span><span>The backup provider can't answer.</span></li>
+      <li><q>the run ends status: "no_drafts" … for ONE retry; a second no_drafts on the same input quarantines it</q><span class="src">cc/sharp_edges/inputs_and_drafting.md:186–189</span><span>An empty run gets one retry; a second sets the topic aside as an error.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says no, and gives the reason: the engine's own numbers put AI calls at about 7 to 9 seconds each, so a 5-second limit cuts off nearly every call, and retries and the keyless backup can't save the run. "No, set the limit well above the measured times" also counts.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> goes ahead, splits it, or asks to measure first when the repo's numbers already settle it.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> the files give totals, not each call's time, and retries plus the backup provider would catch failures.<br><strong>The counterargument:</strong> even the one-word test call took at least 7 seconds, retries hit the same limit, and the backup has no key.</p>
+  <p class="note"><strong>What I actually did:</strong> nothing. The engine still has no time limit on AI calls.</p>
+</article>
+
+<article class="card" id="s2" aria-labelledby="s2-h s2-t">
+  <div class="card-head">
+    <h2 id="s2-h" class="kind-h"><span class="swatch sw-good" aria-hidden="true"></span>Good plan <span class="id">S2</span></h2>
+    <p class="plan" id="s2-t"><span class="k">The plan:</span> Refuse any publish mode the engine doesn't recognise</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>Before posting, the publisher reads one word from a settings file: "mock", "review_required" or "live". Anything that isn't "mock" goes to the live poster, so a one-letter typo in "review_required" posts publicly. The review step before it lets the typo through too. The plan: refuse any word the publisher doesn't recognise.</p>
+    <div class="scroll">
+      <table>
+        <caption>tools/publisher.py:104; tools/publish_gate.py:57–62</caption>
+        <thead><tr><th scope="col">Word in the settings file</th><th scope="col">What happens</th><th scope="col">With the plan</th></tr></thead>
+        <tbody>
+          <tr><td>mock</td><td>Pretend post</td><td>Pretend post</td></tr>
+          <tr><td>review_required</td><td>Waits for me</td><td>Waits for me</td></tr>
+          <tr><td>live</td><td>Posts for real</td><td>Posts for real</td></tr>
+          <tr><td>A typo, such as review_requird</td><td>Posts for real</td><td>Refused</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a good plan</h3>
+    <p>The README promises nothing goes out without my approval, and a typo breaks that promise. Every post passes through this one spot, and the same function already refuses over-long posts there rather than let the platform reject them. Refusing an unknown word follows that pattern exactly, and it has to be in place before the keys for the first real post go in.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A newspaper's print desk reads one word on each page: "proof", "hold" or "print". Anything that isn't "proof" gets printed, so a smudged "hold" goes to press. The same desk already sends back any page that's too long. The plan: send back anything it can't read, too.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Make the publisher refuse any publish mode it doesn't recognise (anything other than mock, review_required or live) instead of sending it to the live X poster, before we add the X keys for the first real post.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Nothing goes out publicly unless someone deliberately chose live (HIGH).</li>
+        <li>Keep the change small, in the one place every post passes through; leave which settings file decides the mode for later (MEDIUM).</li>
+        <li>The refusal names the bad word and the valid ones (LOW).</li>
+        <li>Effort (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <ul class="evidence">
+      <li><q>X-first publisher with mock, review_required, and live modes.</q><span class="src">tools/publisher.py:2</span><span>Three modes, and only three.</span></li>
+      <li><q>adapter = MockXAdapter() if mode == "mock" else LiveXAdapter()</q><span class="src">tools/publisher.py:104</span><span>Anything that isn't "mock" goes to the live poster.</span></li>
+      <li><q>elif mode == "review_required": … else: packet["gate_status"] = "approved_for_publish"</q><span class="src">tools/publish_gate.py:57–62</span><span>The review step holds only the exact word. Anything else is approved.</span></li>
+      <li><q>Last chokepoint both publish paths cross. … refuse here rather than let the API reject it</q><span class="src">tools/publisher.py:76–78</span><span>The same function already refuses over-long posts at this spot.</span></li>
+      <li><q>Publishing defaults to review_required — nothing goes out without your approval.</q><span class="src">README.md:45–46</span><span>The promise a typo would break.</span></li>
+      <li><q>choices=["mock", "live", "review_required"]</q><span class="src">tools/operator_console.py:103</span><span>The command line checks the word. The settings files are never checked.</span></li>
+      <li><q>Then: mock run → mock approve → keyed LLM run → one live tweet</q><span class="src">MEMORY.md:14</span><span>The next step was a real post.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says go ahead. "Yes, and fix the review step too" also counts.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> says no, says to wait, splits it, or asks for a test first.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> the X keys aren't set yet, so a stray live post would fail anyway.<br><strong>The counterargument:</strong> the next step was one live post, so the guard has to be in place before the keys.</p>
+  <p class="note"><strong>What I actually did:</strong> three weeks later I made exactly this change, with three tests. Its commit says "publisher fails closed: unknown mode refuses, never LiveXAdapter".</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> a fourth priority was added, because the command asks for four to six and, given three, one model stopped to ask for another and gave no verdict.</p>
+</article>
+
+<article class="card" id="s3" aria-labelledby="s3-h s3-t">
+  <div class="card-head">
+    <h2 id="s3-h" class="kind-h"><span class="swatch sw-tough" aria-hidden="true"></span>Tough call <span class="id">S3</span></h2>
+    <p class="plan" id="s3-t"><span class="k">The decision:</span> Sign every AI page with my own name?</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The engine runs several AI content pages, each clearly labelled as AI-made. Should each page carry my own name, so they're all publicly linked to me? Or should they stay apart from my personal profiles?</p>
+  </div>
+
+  <div class="block">
+    <h3>The trade-off</h3>
+    <div class="compare">
+      <div class="side">
+        <h4>For signing</h4>
+        <ul>
+          <li>People trust you less when they find out about AI use later than when you say so up front.</li>
+          <li>Showing effort, and a real person checking, may soften the penalty for the AI label.</li>
+          <li>The platforms can probably link the pages to me anyway.</li>
+        </ul>
+      </div>
+      <div class="side">
+        <h4>Against</h4>
+        <ul>
+          <li>A weak page counts against my professional skill.</li>
+          <li>Musicians and gamers, two of my audiences, are among the most hostile to AI.</li>
+          <li>The checks on quality weren't built yet: 3 of 9 test drafts overstated the facts.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A chef starts a line of frozen meals, made mostly by machine and clearly labelled. Should the boxes carry the chef's name? A name tells shoppers a real person stands behind it, and people trust you less when they find out later than when you tell them up front. But if the early meals are poor, they count against the restaurant too. And some of the chef's regulars dislike factory food on principle.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>From the first post, sign every AI social media page with my own name, so all the pages are publicly linked to me instead of kept apart from my personal profiles.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Readers can see that I, by name, stand behind the pages and check them (HIGH).</li>
+        <li>My name and professional reputation aren't put at risk by these pages (HIGH).</li>
+        <li>Reach per post (MEDIUM).</li>
+        <li>Setup work (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence on both sides</h3>
+    <p class="note">From the repo's own research report (<code>docs/research/reports/AI page identity and reception.md</code>) and its plan (<code>docs/PLAN_TOOLING.md</code>), which lists the question as open: "How the pages connect to you in public, before any page's first post."</p>
+    <ul class="evidence">
+      <li><q>Disclosing beats being exposed. … quietly using AI can trigger the steepest decline in trust if others uncover it later</q><span class="src">report, line 137</span><span>Saying it up front costs less than being found out.</span></li>
+      <li><q>The levers the evidence points to push toward showing a human. One is signalling effort … Separation pushes the other way.</q><span class="src">report, line 205</span><span>The report's own summary pulls both ways.</span></li>
+      <li><q>Meta can probably tie every Page to your real-name profile</q><span class="src">PLAN_TOOLING.md:811</span><span>Keeping them apart may not hold anyway.</span></li>
+      <li><q>The owner's professional peers are therefore likely neutral to positive, while the general public and creative communities, including the owner's musician and writer audiences, impose a legitimacy penalty</q><span class="src">report, line 151</span><span>My audiences split.</span></li>
+      <li><q>Keeping the personal profiles separate limits spillover, but any public link lets the trust penalty transfer, by an amount nobody has measured</q><span class="src">report, line 153</span><span>The case for keeping them apart.</span></li>
+      <li><q>The AI label costs engagement, and a weak page reflects on the owner.</q><span class="src">PLAN_TOOLING.md:952</span><span>A poor page would cost me, not just the page.</span></li>
+      <li><q>3 of 9 KV-cache drafts in the owner's test run overstated the facts</q><span class="src">report, line 175</span><span>Quality wasn't proven yet.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says it's close; names the trade (showing a real person, and disclosing before being found out, against staking a professional name on unproven pages before hostile audiences); names at least one thing it hinges on, such as whether keeping the pages apart can hold at all, whether quality is proven first, or which audience counts most; and either leans one way for a stated reason or says what would settle it.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> treats either side as obvious. "Always disclose, so sign them." "Never risk your name on AI pages."</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> pros and cons with no lean and nothing that would settle it, or no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>What I actually did:</strong> the next morning I chose a seal on every page that links them to me. A few days later it became every post's AI line, "Mike × AI", and my signature on images, "the way a painter signs a canvas". The test doesn't treat that as the right answer; either lean can earn ✓.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the decision said "every AI content page", which some replies read as web pages, and the first priority said "a real person stands behind the pages", which a studio or a pen name also meets. Then the two top priorities stopped pulling against each other. Both now say what I meant: social media pages, and me, by name.</p>
+  <p class="note"><strong>Changed again 14 Oct, after the first counted runs of this question:</strong> all 7 plain-request replies gave the same answer: keep my name off at first and add it once the pages prove their quality. The second priority invited that, because it said my name shouldn't be staked on pages "before they've proven their quality", and waiting meets both top priorities at once. The decision now starts "From the first post", the moment the repo left open, and the second priority no longer names the waiting path. Those 7 runs are set aside and don't count.</p>
+  <blockquote class="voice">
+    <p>I want to be seen not just "admitting" I'm using AI, but proudly declaring it, even when not asked. Maybe I can change a few minds about AI disclosure. It's the same as the espalier-harness co-author with Claude and the Claude custom signature. It says "I know this is a requirement, but I'm doing more than ticking the box. I'm turning the box into a personal signature."</p>
+    <footer>Why I signed them, in my words (spelling fixed).</footer>
+  </blockquote>
+  <p class="note"><strong>Checked again, and kept:</strong> the rebuilt question's 7 plain-request replies all took a middle way again, a different one: my name on each page's profile as its reviewer, not on every post. My rule said a question gets rebuilt if all 7 land on the same side, but it didn't say whether a middle way counts as a side. After seeing both results, I decided it doesn't: a side means go ahead or don't, which is what the rule's odds assume. By that reading the first version would have passed too. The question stays as rebuilt, its runs count, and the other five Tough calls pass either way.</p>
+</article>
+
+<section class="card" id="scope" aria-labelledby="scope-h">
+  <div class="card-head"><h2 id="scope-h">What these numbers do and don't say</h2></div>
+  <ul class="scope">
+    <li>The timings on card S1 come from one day's run: 4 AI calls. The research on card S3 is the repo's own report, and most of its claims about these platforms are marked as inference.</li>
+    <li>The marking scheme was written with the questions, before any run. Where a question or its marking changed later, this page says when and why, and the original words stay on record.</li>
+    <li>A ✓ means a reply made the right call on this question. Eighteen questions across six repos is a small test, and the results are reported that way.</li>
+  </ul>
+</section>
+
+<section class="card" id="copy" aria-labelledby="copy-h">
+  <div class="card-head"><h2 id="copy-h">How the models' copy was made</h2></div>
+  <p>Each card uses the repo as it stood at its own moment, before that question's answer was written down. The same copy goes to every model and every version, and we remove only what's listed here. On every copy, that includes the files AI tools read on their own: <code>CLAUDE.md</code> and the <code>.claude</code> folder.</p>
+  <div class="block">
+    <h3>S1: 10 Oct 2026 (commit <code>7d5700c</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 333 files, with about 41,000 lines of code and 6,900 lines of Markdown.</li>
+      <li>The engine as it stood after its first milestone. Nothing later adds a time limit.</li>
+      <li>Also removed: <code>dashboard/AGENTS.md</code>, instructions for AI agents working on the engine's dashboard.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>S2: 10 Aug 2026 (commit <code>6df5a41</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 772 files, with about 36,000 lines of code and 8,800 lines of Markdown.</li>
+      <li>The commit before the fix.</li>
+      <li>Nothing else removed.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>S3: 7 Oct 2026 (commit <code>d48e501</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 321 files, with about 36,000 lines of code and 7,000 lines of Markdown.</li>
+      <li>The evening before I decided.</li>
+      <li>Also removed: <code>dashboard/AGENTS.md</code>, as for S1.</li>
+    </ul>
+  </div>
+  <p class="note">Lines of code count every line in the copy's code files, tests and any bundled libraries included.</p>
+</section>
+
+<section class="card" id="results" aria-labelledby="results-h">
+  <div class="card-head"><h2 id="results-h">Results</h2></div>
+  <p>Run on 14 Oct 2026, one run per model and version: ✓ right, ✗ wrong, – no call. The first grid is the planned reading, where every version got my priorities. The second is a reading decided after the runs, where the short prompt and the plain request are marked on their first reply, where a real conversation would usually stop; only the command asks for priorities. The command's runs are the same in both grids, marked again for the second, so a few of their marks differ. A mark with * is mine, given without knowing the version or model; my marks count only in the first grid.</p>
+  <div class="block">
+    <h3>S1: Limit every AI call to 5 seconds <span class="qkind">Bad plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>4 of 7</td><td>2 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>4 of 7</td><td>2 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <p class="note">Stopped at the 30-minute limit and marked on what it had said: Haiku (plain request).</p>
+
+  </div>
+  <div class="block">
+    <h3>S2: Refuse any publish mode the engine doesn't recognise <span class="qkind">Good plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>7 of 7</td><td>7 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>6 of 7</td><td>6 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+
+  </div>
+  <div class="block">
+    <h3>S3: Sign every AI page with my own name? <span class="qkind">Tough call</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td><td><span class="mark m-none" aria-label="no call, marked by me">–</span><sup>*</sup></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>5 of 7</td><td>5 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>4 of 7</td><td>0 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+
+  </div>
+  <p class="note">This project is private, and its answers discuss my unpublished plans in detail, so this card shows the marks but not the answers.</p>
+</section>
+
+<section class="card" id="more" aria-labelledby="more-h">
+  <div class="card-head"><h2 id="more-h">The other repos in this test</h2></div>
+  <ul class="scope">
+    <li><a href="tokenizer-lab.html">tokenizer-lab</a>: a lab measuring how vocabulary size changes small language models.</li>
+    <li><a href="sibling-site-drift-lab.html">sibling-site-drift-lab</a>: a lab testing whether a checking routine stops AI agents leaving related files out of date.</li>
+    <li><a href="espalier-harness.html">espalier-harness</a>: my Claude Code harness. One command gives a repo safety hooks, agents, commands, skills and automated reviews, plus a memory that carries across sessions, seeded with knowledge a new user may not know about.</li>
+    <li><a href="role-aware-dashboard-toolkit.html">role-aware-dashboard-toolkit</a>: my toolkit for dashboards where what you see depends on your role, with a real auth layer: verified sign-in through your own provider, tied to roles the server grants.</li>
+    <li><a href="specdec-sidechannels.html">specdec-sidechannels</a>: my research on whether untapped signals from the device itself, like which parts of the model each word touched in memory, can speed up speculative decoding (a small model drafts the next words, a big model checks them).</li>
+  </ul>
+</section>
+
+<p class="colophon">Questions, evidence and marking written 14 Oct 2026, before any run; later changes are dated on this page. The wording was edited for readers on 16 Oct 2026, after the runs; no question, answer or mark changed. Part of the free-public-tools test series.</p>
+
+</main>

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "checks": [
+    {
+      "id": "claude-md",
+      "description": "CLAUDE.md stays short enough to read in full every session.",
+      "path": "CLAUDE.md",
+      "required": false,
+      "maxLines": 200
+    },
+    {
+      "id": "claude-skills",
+      "description": "Each skill has a kebab-case name equal to its folder and a real description.",
+      "dir": ".claude/skills",
+      "match": "*/SKILL.md",
+      "maxLines": 500,
+      "nameMatchesDirectory": "name",
+      "uniqueBy": "name",
+      "frontmatter": {
+        "fields": {
+          "name": { "required": true, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 64 },
+          "description": { "required": true, "minLength": 20, "maxLength": 1024 }
+        }
+      }
+    },
+    {
+      "id": "claude-agents",
+      "description": "Each subagent file has a name and a specific description.",
+      "dir": ".claude/agents",
+      "match": "*.md",
+      "frontmatter": {
+        "fields": {
+          "name": { "required": true, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "description": { "required": true, "minLength": 20 }
+        }
+      }
+    }
+  ]
+}

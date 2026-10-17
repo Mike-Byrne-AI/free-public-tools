@@ -1,0 +1,5 @@
+Install the agent-assets-lint tool from Free-Public-Tools into this project.
+
+1. Get the folder tools/agent-assets-lint/ from https://github.com/Mike-Byrne-AI/free-public-tools (branch main) and put it at tools/agent-assets-lint/ in this project, keeping its files and subfolders as they are. One way: clone the repo with --depth 1 into a temporary folder outside this project, copy tools/agent-assets-lint/ across, then delete the temporary folder. If tools/agent-assets-lint/ already exists, stop and ask me first.
+2. Do not run anything from it yet. Read tools/agent-assets-lint/README.md and tell me in a few sentences what the tool does, what it needs (Node 22 or newer), and the command to try it.
+3. Only if I then say go: copy tools/agent-assets-lint/examples/claude-code-starter.json to agent-assets.config.json at the root of this project (if a file with that name is already there, show me a diff and ask first), run node tools/agent-assets-lint/bin/agent-assets.mjs from the project root, and show me its output as it is.

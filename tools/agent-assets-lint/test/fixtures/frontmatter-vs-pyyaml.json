@@ -1,0 +1,1807 @@
+{
+ "about": "Each case is a file's text and what PyYAML read from the YAML between its first two --- lines (absent, a value, or an error). Built by frontmatter-vs-pyyaml.py in this folder; test/frontmatter-vs-pyyaml.test.mjs compares src/frontmatter.mjs against it.",
+ "pyyaml": "6.0.3",
+ "python": "3.11.9",
+ "generated": "2026-10-15",
+ "cases": {
+  "dq-escaped-quote": {
+   "text": "---\nname: \"say \\\"hi\\\" now\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "say \"hi\" now"
+    }
+   }
+  },
+  "dq-backslash": {
+   "text": "---\nname: \"a \\\\ b\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a \\ b"
+    }
+   }
+  },
+  "dq-tab-escape": {
+   "text": "---\nname: \"a\\tb\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a\tb"
+    }
+   }
+  },
+  "dq-newline-escape": {
+   "text": "---\nname: \"a\\nb\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a\nb"
+    }
+   }
+  },
+  "dq-unicode-escape": {
+   "text": "---\nname: \"caf\\u00e9\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "café"
+    }
+   }
+  },
+  "dq-hex-escape": {
+   "text": "---\nname: \"\\x41\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "A"
+    }
+   }
+  },
+  "dq-upper-u-escape": {
+   "text": "---\nname: \"\\U0001F600\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "😀"
+    }
+   }
+  },
+  "dq-u-escape-too-big": {
+   "text": "---\nname: \"\\UFFFFFFFF\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "OverflowError: Python int too large to convert to C int"
+   }
+  },
+  "dq-x-escape-short": {
+   "text": "---\nname: \"\\x4\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a double-quoted scalar"
+   }
+  },
+  "dq-single-quote-escape-invalid": {
+   "text": "---\nname: \"it\\'s\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a double-quoted scalar"
+   }
+  },
+  "dq-escaped-space": {
+   "text": "---\nname: \"a\\ b\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a b"
+    }
+   }
+  },
+  "dq-line-continuation": {
+   "text": "---\ndescription: \"a\\\n  b\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "ab"
+    }
+   }
+  },
+  "dq-line-continuation-space": {
+   "text": "---\ndescription: \"a \\\n  b\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a b"
+    }
+   }
+  },
+  "sq-doubled": {
+   "text": "---\nname: 'it''s'\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "it's"
+    }
+   }
+  },
+  "sq-backslash": {
+   "text": "---\nname: 'a\\b'\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a\\b"
+    }
+   }
+  },
+  "sq-with-dq-inside": {
+   "text": "---\nname: 'say \"hi\"'\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "say \"hi\""
+    }
+   }
+  },
+  "dq-with-sq-inside": {
+   "text": "---\nname: \"it's\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "it's"
+    }
+   }
+  },
+  "dq-empty": {
+   "text": "---\nname: \"\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": ""
+    }
+   }
+  },
+  "sq-empty": {
+   "text": "---\nname: ''\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": ""
+    }
+   }
+  },
+  "dq-trailing-text": {
+   "text": "---\nname: \"quoted\" extra\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "dq-trailing-comment": {
+   "text": "---\nname: \"quoted\" # c\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "quoted"
+    }
+   }
+  },
+  "dq-unclosed": {
+   "text": "---\nname: \"abc\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a quoted scalar"
+   }
+  },
+  "sq-unclosed-then-key": {
+   "text": "---\nname: 'abc\ndescription: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a quoted scalar"
+   }
+  },
+  "dq-null-text": {
+   "text": "---\nname: \"null\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "null"
+    }
+   }
+  },
+  "comment-after-space": {
+   "text": "---\nname: deploy # note\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "deploy"
+    }
+   }
+  },
+  "comment-no-space-after-hash": {
+   "text": "---\nname: deploy #note\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "deploy"
+    }
+   }
+  },
+  "hash-no-space-before": {
+   "text": "---\nname: deploy#note\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "deploy#note"
+    }
+   }
+  },
+  "hash-in-dq": {
+   "text": "---\nname: \"a # b\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a # b"
+    }
+   }
+  },
+  "hash-in-sq": {
+   "text": "---\nname: 'a # b'\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a # b"
+    }
+   }
+  },
+  "only-comment": {
+   "text": "---\nname: # just a comment\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "hash-start-no-space": {
+   "text": "---\nname: #tag\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "tab-before-hash": {
+   "text": "---\nname: deploy\t# note\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "tab-in-comment": {
+   "text": "---\nname: a # x\ty\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a"
+    }
+   }
+  },
+  "comment-line-between-keys": {
+   "text": "---\nname: a\n# c\ndescription: b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a",
+     "description": "b"
+    }
+   }
+  },
+  "indented-comment-line-between-keys": {
+   "text": "---\nname: a\n  # c\ndescription: b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a",
+     "description": "b"
+    }
+   }
+  },
+  "hash-after-quote-char": {
+   "text": "---\nname: a \"#\" b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a \"#\" b"
+    }
+   }
+  },
+  "null-then-comment": {
+   "text": "---\nname: ~ # c\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "wrap-indented": {
+   "text": "---\ndescription: first line\n  second line\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first line second line"
+    }
+   }
+  },
+  "wrap-two-lines-diff-indent": {
+   "text": "---\ndescription: first\n    second\n  third\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first second third"
+    }
+   }
+  },
+  "wrap-blank-line": {
+   "text": "---\ndescription: first\n\n  second\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first\nsecond"
+    }
+   }
+  },
+  "wrap-then-comment-line": {
+   "text": "---\ndescription: first\n  # c\n  second\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "wrap-with-colon-space": {
+   "text": "---\ndescription: first\n  b: c\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: mapping values are not allowed here"
+   }
+  },
+  "wrap-with-dash": {
+   "text": "---\ndescription: first\n  - item\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first - item"
+    }
+   }
+  },
+  "wrap-with-hash-inside": {
+   "text": "---\ndescription: first\n  second # c\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first second"
+    }
+   }
+  },
+  "wrap-trailing-spaces": {
+   "text": "---\ndescription: a  \n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a b"
+    }
+   }
+  },
+  "next-line-value": {
+   "text": "---\ndescription:\n  text here\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "text here"
+    }
+   }
+  },
+  "next-line-multi": {
+   "text": "---\ndescription:\n  a\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a b"
+    }
+   }
+  },
+  "next-line-blank-then": {
+   "text": "---\ndescription:\n\n  a\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a"
+    }
+   }
+  },
+  "next-line-not-indented": {
+   "text": "---\ndescription:\nfoo\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a simple key"
+   }
+  },
+  "next-line-quoted": {
+   "text": "---\ndescription:\n  \"quoted text\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "quoted text"
+    }
+   }
+  },
+  "next-line-quoted-multi": {
+   "text": "---\ndescription:\n  \"a\n  b\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a b"
+    }
+   }
+  },
+  "dq-multiline": {
+   "text": "---\ndescription: \"first\n  second\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first second"
+    }
+   }
+  },
+  "sq-multiline": {
+   "text": "---\ndescription: 'first\n  second'\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first second"
+    }
+   }
+  },
+  "dq-multiline-blank": {
+   "text": "---\ndescription: \"first\n\n  second\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "first\nsecond"
+    }
+   }
+  },
+  "dq-closed-then-indented": {
+   "text": "---\nname: \"a\"\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "plain-comment-then-indented": {
+   "text": "---\nname: a # c\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "tab-continuation": {
+   "text": "---\ndescription: first\n\tsecond\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "tab-after-colon": {
+   "text": "---\nname:\tdeploy\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "tab-before-colon": {
+   "text": "---\nname\t: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "tab-in-plain-value": {
+   "text": "---\nname: a\tb\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "tab-in-dq-value": {
+   "text": "---\nname: \"a\tb\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a\tb"
+    }
+   }
+  },
+  "tab-next-line-value": {
+   "text": "---\ndescription:\n\ttext\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "dq-wrap-tab-indent": {
+   "text": "---\ndescription: \"a\n\tb\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a b"
+    }
+   }
+  },
+  "wrap-trailing-colon-then-key": {
+   "text": "---\ndescription: Use when:\nname: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: mapping values are not allowed here"
+   }
+  },
+  "literal": {
+   "text": "---\ndescription: |\n  a\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\nb\n"
+    }
+   }
+  },
+  "literal-strip": {
+   "text": "---\ndescription: |-\n  a\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\nb"
+    }
+   }
+  },
+  "literal-keep": {
+   "text": "---\ndescription: |+\n  a\n\n\nname: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n\n\n",
+     "name": "x"
+    }
+   }
+  },
+  "literal-clip-blank-lines": {
+   "text": "---\ndescription: |\n  a\n\n\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n"
+    }
+   }
+  },
+  "literal-keep-one-blank": {
+   "text": "---\ndescription: |+\n  a\n\n\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n\n\n"
+    }
+   }
+  },
+  "literal-strip-blank": {
+   "text": "---\ndescription: |-\n  a\n\n\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a"
+    }
+   }
+  },
+  "folded": {
+   "text": "---\ndescription: >\n  a\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a b\n"
+    }
+   }
+  },
+  "folded-strip": {
+   "text": "---\ndescription: >-\n  a\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a b"
+    }
+   }
+  },
+  "folded-keep": {
+   "text": "---\ndescription: >+\n  a\n\n\nname: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n\n\n",
+     "name": "x"
+    }
+   }
+  },
+  "folded-blank-line": {
+   "text": "---\ndescription: >\n  a\n\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\nb\n"
+    }
+   }
+  },
+  "folded-clip-then-key": {
+   "text": "---\ndescription: >\n  a\n\nname: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n",
+     "name": "x"
+    }
+   }
+  },
+  "folded-more-indented": {
+   "text": "---\ndescription: >\n  a\n    b\n  c\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n  b\nc\n"
+    }
+   }
+  },
+  "folded-blank-then-more-indented": {
+   "text": "---\ndescription: >\n  a\n\n    b\n  c\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n\n  b\nc\n"
+    }
+   }
+  },
+  "folded-more-indented-then-blank": {
+   "text": "---\ndescription: >\n  a\n    b\n\n  c\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n  b\n\nc\n"
+    }
+   }
+  },
+  "folded-trailing-spaces": {
+   "text": "---\ndescription: >\n  a  \n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a   b\n"
+    }
+   }
+  },
+  "literal-indent-indicator": {
+   "text": "---\ndescription: |2\n  a\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n"
+    }
+   }
+  },
+  "literal-indent-indicator-more": {
+   "text": "---\ndescription: |2\n  a\n   b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n b\n"
+    }
+   }
+  },
+  "folded-indent-indicator": {
+   "text": "---\ndescription: >1\n  a\n b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": " a\nb\n"
+    }
+   }
+  },
+  "literal-first-line-more-indented": {
+   "text": "---\ndescription: |\n    a\n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "block-with-comment": {
+   "text": "---\ndescription: | # c\n  a\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n"
+    }
+   }
+  },
+  "block-empty-then-key": {
+   "text": "---\ndescription: |\nname: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "",
+     "name": "x"
+    }
+   }
+  },
+  "block-keep-only-blank": {
+   "text": "---\ndescription: |+\n\nname: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "\n",
+     "name": "x"
+    }
+   }
+  },
+  "block-tab-indent": {
+   "text": "---\ndescription: |\n\ta\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "literal-hash-line": {
+   "text": "---\ndescription: |\n  # not a comment\n  a\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "# not a comment\na\n"
+    }
+   }
+  },
+  "literal-trailing-spaces": {
+   "text": "---\ndescription: |\n  a  \n  b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a  \nb\n"
+    }
+   }
+  },
+  "folded-trailing-blank-lines-then-key": {
+   "text": "---\ndescription: >\n  a\n\n\nname: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\n",
+     "name": "x"
+    }
+   }
+  },
+  "folded-colon-space-inside": {
+   "text": "---\ndescription: >-\n  Use when: the user asks\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "Use when: the user asks"
+    }
+   }
+  },
+  "pipe-then-text": {
+   "text": "---\ndescription: |x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a block scalar"
+   }
+  },
+  "gt-then-text": {
+   "text": "---\ndescription: >x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a block scalar"
+   }
+  },
+  "list-indented": {
+   "text": "---\ntools:\n  - Read\n  - Grep\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      "Read",
+      "Grep"
+     ]
+    }
+   }
+  },
+  "list-unindented": {
+   "text": "---\ntools:\n- Read\n- Grep\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      "Read",
+      "Grep"
+     ]
+    }
+   }
+  },
+  "list-of-maps": {
+   "text": "---\ntools:\n  - name: a\n    x: y\n  - name: b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      {
+       "name": "a",
+       "x": "y"
+      },
+      {
+       "name": "b"
+      }
+     ]
+    }
+   }
+  },
+  "nested-map": {
+   "text": "---\nmeta:\n  a: 1\n  b: 2\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "meta": {
+      "a": 1,
+      "b": 2
+     }
+    }
+   }
+  },
+  "nested-map-deeper": {
+   "text": "---\na:\n  b:\n    c: d\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "a": {
+      "b": {
+       "c": "d"
+      }
+     }
+    }
+   }
+  },
+  "flow-list": {
+   "text": "---\ntools: [Read, Grep]\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      "Read",
+      "Grep"
+     ]
+    }
+   }
+  },
+  "flow-list-multiline": {
+   "text": "---\ntools: [Read,\n  Grep]\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      "Read",
+      "Grep"
+     ]
+    }
+   }
+  },
+  "flow-list-quoted-item": {
+   "text": "---\ntools: [\"a, b\", c]\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      "a, b",
+      "c"
+     ]
+    }
+   }
+  },
+  "flow-list-sq-doubled": {
+   "text": "---\ntools: ['it''s', b]\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      "it's",
+      "b"
+     ]
+    }
+   }
+  },
+  "flow-list-nested": {
+   "text": "---\ntools: [[a, b], c]\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      [
+       "a",
+       "b"
+      ],
+      "c"
+     ]
+    }
+   }
+  },
+  "flow-list-tab-inside": {
+   "text": "---\ntools: [a,\tb]\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "flow-map": {
+   "text": "---\nmeta: {a: 1}\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "meta": {
+      "a": 1
+     }
+    }
+   }
+  },
+  "flow-list-trailing": {
+   "text": "---\ntools: [a] b\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "flow-empty": {
+   "text": "---\ntools: []\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": []
+    }
+   }
+  },
+  "list-empty-item": {
+   "text": "---\ntools:\n  -\n  - x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      null,
+      "x"
+     ]
+    }
+   }
+  },
+  "list-item-colon": {
+   "text": "---\ntools:\n  - Use when: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      {
+       "Use when": "x"
+      }
+     ]
+    }
+   }
+  },
+  "list-with-comment": {
+   "text": "---\ntools:\n  # c\n  - Read\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      "Read"
+     ]
+    }
+   }
+  },
+  "list-tab-indent": {
+   "text": "---\ntools:\n\t- a\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "map-blank-line-between": {
+   "text": "---\nmeta:\n\n  a: 1\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "meta": {
+      "a": 1
+     }
+    }
+   }
+  },
+  "top-level-list": {
+   "text": "---\n- a\n- b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": [
+     "a",
+     "b"
+    ]
+   }
+  },
+  "first-bracket": {
+   "text": "---\ndescription: [draft] x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "first-brace": {
+   "text": "---\ndescription: {x} y\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block mapping"
+   }
+  },
+  "first-amp": {
+   "text": "---\ndescription: &a x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "x"
+    }
+   }
+  },
+  "first-bang": {
+   "text": "---\ndescription: !tag x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ConstructorError: could not determine a constructor for the tag '!tag'"
+   }
+  },
+  "first-bangbang": {
+   "text": "---\ndescription: !!str 123\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "123"
+    }
+   }
+  },
+  "first-star": {
+   "text": "---\ndescription: *a\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ComposerError: found undefined alias 'a'"
+   }
+  },
+  "first-at": {
+   "text": "---\ndescription: @x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "first-backtick": {
+   "text": "---\ndescription: `x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "first-percent": {
+   "text": "---\ndescription: %x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning for the next token"
+   }
+  },
+  "first-dash-space": {
+   "text": "---\ndescription: - x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: sequence entries are not allowed here"
+   }
+  },
+  "first-dash-text": {
+   "text": "---\ndescription: -x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "-x"
+    }
+   }
+  },
+  "first-q-space": {
+   "text": "---\ndescription: ? x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: mapping keys are not allowed here"
+   }
+  },
+  "first-q-text": {
+   "text": "---\ndescription: ?x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "?x"
+    }
+   }
+  },
+  "first-colon-space": {
+   "text": "---\ndescription: : x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: mapping values are not allowed here"
+   }
+  },
+  "first-colon-text": {
+   "text": "---\ndescription: :x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": ":x"
+    }
+   }
+  },
+  "first-comma": {
+   "text": "---\ndescription: , x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block node"
+   }
+  },
+  "first-rbracket": {
+   "text": "---\ndescription: ] x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block node"
+   }
+  },
+  "first-rbrace": {
+   "text": "---\ndescription: } x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ParserError: while parsing a block node"
+   }
+  },
+  "first-colon-space-inside": {
+   "text": "---\ndescription: Use when: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: mapping values are not allowed here"
+   }
+  },
+  "first-ends-colon": {
+   "text": "---\ndescription: Use when:\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: mapping values are not allowed here"
+   }
+  },
+  "first-colon-no-space": {
+   "text": "---\ndescription: a:b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a:b"
+    }
+   }
+  },
+  "first-url": {
+   "text": "---\ndescription: http://x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "http://x"
+    }
+   }
+  },
+  "first-time": {
+   "text": "---\ndescription: 12:30\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": 750
+    }
+   }
+  },
+  "first-hash-only": {
+   "text": "---\ndescription: #x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": null
+    }
+   }
+  },
+  "first-backslash-text": {
+   "text": "---\ndescription: a\\b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\\b"
+    }
+   }
+  },
+  "first-sq-unclosed-start": {
+   "text": "---\ndescription: 'x\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a quoted scalar"
+   }
+  },
+  "first-sq-end": {
+   "text": "---\ndescription: x'\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "x'"
+    }
+   }
+  },
+  "key-dq": {
+   "text": "---\n\"name\": x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "key-sq": {
+   "text": "---\n'name': x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "key-dq-space": {
+   "text": "---\n\"na me\": x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "na me": "x"
+    }
+   }
+  },
+  "key-dq-escaped": {
+   "text": "---\n\"na\\\"me\": x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "na\"me": "x"
+    }
+   }
+  },
+  "key-underscore": {
+   "text": "---\nmy_key: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "my_key": "x"
+    }
+   }
+  },
+  "key-dot": {
+   "text": "---\nkey.sub: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "key.sub": "x"
+    }
+   }
+  },
+  "key-digit-first": {
+   "text": "---\n1key: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "1key": "x"
+    }
+   }
+  },
+  "key-dash-digit": {
+   "text": "---\nkey-1: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "key-1": "x"
+    }
+   }
+  },
+  "key-dash-text": {
+   "text": "---\n-x: y\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "-x": "y"
+    }
+   }
+  },
+  "key-colon-text": {
+   "text": "---\n:x: y\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     ":x": "y"
+    }
+   }
+  },
+  "key-q-text": {
+   "text": "---\n?x: y\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "?x": "y"
+    }
+   }
+  },
+  "key-leading-underscore": {
+   "text": "---\n_key: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "_key": "x"
+    }
+   }
+  },
+  "key-space-inside": {
+   "text": "---\nmy key: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "my key": "x"
+    }
+   }
+  },
+  "key-space-before-colon": {
+   "text": "---\nname : x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "key-indented-mapping": {
+   "text": "---\n  name: x\n  description: y\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x",
+     "description": "y"
+    }
+   }
+  },
+  "key-no-space-after-colon": {
+   "text": "---\nname:x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": "name:x"
+   }
+  },
+  "key-no-space-after-colon-then-key": {
+   "text": "---\nname:x\ndescription: y\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: mapping values are not allowed here"
+   }
+  },
+  "key-uppercase": {
+   "text": "---\nName: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "Name": "x"
+    }
+   }
+  },
+  "key-duplicate": {
+   "text": "---\nname: a\nname: b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "b"
+    }
+   }
+  },
+  "key-explicit": {
+   "text": "---\n? name\n: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "key-unicode": {
+   "text": "---\nnäme: x\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "näme": "x"
+    }
+   }
+  },
+  "empty-value": {
+   "text": "---\nname:\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "empty-value-then-key": {
+   "text": "---\nname:\ndescription: y\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null,
+     "description": "y"
+    }
+   }
+  },
+  "tilde": {
+   "text": "---\nname: ~\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "null-lower": {
+   "text": "---\nname: null\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "null-cap": {
+   "text": "---\nname: Null\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "null-upper": {
+   "text": "---\nname: NULL\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": null
+    }
+   }
+  },
+  "null-mixed": {
+   "text": "---\nname: nUll\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "nUll"
+    }
+   }
+  },
+  "null-in-list": {
+   "text": "---\ntools:\n  - ~\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "tools": [
+      null
+     ]
+    }
+   }
+  },
+  "type-true": {
+   "text": "---\nv: true\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "v": true
+    }
+   }
+  },
+  "type-yes": {
+   "text": "---\nv: yes\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "v": true
+    }
+   }
+  },
+  "type-float": {
+   "text": "---\nv: 1.0\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "v": 1.0
+    }
+   }
+  },
+  "type-date": {
+   "text": "---\nv: 2024-01-01\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "v": "<date 2024-01-01>"
+    }
+   }
+  },
+  "type-hex": {
+   "text": "---\nv: 0x1A\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "v": 26
+    }
+   }
+  },
+  "type-underscore-int": {
+   "text": "---\nv: 1_000\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "v": 1000
+    }
+   }
+  },
+  "type-quoted-true": {
+   "text": "---\nv: \"true\"\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "v": "true"
+    }
+   }
+  },
+  "type-emoji": {
+   "text": "---\ndescription: 🚀 launch now\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "🚀 launch now"
+    }
+   }
+  },
+  "type-non-ascii": {
+   "text": "---\nname: café\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "café"
+    }
+   }
+  },
+  "struct-never-closes": {
+   "text": "---\nname: x\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-delim-trailing-spaces": {
+   "text": "---  \nname: x\n---  \nBody\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "struct-delim-trailing-tab": {
+   "text": "---\t\nname: x\n---\t\nBody\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "struct-blank-line-before": {
+   "text": "\n---\nname: x\n---\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-leading-space-delim": {
+   "text": " ---\nname: x\n---\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-second-doc": {
+   "text": "---\nname: a\n---\nname: b\n---\nBody\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a"
+    }
+   }
+  },
+  "struct-crlf": {
+   "text": "---\r\nname: x\r\ndescription: y\r\n---\r\nBody\r\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x",
+     "description": "y"
+    }
+   }
+  },
+  "struct-cr-only": {
+   "text": "---\rname: x\rdescription: y\r---\rBody\r",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x",
+     "description": "y"
+    }
+   }
+  },
+  "struct-mixed-endings": {
+   "text": "---\r\nname: x\ndescription: y\r\n---\nBody\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x",
+     "description": "y"
+    }
+   }
+  },
+  "struct-bom": {
+   "text": "﻿---\nname: x\n---\nBody\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "struct-bom-crlf": {
+   "text": "﻿---\r\nname: x\r\n---\r\nBody\r\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "x"
+    }
+   }
+  },
+  "struct-dots-end": {
+   "text": "---\nname: x\n...\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-four-dash-close": {
+   "text": "---\nname: x\n----\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-four-dash-open": {
+   "text": "----\nname: x\n---\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-only-dashes": {
+   "text": "---",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-only-dashes-nl": {
+   "text": "---\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-empty-fm": {
+   "text": "---\n---\nBody\n",
+   "yaml": {
+    "status": "ok",
+    "value": null
+   }
+  },
+  "struct-empty-fm-no-body": {
+   "text": "---\n---",
+   "yaml": {
+    "status": "ok",
+    "value": null
+   }
+  },
+  "struct-comment-only-fm": {
+   "text": "---\n# c\n---\nBody\n",
+   "yaml": {
+    "status": "ok",
+    "value": null
+   }
+  },
+  "struct-indented-close": {
+   "text": "---\nname: x\n ---\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-close-with-text": {
+   "text": "---\nname: x\n--- end\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-empty-file": {
+   "text": "",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-zero-then-blank": {
+   "text": "\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-blank-lines-between-keys": {
+   "text": "---\nname: a\n\n\ndescription: b\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "a",
+     "description": "b"
+    }
+   }
+  },
+  "struct-value-trailing-ws": {
+   "text": "---\nname: deploy   \n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "deploy"
+    }
+   }
+  },
+  "struct-value-leading-ws": {
+   "text": "---\nname:    deploy\n---\nBody line.\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "name": "deploy"
+    }
+   }
+  },
+  "struct-text-line-after-key": {
+   "text": "---\nname: a\nfoo\n---\nBody line.\n",
+   "yaml": {
+    "status": "error",
+    "error": "ScannerError: while scanning a simple key"
+   }
+  },
+  "struct-directive": {
+   "text": "%YAML 1.2\n---\nname: x\n---\nBody\n",
+   "yaml": {
+    "status": "absent"
+   }
+  },
+  "struct-crlf-literal-block": {
+   "text": "---\r\ndescription: |\r\n  a\r\n  b\r\n---\r\nBody\r\n",
+   "yaml": {
+    "status": "ok",
+    "value": {
+     "description": "a\nb\n"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,65 @@
+# Reusable workflow: one tool's own tests on Linux, macOS and Windows with Node 22 and 24, plus the newest Node
+# on Linux as an early warning that may fail without failing the run. A caller names the tool's folder:
+#
+#   jobs:
+#     agent-assets-lint:
+#       uses: ./.github/workflows/tool-tests.yml
+#       with:
+#         tool: tools/agent-assets-lint
+#
+# The tool needs a package.json whose "test:coverage" script runs its tests (or the caller passes another "test"
+# command), and may keep a ci/quick-start.sh that runs its README quick start for real; it runs when present.
+# This file is the same in the workshop and in the public repo; the workshop's CI checks that the two match.
+name: Tool tests
+
+on:
+  workflow_call:
+    inputs:
+      tool:
+        description: "The tool's folder, such as tools/agent-assets-lint, or . when the tool is the repo root."
+        required: true
+        type: string
+      test:
+        description: "The test command, run in the tool's folder."
+        type: string
+        default: npm run test:coverage
+      node-versions:
+        description: "Node versions to test, as a JSON list."
+        type: string
+        default: '["22", "24"]'
+      os:
+        description: "Runners to test on, as a JSON list."
+        type: string
+        default: '["ubuntu-latest", "macos-latest", "windows-latest"]'
+      newest-node:
+        description: "Also run on the newest Node on Linux, allowed to fail."
+        type: boolean
+        default: true
+
+jobs:
+  tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(inputs.os) }}
+        node: ${{ fromJSON(inputs.node-versions) }}
+        experimental: [false]
+        include: ${{ inputs.newest-node && fromJSON('[{"os":"ubuntu-latest","node":"latest","experimental":true}]') || fromJSON('[]') }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.experimental }}
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.tool }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: ${{ matrix.node }}
+      - name: versions
+        run: node --version && npm --version
+      - name: tests
+        run: ${{ inputs.test }}
+      - name: README quick start, when the tool has ci/quick-start.sh
+        run: if [ -f ci/quick-start.sh ]; then bash ci/quick-start.sh; else echo "no ci/quick-start.sh here"; fi

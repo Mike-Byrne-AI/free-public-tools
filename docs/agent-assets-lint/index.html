@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;sha256-hALupjOY6rYF4Pgr0xUDhb42pj8LCY6EofbSE10oP3U=&#39;; style-src &#39;sha256-pZxBX8PqRTiAeth7eQhqKuj8WEJhNIjDDQHSV/raPjU=&#39;; img-src data:; font-src &#39;self&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">
+<meta http-equiv="x-dns-prefetch-control" content="off">
+<title>Agent assets lint: check your AI instruction files against your own rules · Free-Public-Tools</title>
+<meta name="description" content="A small Node tool that checks CLAUDE.md, AGENTS.md, skills and agent files against rules you write in one JSON file: line budgets, required headings, matching skill names, real descriptions. Comes with a starter policy for a plain Claude Code project.">
+<meta property="og:site_name" content="Free-Public-Tools">
+<meta property="og:title" content="Agent assets lint: check your AI instruction files against your own rules">
+<meta property="og:description" content="A small Node tool that checks CLAUDE.md, AGENTS.md, skills and agent files against rules you write in one JSON file: line budgets, required headings, matching skill names, real descriptions. Comes with a starter policy for a plain Claude Code project.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mike-byrne-ai.github.io/free-public-tools/agent-assets-lint/">
+<meta property="og:image" content="https://mike-byrne-ai.github.io/free-public-tools/agent-assets-lint/card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Agent assets lint: check your AI instruction files against your own rules">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:,">
+<style>/* The look of the tools' link cards and videos (2026-10-11): graph paper on parchment, always (a dark-mode screen
+   gets the same paper), with a red margin line near the left edge as on writing paper; labels in black and red pen,
+   the series label in a typewriter face. The fonts ship with the site (fonts/, SIL Open Font License beside them); build.mjs
+   puts the folder's path in place of ../fonts/. Latin letters only: anything else falls back to the system font. */
+@font-face { font-family: "Kalam"; font-style: normal; font-weight: 700; font-display: swap; src: url(../fonts/kalam-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Caveat"; font-style: normal; font-weight: 700; font-display: swap; src: url(../fonts/caveat-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  /* the text column's wash: the parchment, nearly opaque, so the grid barely shows under the words */
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --pen: #1d1c1a;
+  --red: #c8372a;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --accent-hover: #095a4e;
+  --accent-text: #ffffff;
+  --focus: #1f5fd6;
+  --warn-bg: #fdf3d3;
+  --warn-border: #e6cf7f;
+  --warn-text: #57430a;
+  --fixture-bg: #fbe6e4;
+  --fixture-border: #eab8b2;
+  --fixture-text: #7b2219;
+  --toast-bg: #1d1c1a;
+  --toast-text: #f7f6f2;
+  --radius: 10px;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px); background-size: 24px 24px; }
+/* the red margin line of writing paper, near the screen's left edge (12 to 64 px in); on a narrow screen the text
+   starts just right of it */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+main { max-width: 46rem; margin: 0 auto; padding: 20px 16px 96px; background: var(--wash); box-shadow: 0 0 32px 32px var(--wash); }
+@media (max-width: 900px) { main { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+a { color: var(--accent); }
+h1 { font-size: 1.85rem; line-height: 1.2; margin: .4rem 0 .5rem; letter-spacing: -0.01em; }
+/* labels in black pen */
+h2 { font: 700 1.6rem/1.2 Kalam, var(--sans); color: var(--pen); margin: 2rem 0 .5rem; }
+h3 { font: 700 1.25rem/1.25 Kalam, var(--sans); color: var(--pen); margin: 1.2rem 0 .3rem; }
+/* the series label, as on the cards: FREE-PUBLIC-TOOLS */
+h1.label { font: 700 1.7rem/1.2 "JetBrains Mono", var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+p { margin: .5rem 0; }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; }
+pre { margin: 0; padding: 12px 14px; background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--radius); font: 13px/1.5 var(--mono); white-space: pre; overflow: auto; max-width: 100%; max-height: 30rem; tab-size: 4; overflow-wrap: normal; }
+pre.wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+pre:focus-visible, .btn:focus-visible, a:focus-visible, summary:focus-visible, textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* the back link at the left and the tool's kind at the far right, so the two red-pen words never read as one label */
+.topline { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.crumbs a { font: 700 1.35rem/1.2 Caveat, cursive; color: var(--red); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font-size: .8rem; font-weight: 600; color: var(--muted); }
+/* the kind of tool, in red pen */
+.badge.kind { padding: 0; border: 0; border-radius: 0; background: none; font: 700 1.45rem/1 Caveat, cursive; color: var(--red); transform: rotate(-3deg); }
+.badge.fixture { background: var(--fixture-bg); border-color: var(--fixture-border); color: var(--fixture-text); }
+.badge.scheduled { border-style: dashed; color: var(--accent); }
+.summary { font-size: 1.05rem; color: var(--muted); }
+.why { margin: .9rem 0 0; padding: .6rem .85rem; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 1.25rem 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.actions.spaced { margin-top: 8px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: var(--text); font: 600 .95rem/1.2 var(--sans); text-decoration: none; cursor: pointer; text-align: center; max-width: 100%; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.small { min-height: 36px; padding: 6px 10px; font-size: .85rem; }
+.note { font-size: .875rem; color: var(--muted); }
+.warn { background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-text); border-radius: var(--radius); padding: 10px 12px; font-size: .9rem; }
+.warn code { background: transparent; }
+.fixture-banner { background: var(--fixture-bg); border: 1px solid var(--fixture-border); color: var(--fixture-text); border-radius: var(--radius); padding: 8px 12px; font-weight: 600; }
+.section-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin: 2rem 0 .6rem; }
+.section-head h2 { margin: 0; }
+.facts { margin: 8px 0 0; font-size: .9rem; color: var(--muted); }
+.hash { word-break: break-all; }
+.where dt { font-weight: 700; margin-top: .9rem; }
+.where dd { margin: .2rem 0 0; }
+.where-text table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: .7rem 0; font-size: .95rem; }
+.where-text th.num, .where-text td.num { text-align: right; font-variant-numeric: tabular-nums; } /* a "---:" column in the README */
+.where-text th, .where-text td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+.where-text th { font-weight: 700; }
+.where-text pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+details { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 0 12px; margin: 8px 0; }
+details > summary { cursor: pointer; padding: 10px 0; font-weight: 600; }
+details[open] { padding-bottom: 12px; }
+.manual { margin-top: 12px; }
+.manual label { display: block; font-weight: 600; margin-bottom: 6px; }
+.manual textarea { display: block; width: 100%; min-height: 10rem; font: 13px/1.5 var(--mono); padding: 10px; border-radius: var(--radius); border: 2px solid var(--accent); background: var(--code-bg); color: var(--text); resize: vertical; }
+.status { position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 40rem; margin: 0 auto; padding: 12px 16px; border-radius: 12px; background: var(--toast-bg); color: var(--toast-text); font-size: .95rem; box-shadow: 0 6px 24px rgb(0 0 0 / .25); opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.status.show { opacity: 1; transform: none; }
+.status:empty { display: none; }
+.offscreen { position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+[hidden] { display: none !important; }
+footer { margin-top: 3rem; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; }
+.cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.card h2, .card h3 { margin: .45rem 0 .2rem; font: 700 1.15rem/1.3 var(--sans); color: var(--text); }
+.card a.title { color: var(--text); text-decoration: none; }
+.card a.title:hover { text-decoration: underline; }
+.card p { margin: .2rem 0 0; color: var(--muted); }
+/* a tool with a link card: the card is the whole box, and the whole card is the link */
+.cards.pics { gap: 22px; }
+.card.pic { padding: 0; border: 0; border-radius: 0; background: none; }
+.card.pic .badges { margin-bottom: 6px; }
+.card.pic a.title { display: block; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(0 0 0 / .06), 0 8px 22px rgb(0 0 0 / .08); transition: transform .15s, box-shadow .15s; }
+.card.pic a.title:hover { transform: translateY(-2px) rotate(-.4deg); box-shadow: 0 2px 4px rgb(0 0 0 / .08), 0 14px 30px rgb(0 0 0 / .12); text-decoration: none; }
+.card.pic img { display: block; width: 100%; height: auto; }
+/* the passed notes drift a little: the card is a base picture with each bubble on its own clear layer */
+.card.pic .art { position: relative; display: block; }
+.card.pic .art img.layer { position: absolute; inset: 0; pointer-events: none; transform-origin: 80% 50%; }
+.card.pic .art img.you { animation: skate-you 6s ease-in-out infinite alternate; }
+.card.pic .art img.ai { animation: skate-ai 7.5s ease-in-out infinite alternate -3s; }
+@keyframes skate-you { from { transform: translate(-.6%, -.8%) rotate(-.6deg); } to { transform: translate(.6%, 1%) rotate(.5deg); } }
+@keyframes skate-ai { from { transform: translate(.7%, .9%) rotate(.6deg); } to { transform: translate(-.6%, -.9%) rotate(-.5deg); } }
+/* a folded box under the buttons showing exactly what an install button copies */
+details.preview { margin-top: 12px; }
+details.preview summary { cursor: pointer; font-weight: 600; }
+details.preview pre { margin-top: 8px; max-height: 24rem; }
+.fixtures { margin-top: 2rem; }
+.fixtures .cards { margin-top: 4px; }
+@media (prefers-reduced-motion: reduce) { .status, .card.pic a.title { transition: none; } .card.pic a.title:hover { transform: none; } .card.pic .art img.layer { animation: none; } }
+/* No programming ligatures: a font such as Cascadia Code draws "-->" as an arrow, and the page must
+   show the characters that get copied. Keep this last: the font shorthand above resets ligatures. */
+pre, code, textarea, .manual textarea { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+</style>
+</head>
+<body>
+<main>
+<div class="topline"><nav class="crumbs"><a href="../index.html">← All tools</a></nav><div class="badges"><span class="badge kind" data-kind="folder">folder</span></div></div>
+<header>
+<h1>Agent assets lint: check your AI instruction files against your own rules</h1>
+<p class="summary">A small Node tool that checks CLAUDE.md, AGENTS.md, skills and agent files against rules you write in one JSON file: line budgets, required headings, matching skill names, real descriptions. Comes with a starter policy for a plain Claude Code project.</p>
+<p class="why"><strong>Why I use it:</strong> I ran it across 81 of my own Claude Code projects. It found 30 agent files with no header at all, 28 of them in 7 projects I had copied from an older setup of mine.</p>
+</header>
+
+<section class="panel" aria-label="Use it">
+<div class="actions">
+<button type="button" class="btn primary" data-copy="payload" data-label="the install prompt">Copy install prompt</button>
+<a class="btn" id="github-link" href="https://github.com/Mike-Byrne-AI/free-public-tools/tree/main/tools/agent-assets-lint/" target="_blank" rel="noopener">Explore on GitHub</a>
+</div>
+<div id="manual-copy" class="manual" hidden>
+<label for="manual-copy-text">Automatic copy did not work. The text is selected: press Ctrl+C / Cmd+C (long-press on mobile).</label>
+<textarea id="manual-copy-text" readonly rows="8" spellcheck="false" autocomplete="off"></textarea>
+</div>
+<noscript><p class="note">The copy buttons need JavaScript. You can still select the text below by hand or download the file.</p></noscript>
+
+</section>
+
+<section aria-labelledby="text-h">
+<div class="section-head">
+<h2 id="text-h">The install prompt</h2>
+<div class="actions"><button type="button" class="btn small" data-wrap="payload-view" aria-pressed="false">Wrap long lines</button><a class="btn small" href="install-prompt.md" download>Download install-prompt.md</a></div>
+</div>
+<pre id="payload-view" tabindex="0" data-fill="payload" aria-labelledby="text-h">
+Install the agent-assets-lint tool from Free-Public-Tools into this project.
+
+1. Get the folder tools/agent-assets-lint/ from https://github.com/Mike-Byrne-AI/free-public-tools (branch main) and put it at tools/agent-assets-lint/ in this project, keeping its files and subfolders as they are. One way: clone the repo with --depth 1 into a temporary folder outside this project, copy tools/agent-assets-lint/ across, then delete the temporary folder. If tools/agent-assets-lint/ already exists, stop and ask me first.
+2. Do not run anything from it yet. Read tools/agent-assets-lint/README.md and tell me in a few sentences what the tool does, what it needs (Node 22 or newer), and the command to try it.
+3. Only if I then say go: copy tools/agent-assets-lint/examples/claude-code-starter.json to agent-assets.config.json at the root of this project (if a file with that name is already there, show me a diff and ask first), run node tools/agent-assets-lint/bin/agent-assets.mjs from the project root, and show me its output as it is.
+</pre>
+<p class="facts">1,034 characters</p>
+</section>
+
+
+<section aria-labelledby="where-h">
+<h2 id="where-h">How to use this</h2>
+<dl class="where">
+<dt>Any coding agent</dt>
+<dd>This tool is a folder of files. Use <strong>Copy install prompt</strong> and paste it into your coding agent, in your project: it downloads the folder to <code>tools/agent-assets-lint/</code> and tells you how to run it.</dd>
+<dt>By hand</dt>
+<dd>Use <strong>Explore on GitHub</strong> to see the files, then copy the folder <code>tools/agent-assets-lint/</code> to <code>tools/agent-assets-lint/</code> in your project (GitHub's <em>Code</em> button can download the whole repo as a ZIP).</dd>
+</dl>
+</section>
+
+<section aria-labelledby="a-sample-run">
+<h2 id="a-sample-run">A sample run</h2>
+<div class="where-text">
+<p>It&#39;s ordinary code: the same files always give the same output, so one run shows what it does. This is a small Claude Code project with two planted rule breaks, checked with the starter config (<code>examples/claude-code-starter.json</code>):</p>
+<ul><li><code>.claude/skills/release-notes/SKILL.md</code> gives its <code>name</code> as <code>release-note</code>, which doesn&#39;t match its folder.</li><li><code>.claude/agents/test-runner.md</code> has the description &quot;Runs tests.&quot;, which is 11 characters, under the starter&#39;s 20.</li></ul>
+<pre>
+OK    claude-md                  1 file(s), 4 lines
+FAIL  claude-skills              2 file(s), 16 lines
+      - .claude/skills/release-notes/SKILL.md: frontmatter &quot;name&quot; is &quot;release-note&quot; but its directory is &quot;release-notes&quot;.
+FAIL  claude-agents              1 file(s), 6 lines
+      - .claude/agents/test-runner.md: frontmatter &quot;description&quot; is 11 characters, below the 20 minimum.
+
+Agent assets: 2 issue(s) across 4 instruction file(s) totalling 26 lines.</pre>
+<p>It exits with code 1, so a CI step that runs it fails. The project is <code>test/fixtures/sample-project</code>, and one of the tool&#39;s own tests runs it and compares the output with this block, so the two cannot drift apart.</p>
+</div>
+</section>
+
+
+
+<footer><p>What you see in the boxes is exactly what the buttons copy.</p></footer>
+</main>
+<p id="copy-status" class="status" role="status" aria-live="polite" data-seq="0"></p>
+<script type="application/json" id="tool-data">{"slug":"agent-assets-lint","copies":{"payload":"Install the agent-assets-lint tool from Free-Public-Tools into this project.\n\n1. Get the folder tools/agent-assets-lint/ from https://github.com/Mike-Byrne-AI/free-public-tools (branch main) and put it at tools/agent-assets-lint/ in this project, keeping its files and subfolders as they are. One way: clone the repo with --depth 1 into a temporary folder outside this project, copy tools/agent-assets-lint/ across, then delete the temporary folder. If tools/agent-assets-lint/ already exists, stop and ask me first.\n2. Do not run anything from it yet. Read tools/agent-assets-lint/README.md and tell me in a few sentences what the tool does, what it needs (Node 22 or newer), and the command to try it.\n3. Only if I then say go: copy tools/agent-assets-lint/examples/claude-code-starter.json to agent-assets.config.json at the root of this project (if a file with that name is already there, show me a diff and ask first), run node tools/agent-assets-lint/bin/agent-assets.mjs from the project root, and show me its output as it is.\n"}}</script>
+<script>// Inlined into every tool page by build.mjs; its SHA-256 goes into the page's Content-Security-Policy.
+// Copies text/plain only, in this order: the Clipboard API, then a hidden-textarea execCommand
+// fallback, then a visible pre-selected textarea for a manual Ctrl+C / Cmd+C.
+(() => {
+  'use strict';
+  const data = JSON.parse(document.getElementById('tool-data').textContent);
+  const copies = data.copies;
+  const status = document.getElementById('copy-status');
+  const manual = document.getElementById('manual-copy');
+  const manualText = document.getElementById('manual-copy-text');
+  let seq = 0;
+  let hideTimer = 0;
+
+  // The text shown is the text copied: every preview is refilled from the JSON the buttons copy.
+  for (const el of document.querySelectorAll('[data-fill]')) el.textContent = copies[el.dataset.fill];
+
+  const chars = (s) => Array.from(s).length.toLocaleString('en-US');
+  const errName = (err) => (err && err.name) || 'error';
+
+  function report(method, message) {
+    status.dataset.method = method;
+    status.dataset.seq = String(++seq);
+    status.textContent = message;
+    status.classList.add('show');
+    clearTimeout(hideTimer);
+    if (method !== 'manual') hideTimer = setTimeout(() => status.classList.remove('show'), 8000);
+  }
+
+  function legacyCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.setAttribute('aria-hidden', 'true');
+    ta.tabIndex = -1;
+    ta.className = 'offscreen';
+    const before = document.activeElement;
+    document.body.appendChild(ta);
+    let ok = false;
+    try {
+      ta.focus({ preventScroll: true });
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      ok = document.execCommand('copy') === true;
+    } catch (err) {
+      ok = false;
+    }
+    ta.remove();
+    if (before && typeof before.focus === 'function') before.focus({ preventScroll: true });
+    return ok;
+  }
+
+  function showManual(text) {
+    manualText.value = text;
+    manual.hidden = false;
+    manualText.focus();
+    manualText.select();
+    manualText.setSelectionRange(0, manualText.value.length);
+  }
+
+  function copyText(text, label, hint) {
+    const copied = (method, how) => {
+      report(method, `Copied ${label} (${chars(text)} characters) ${how}.${hint ? ' ' + hint : ''}`);
+      return method;
+    };
+    const fallback = (reason) => {
+      if (legacyCopy(text)) {
+        return copied('execCommand', `with the fallback, document.execCommand('copy'), because the Clipboard API ${reason}`);
+      }
+      showManual(text);
+      report('manual', `Automatic copy did not work (the Clipboard API ${reason} and the execCommand fallback failed). The text is selected in the box under the buttons: press Ctrl+C / Cmd+C (long-press on mobile).`);
+      return 'manual';
+    };
+    const api = navigator.clipboard;
+    // Missing API: fall back synchronously, still inside the click.
+    if (!api || typeof api.writeText !== 'function') return Promise.resolve(fallback('is not available'));
+    let pending;
+    try {
+      pending = api.writeText(text);
+    } catch (err) {
+      return Promise.resolve(fallback(`threw ${errName(err)}`));
+    }
+    return Promise.resolve(pending).then(
+      () => copied('clipboard-api', 'with the Clipboard API (navigator.clipboard.writeText)'),
+      (err) => fallback(`was refused (${errName(err)})`),
+    );
+  }
+
+  for (const el of document.querySelectorAll('[data-copy]')) {
+    el.addEventListener('click', () => {
+      // Start the copy synchronously inside the click. No await before navigation and no
+      // preventDefault: on "Copy, then open" links the browser's default action opens the new tab.
+      copyText(copies[el.dataset.copy], el.dataset.label || 'the text', el.dataset.hint || '');
+    });
+  }
+
+  // On a phone-width screen the text boxes start wrapped, so no line is cut off at the edge; the button unwraps them.
+  const narrow = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+  for (const el of document.querySelectorAll('[data-wrap]')) {
+    if (narrow) {
+      document.getElementById(el.dataset.wrap).classList.add('wrap');
+      el.setAttribute('aria-pressed', 'true');
+    }
+    el.addEventListener('click', () => {
+      const on = document.getElementById(el.dataset.wrap).classList.toggle('wrap');
+      el.setAttribute('aria-pressed', String(on));
+    });
+  }
+})();
+</script>
+</body>
+</html>

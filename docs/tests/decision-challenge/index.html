@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>decision-challenge: the test</title>
+<style>@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); }</style>
+<link rel="icon" href="data:,">
+<style>
+/* Layout: the free-public-tools look (generator/assets/style.css): parchment graph paper with the red margin line,
+   always light like the site. Every block is a notecard; a parchment wash around each card fades the grid as it
+   meets the card. No pen labels or speech bubbles here. */
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --focus: #1f5fd6;
+  --good: #2f7d32;
+  --bad: #c8372a;
+  --tough: #6a4c9c;
+  --none: #8a6d1e;
+  --dot: #0a8a73;
+  --cut: #f6e2da;
+  --radius: 14px;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --label: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* the red margin line of writing paper, near the screen's left edge */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+.wrap { max-width: 48rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 3.25rem; }
+@media (max-width: 900px) { .wrap { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+
+h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.55rem); }
+h3 { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; font-variant-ligatures: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* a notecard: the parchment wash around it fades the grid where the grid meets the card */
+.card, .masthead {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem clamp(1rem, 4vw, 1.9rem) 1.6rem; display: grid; gap: 1.1rem; min-width: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .05), 0 8px 22px rgb(0 0 0 / .06), 0 0 22px 12px var(--wash);
+}
+.masthead { background: var(--wash); border-color: transparent; box-shadow: 0 0 26px 18px var(--wash); gap: .9rem; }
+/* the index card's ruled header line */
+.card-head { display: grid; gap: .45rem; padding-bottom: .8rem; border-bottom: 2px solid var(--margin); }
+
+.series { font: 700 .95rem/1.2 var(--label); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+.draft { justify-self: start; font-size: .8rem; font-weight: 600; color: var(--muted); border: 1px dashed var(--border); border-radius: 999px; padding: 2px 10px; background: var(--surface); }
+.lede { font-size: 1.08rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 0; padding-top: .8rem; border-top: 1px solid var(--border); }
+.facts div { display: grid; gap: .05rem; }
+.facts dt { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.block { display: grid; gap: .65rem; min-width: 0; }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: .7rem; }
+.kind { display: grid; gap: .3rem; padding: .8rem .95rem; border: 1px solid var(--border); border-radius: 10px; background: var(--code-bg); min-width: 0; }
+.kind strong { display: flex; align-items: center; gap: .5rem; }
+.swatch { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+.sw-good { background: var(--good); }
+.sw-bad { background: var(--bad); }
+.sw-tough { background: var(--tough); }
+
+.versions { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.versions li { display: grid; grid-template-columns: 8.5rem 1fr; gap: .25rem 1rem; align-items: baseline; }
+.versions li > span { font-weight: 600; }
+.versions code { display: block; padding: .45rem .6rem; border-radius: 8px; }
+.copy-btn { display: block; margin-top: .4rem; padding: .2rem .7rem; font: 600 .78rem/1.4 var(--sans); color: var(--accent); background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+@media (max-width: 34rem) { .versions li { grid-template-columns: 1fr; } }
+
+.models { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+.models li { border: 1px solid var(--border); border-radius: 999px; padding: .15rem .7rem; font-size: .9rem; background: var(--code-bg); }
+.models li b { font-weight: 600; color: var(--muted); }
+
+.marks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.marks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+.marks li > div { min-width: 0; }
+.mark { font-weight: 700; font-size: 1.1rem; line-height: 1.45; text-align: center; }
+.m-right { color: var(--good); }
+.m-wrong { color: var(--bad); }
+.m-none { color: var(--none); }
+.marks em { font-style: normal; font-weight: 600; }
+
+.gloss { display: grid; grid-template-columns: 7.5rem 1fr; gap: .55rem 1.2rem; margin: 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; min-width: 0; }
+@media (max-width: 34rem) { .gloss { grid-template-columns: 1fr; gap: .1rem; } .gloss dd { margin-bottom: .5rem; } }
+
+.chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.chip .id { font: 700 .8rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+/* a question's card: its kind is the heading, with the colour block; the plan or decision is the line under it */
+.kind-h { display: flex; align-items: center; gap: .55rem; }
+.kind-h .swatch { width: 1.05rem; height: 1.05rem; border-radius: 3px; }
+.kind-h .id { font: 700 .95rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+.plan { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+.plan .k { font: 700 .76rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.analogy { display: grid; gap: .3rem; padding: .8rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.analogy .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+.prompt { display: grid; gap: .6rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; font: .9rem/1.55 var(--mono); font-variant-ligatures: none; overflow-wrap: anywhere; }
+.prompt .k { font: 700 .72rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prompt ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .3rem; }
+
+.evidence { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.evidence li { display: grid; gap: .2rem; padding-left: .9rem; border-left: 2px solid var(--border); min-width: 0; }
+.evidence q { font: .86rem/1.5 var(--mono); quotes: none; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.evidence .src { font: .76rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .93rem; }
+th, td { text-align: right; padding: .4rem .7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+/* the test's results table: its row labels wrap and its cells are a little tighter, so it fits the card without a
+   sideways scroll on a computer */
+.results th, .results td { padding-inline: .55rem; }
+.results th[scope=row] { white-space: normal; }
+thead th { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+caption { caption-side: bottom; text-align: left; padding-top: .45rem; font: .76rem/1.4 var(--mono); color: var(--muted); }
+
+figure { margin: 0; display: grid; gap: .5rem; }
+figcaption { font-size: .92rem; color: var(--muted); }
+.chart svg { display: block; width: 100%; min-width: 32rem; height: auto; }
+.chart .zone { fill: var(--cut); }
+.chart .cutline { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .guide { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 13px; }
+.chart .strong { fill: var(--text); font-weight: 600; }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .7rem; }
+.side { display: grid; gap: .45rem; padding: .85rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.side h4 { margin: 0; font-size: 1.1rem; }
+.side dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: .3rem .75rem; font-variant-numeric: tabular-nums; }
+.side dt { color: var(--muted); }
+.side dd { margin: 0; text-align: right; font-weight: 600; }
+
+.voice { margin: 0; display: grid; gap: .55rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; }
+.voice p { font-size: 1.04rem; }
+.voice footer { font-size: .85rem; color: var(--muted); }
+
+.note { font-size: .93rem; color: var(--muted); }
+.note strong { color: var(--text); }
+.scope { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.scope li { padding-left: .9rem; border-left: 2px solid var(--border); }
+.pending { border-style: dashed; box-shadow: 0 0 22px 12px var(--wash); }
+.colophon { justify-self: center; font-size: .85rem; color: var(--muted); background: var(--wash); box-shadow: 0 0 16px 10px var(--wash); padding: .2rem .6rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* linked sources, the time-limit chart, side-by-side code and lists */
+.evidence a.src, .side a.src { font: .76rem/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.chart .limit { stroke: var(--text); stroke-width: 1.5; }
+.chart .val { fill: var(--text); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.side code { display: block; white-space: pre-wrap; padding: .5rem .6rem; border-radius: 8px; font-size: .8rem; background: var(--surface); }
+.side { align-content: start; }
+.side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; align-content: start; }
+/* results: the mark grids (tools/card-results.mjs) and the replies */
+.grids { display: grid; gap: 1.2rem; margin-top: .6rem; }
+.marks-grid caption { caption-side: top; padding: 0 0 .4rem; font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--text); }
+.marks-grid td, .marks-grid th[scope="col"] { text-align: center; }
+.marks-grid th[scope="row"] { text-align: left; font-weight: 600; }
+.marks-grid .where { display: block; font-size: .72rem; font-weight: 400; color: var(--muted); }
+.marks-grid .total th, .marks-grid .total td { font-weight: 700; border-top: 2px solid var(--border); }
+.marks-grid sup { color: var(--muted); }
+h3 .qkind { margin-left: .4rem; color: var(--muted); }
+.replies { margin-top: .8rem; }
+.replies summary { cursor: pointer; font-weight: 600; }
+.reply-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+.reply-cols h4 { margin: 0 0 .3rem; font-size: .95rem; }
+pre.reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.45 var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem; max-height: 32rem; overflow: auto; }
+</style>
+<main class="wrap">
+
+<header class="masthead">
+  <p class="series">Free-public-tools · Decision-challenge test</p>
+  <h1>Testing decision-challenge on six real projects</h1>
+  <p class="lede">I tested my <a href="../../decision-challenge/">decision-challenge</a> command on 18 decisions from six of my own projects, each set at a real point in a project's history and put to seven AI models three ways. This page has the results. Each project's page has every question word for word, the evidence behind its answer, and every model's mark.</p>
+  <dl class="facts">
+    <div><dt>Questions</dt><dd>18, in 6 repos</dd></div>
+    <div><dt>Models</dt><dd>7</dd></div>
+    <div><dt>Runs</dt><dd>378</dd></div>
+    <div><dt>Run</dt><dd>14 Oct 2026</dd></div>
+  </dl>
+</header>
+
+<section class="card" id="summary" aria-labelledby="summary-h">
+  <div class="card-head"><h2 id="summary-h">What it found</h2></div>
+  <ul class="scope">
+    <li><strong>It never touched my project.</strong> No message asked for an edit, but 21 of 126 runs with the short prompt and 43 with the plain request edited or deleted files already in the project, many of them after offering to make the change. With the command: 0.</li>
+    <li><strong>In real use it got more decisions right:</strong> 70%, against 60% for the short prompt and 51% for the plain request. In real use, a plain request stops at its first answer, while the command stops to ask for your priorities. In Claude Code alone, the short prompt kept up (45 of 54 each); the lead comes from the Copilot models.</li>
+    <li><strong>When the other two also got my priorities and a second turn, both jumped.</strong> The plain request and the short prompt each gained about 12 points, and the short prompt ran neck and neck with the command, scoring higher on some kinds of question (the prompt is below). The command takes two turns by design: it stops to ask for your priorities before it decides, where the other two answer in one. In real use, they stop at that first answer.</li>
+    <li><strong>It costs less than the short prompt given the same second turn</strong>, with fewer tool calls: $0.43 a run³ against $0.54 in Claude Code, and 5.8 Copilot credits against 8.8. In Claude Code, the short prompt's first answer on its own cost about half as much, and got as many decisions right.</li>
+    <li><strong>Where it slips:</strong> it's cautious: sometimes it pushes back on a plan that's actually fine, and sometimes it asks to measure something the project has already measured. Both are on my list for the next version.</li>
+  </ul>
+  <div class="scroll">
+  <table class="results">
+    <thead><tr><th scope="col"></th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+    <tbody>
+      <tr><th scope="rowgroup" colspan="4">Real use: the other two stop at their first answer ¹</th></tr>
+      <tr><th scope="row">Right overall</th><td><strong>88 of 126 (70%)</strong></td><td>76 (60%)</td><td>64 (51%)</td></tr>
+      <tr><th scope="row">Tough calls</th><td>24 of 42 (57%)</td><td>18 (43%)</td><td>11 (26%)</td></tr>
+      <tr><th scope="row">Good plans (say "go ahead")</th><td><strong>33 of 42 (79%)</strong></td><td>28 (67%)</td><td>27 (64%)</td></tr>
+      <tr><th scope="row">Bad plans (catch the flaw)</th><td>31 of 42 (74%)</td><td>30 (71%)</td><td>26 (62%)</td></tr>
+      <tr><th scope="rowgroup" colspan="4">Same information: every version gets my priorities ²</th></tr>
+      <tr><th scope="row">Right overall</th><td>87 of 126 (69%)</td><td>91 (72%)</td><td>80 (63%)</td></tr>
+      <tr><th scope="row">Tough calls</th><td>24 of 42 (57%)</td><td>23 (55%)</td><td>15 (36%)</td></tr>
+      <tr><th scope="row">Good plans</th><td>33 of 42 (79%)</td><td>37 (88%)</td><td>38 (90%)</td></tr>
+      <tr><th scope="row">Bad plans</th><td>30 of 42 (71%)</td><td>31 (74%)</td><td>27 (64%)</td></tr>
+      <tr><th scope="rowgroup" colspan="4">Every run</th></tr>
+      <tr><th scope="row">Edited or deleted files already in the project</th><td><strong>0 of 126</strong></td><td>21</td><td>43</td></tr>
+      <tr><th scope="row">Copilot credits a run ³</th><td>5.8</td><td>8.8</td><td>4.8</td></tr>
+      <tr><th scope="row">Claude Code cost a run ³</th><td>$0.43</td><td>$0.54</td><td>$0.34</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">¹ <strong>Real use.</strong> The short prompt and the plain request are marked on their first answer, where a real conversation usually ends; the command is marked on its answer after the priorities it asked for.</p>
+  <p class="note">² <strong>Same information.</strong> Both control groups, the short prompt and the plain request, were given a second turn: my priorities, each marked high, medium or low. Only the command asks for priorities on its own (and offers a draft), so this way favors the other two: in real use, you'd have to plan that second message yourself and send your priorities without being asked.</p>
+  <p class="note">³ <strong>One run.</strong> One decision, start to finish: both messages, one model. The dollar figure is Claude Code's own estimate at API prices, averaged over three models: for the command, about 4 cents a run with Haiku, 37 with Sonnet and 87 with Opus. On a Claude subscription, which is how I ran the test, you aren't billed per run; it counts toward your plan's usage limits. Copilot credits come from your plan's monthly allowance: for the command, about 1 to 2 a run on most models, and 18 on Gemini 3.8 Flash.</p>
+  <p class="note"><strong>Keep in mind:</strong> six projects, one run per model and question, so treat a gap of a few points as noise. The decisions come from my own projects, and I wrote the questions.</p>
+</section>
+
+<section class="card" id="repos" aria-labelledby="repos-h">
+  <div class="card-head"><h2 id="repos-h">The tests themselves: every question, by project</h2></div>
+  <p>Each project's page has its three questions word for word, the lines in the repo that decide each answer, and every model's mark, with some of the replies.</p>
+  <ul class="scope">
+    <li><a href="tokenizer-lab.html">tokenizer-lab</a>: a lab measuring how vocabulary size changes small language models.</li>
+    <li><a href="sibling-site-drift-lab.html">sibling-site-drift-lab</a>: a lab testing whether a checking routine stops AI agents leaving related files out of date.</li>
+    <li><a href="espalier-harness.html">espalier-harness</a>: my Claude Code harness. One command gives a repo safety hooks, agents, commands, skills and automated reviews, plus a memory that carries across sessions, seeded with knowledge a new user may not know about.</li>
+    <li><a href="role-aware-dashboard-toolkit.html">role-aware-dashboard-toolkit</a>: my toolkit for dashboards where what you see depends on your role, with a real auth layer: verified sign-in through your own provider, tied to roles the server grants.</li>
+    <li><a href="social-media-engine.html">A social media orchestration engine</a>: my harness that automates AI social media accounts and drafts posts for my personal, manually curated pages.</li>
+    <li><a href="specdec-sidechannels.html">specdec-sidechannels</a>: my research on whether untapped signals from the device itself, like which parts of the model each word touched in memory, can speed up speculative decoding (a small model drafts the next words, a big model checks them).</li>
+  </ul>
+</section>
+
+<section class="card" id="how" aria-labelledby="how-h">
+  <div class="card-head"><h2 id="how-h">How the test works</h2></div>
+
+  <div class="block">
+    <h3>Three kinds of question</h3>
+    <div class="kinds">
+      <div class="kind"><strong><span class="swatch sw-good" aria-hidden="true"></span>Good plan</strong><p>The repo's own files back the plan. The right reply is yes, go ahead.</p></div>
+      <div class="kind"><strong><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan</strong><p>The repo's own files sink the plan. The right reply is no, with the reason.</p></div>
+      <div class="kind"><strong><span class="swatch sw-tough" aria-hidden="true"></span>Tough call</strong><p>All the facts are in the repo and both choices hold up. The right reply says it's close and helps you weigh it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three versions of every question</h3>
+    <p>Each model gets each question three times, in a fresh session each time. Only the first message changes.</p>
+    <ul class="versions">
+      <li><span>Plain request</span><code>Challenge this decision before we lock it in: [decision].</code></li>
+      <li><span>Short prompt<button type="button" class="copy-btn" data-copy>Copy</button></span><code>Challenge this decision before we lock it in: [decision]. Read the project files it depends on, and end with a verdict: stay, pivot or split.</code></li>
+      <li><span>The command</span><code>/decision-challenge [decision]</code></li>
+    </ul>
+    <p>Then every version gets the same <strong>second message</strong>: the user's priorities, each marked HIGH, MEDIUM or LOW, ending with "Go on." The reply that's marked is the AI's answer to that second message.</p>
+    <p class="note"><strong>What that second message means.</strong> In real use, nobody sends their priorities to a plain request unless it asks for them; only the command asks. So this test compares how the three versions reason when they get the same information, which is generous to the two without the command. As a second reading, decided after the runs, I also marked the first reply of those two versions on its own, where a real conversation would usually stop.</p>
+    <script>
+    // Copy: the prompt exactly as shown beside the button; the clipboard, else the older copy command, else the text selected
+    for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+      const code = b.closest('li').querySelector('code'), say = (t) => { b.textContent = t; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      try { await navigator.clipboard.writeText(code.textContent); return say('Copied'); } catch (e) {}
+      const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { if (document.execCommand('copy')) return say('Copied'); } catch (e) {}
+      say('Selected: copy it');
+    });
+    </script>
+    <p class="note"><strong>Why a short-prompt version?</strong> It asks for two of the command's moves, reading the files and ending with a verdict, in a prompt anyone can type. If it does as well as the command, the results say so, and you can use the prompt.</p>
+  </div>
+
+  <div class="block">
+    <h3>Seven models, one run each</h3>
+    <ul class="models">
+      <li><b>Claude Code</b> Opus</li>
+      <li><b>Claude Code</b> Sonnet</li>
+      <li><b>Claude Code</b> Haiku</li>
+      <li><b>Copilot</b> GPT-5 mini</li>
+      <li><b>Copilot</b> GPT-6 Luna</li>
+      <li><b>Copilot</b> MAI-Code 1.1 Flash</li>
+      <li><b>Copilot</b> Gemini 3.8 Flash</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How a reply is marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right call.</em> What counts is written on each card.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong call.</em> The wrong side, or treating a settled question as open, or an open one as settled.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call.</em> No verdict, or pros and cons with no help deciding.</div></li>
+    </ul>
+    <p>A few rules hold on every card. On a Bad plan, a ✓ needs the real reason, not a general warning. On a Good or Bad plan, a middle way or "run a test first" is ✗ when the files already settle it. On a Tough call, a lean either way can earn ✓, and so can a middle way argued as a trade. Each turn has a 30-minute limit; a reply cut off by it is marked on what it had said by then.</p>
+  </div>
+
+  <div class="block">
+    <h3>Who marks the replies</h3>
+    <p>Two AI models mark every reply, each on its own: Claude Sonnet and GPT-6 Luna. They aren't told which version or model wrote it, but what the user typed shows the version, and the agent's tool-call style can show whether it ran in Claude Code or Copilot. Where they disagree, Claude Opus decides, also without being told. I marked 15 Tough-call replies myself, shuffled and without names, starting with ones the two markers disagreed on.</p>
+  </div>
+</section>
+
+<p class="colophon">Questions, evidence and marking written 13–14 Oct 2026, before any run; later changes are dated on each project's page. Part of the free-public-tools test series.</p>
+
+</main>

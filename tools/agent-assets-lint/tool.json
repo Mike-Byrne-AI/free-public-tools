@@ -1,0 +1,20 @@
+{
+  "slug": "agent-assets-lint",
+  "title": "Agent assets lint: check your AI instruction files against your own rules",
+  "summary": "A small Node tool that checks CLAUDE.md, AGENTS.md, skills and agent files against rules you write in one JSON file: line budgets, required headings, matching skill names, real descriptions. Comes with a starter policy for a plain Claude Code project.",
+  "why": "I ran it across 81 of my own Claude Code projects. It found 30 agent files with no header at all, 28 of them in 7 projects I had copied from an older setup of mine.",
+  "kind": "folder",
+  "file": "install-prompt.md",
+  "install_path": "tools/agent-assets-lint",
+  "repo_path": "tools/agent-assets-lint/install-prompt.md",
+  "released": "2026-10-19",
+  "page_sections": ["A sample run"],
+  "card": {
+    "headline": "Keep your AI's instruction files in shape",
+    "highlight": "in shape",
+    "what": "A small custom Node tool that checks your AI's instruction files against your own rules.",
+    "note": "Is my CLAUDE.md getting too long?",
+    "reply": "Yes: 240 lines against your 200 limit, and one skill has no description.",
+    "foot": "a Node tool for any coding agent"
+  }
+}

@@ -1,0 +1,1249 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>espalier-harness Test Cards</title>
+<style>@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); }</style>
+<link rel="icon" href="data:,">
+<style>
+/* Layout: the free-public-tools look (generator/assets/style.css): parchment graph paper with the red margin line,
+   always light like the site. Every block is a notecard; a parchment wash around each card fades the grid as it
+   meets the card. No pen labels or speech bubbles here. */
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --focus: #1f5fd6;
+  --good: #2f7d32;
+  --bad: #c8372a;
+  --tough: #6a4c9c;
+  --none: #8a6d1e;
+  --dot: #0a8a73;
+  --cut: #f6e2da;
+  --radius: 14px;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --label: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* the red margin line of writing paper, near the screen's left edge */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+.wrap { max-width: 48rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 3.25rem; }
+@media (max-width: 900px) { .wrap { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+
+h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.55rem); }
+h3 { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; font-variant-ligatures: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* a notecard: the parchment wash around it fades the grid where the grid meets the card */
+.card, .masthead {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem clamp(1rem, 4vw, 1.9rem) 1.6rem; display: grid; gap: 1.1rem; min-width: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .05), 0 8px 22px rgb(0 0 0 / .06), 0 0 22px 12px var(--wash);
+}
+.masthead { background: var(--wash); border-color: transparent; box-shadow: 0 0 26px 18px var(--wash); gap: .9rem; }
+/* the index card's ruled header line */
+.card-head { display: grid; gap: .45rem; padding-bottom: .8rem; border-bottom: 2px solid var(--margin); }
+
+.series { font: 700 .95rem/1.2 var(--label); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+.draft { justify-self: start; font-size: .8rem; font-weight: 600; color: var(--muted); border: 1px dashed var(--border); border-radius: 999px; padding: 2px 10px; background: var(--surface); }
+.lede { font-size: 1.08rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 0; padding-top: .8rem; border-top: 1px solid var(--border); }
+.facts div { display: grid; gap: .05rem; }
+.facts dt { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.block { display: grid; gap: .65rem; min-width: 0; }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: .7rem; }
+.kind { display: grid; gap: .3rem; padding: .8rem .95rem; border: 1px solid var(--border); border-radius: 10px; background: var(--code-bg); min-width: 0; }
+.kind strong { display: flex; align-items: center; gap: .5rem; }
+.swatch { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+.sw-good { background: var(--good); }
+.sw-bad { background: var(--bad); }
+.sw-tough { background: var(--tough); }
+
+.versions { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.versions li { display: grid; grid-template-columns: 8.5rem 1fr; gap: .25rem 1rem; align-items: baseline; }
+.versions li > span { font-weight: 600; }
+.versions code { display: block; padding: .45rem .6rem; border-radius: 8px; }
+.copy-btn { display: block; margin-top: .4rem; padding: .2rem .7rem; font: 600 .78rem/1.4 var(--sans); color: var(--accent); background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+@media (max-width: 34rem) { .versions li { grid-template-columns: 1fr; } }
+
+.models { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+.models li { border: 1px solid var(--border); border-radius: 999px; padding: .15rem .7rem; font-size: .9rem; background: var(--code-bg); }
+.models li b { font-weight: 600; color: var(--muted); }
+
+.marks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.marks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+.marks li > div { min-width: 0; }
+.mark { font-weight: 700; font-size: 1.1rem; line-height: 1.45; text-align: center; }
+.m-right { color: var(--good); }
+.m-wrong { color: var(--bad); }
+.m-none { color: var(--none); }
+.marks em { font-style: normal; font-weight: 600; }
+
+.gloss { display: grid; grid-template-columns: 7.5rem 1fr; gap: .55rem 1.2rem; margin: 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; min-width: 0; }
+@media (max-width: 34rem) { .gloss { grid-template-columns: 1fr; gap: .1rem; } .gloss dd { margin-bottom: .5rem; } }
+
+.chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.chip .id { font: 700 .8rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+/* a question's card: its kind is the heading, with the colour block; the plan or decision is the line under it */
+.kind-h { display: flex; align-items: center; gap: .55rem; }
+.kind-h .swatch { width: 1.05rem; height: 1.05rem; border-radius: 3px; }
+.kind-h .id { font: 700 .95rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+.plan { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+.plan .k { font: 700 .76rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.analogy { display: grid; gap: .3rem; padding: .8rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.analogy .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+.prompt { display: grid; gap: .6rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; font: .9rem/1.55 var(--mono); font-variant-ligatures: none; overflow-wrap: anywhere; }
+.prompt .k { font: 700 .72rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prompt ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .3rem; }
+
+.evidence { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.evidence li { display: grid; gap: .2rem; padding-left: .9rem; border-left: 2px solid var(--border); min-width: 0; }
+.evidence q { font: .86rem/1.5 var(--mono); quotes: none; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.evidence .src { font: .76rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .93rem; }
+th, td { text-align: right; padding: .4rem .7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+/* the test's results table: its row labels wrap and its cells are a little tighter, so it fits the card without a
+   sideways scroll on a computer */
+.results th, .results td { padding-inline: .55rem; }
+.results th[scope=row] { white-space: normal; }
+thead th { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+caption { caption-side: bottom; text-align: left; padding-top: .45rem; font: .76rem/1.4 var(--mono); color: var(--muted); }
+
+figure { margin: 0; display: grid; gap: .5rem; }
+figcaption { font-size: .92rem; color: var(--muted); }
+.chart svg { display: block; width: 100%; min-width: 32rem; height: auto; }
+.chart .zone { fill: var(--cut); }
+.chart .cutline { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .guide { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 13px; }
+.chart .strong { fill: var(--text); font-weight: 600; }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .7rem; }
+.side { display: grid; gap: .45rem; padding: .85rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.side h4 { margin: 0; font-size: 1.1rem; }
+.side dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: .3rem .75rem; font-variant-numeric: tabular-nums; }
+.side dt { color: var(--muted); }
+.side dd { margin: 0; text-align: right; font-weight: 600; }
+
+.voice { margin: 0; display: grid; gap: .55rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; }
+.voice p { font-size: 1.04rem; }
+.voice footer { font-size: .85rem; color: var(--muted); }
+
+.note { font-size: .93rem; color: var(--muted); }
+.note strong { color: var(--text); }
+.scope { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.scope li { padding-left: .9rem; border-left: 2px solid var(--border); }
+.pending { border-style: dashed; box-shadow: 0 0 22px 12px var(--wash); }
+.colophon { justify-self: center; font-size: .85rem; color: var(--muted); background: var(--wash); box-shadow: 0 0 16px 10px var(--wash); padding: .2rem .6rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* linked sources, the time-limit chart, side-by-side code and lists */
+.evidence a.src, .side a.src { font: .76rem/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.chart .limit { stroke: var(--text); stroke-width: 1.5; }
+.chart .val { fill: var(--text); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.side code { display: block; white-space: pre-wrap; padding: .5rem .6rem; border-radius: 8px; font-size: .8rem; background: var(--surface); }
+.side { align-content: start; }
+.side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; align-content: start; }
+/* results: the mark grids (tools/card-results.mjs) and the replies */
+.grids { display: grid; gap: 1.2rem; margin-top: .6rem; }
+.marks-grid caption { caption-side: top; padding: 0 0 .4rem; font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--text); }
+.marks-grid td, .marks-grid th[scope="col"] { text-align: center; }
+.marks-grid th[scope="row"] { text-align: left; font-weight: 600; }
+.marks-grid .where { display: block; font-size: .72rem; font-weight: 400; color: var(--muted); }
+.marks-grid .total th, .marks-grid .total td { font-weight: 700; border-top: 2px solid var(--border); }
+.marks-grid sup { color: var(--muted); }
+h3 .qkind { margin-left: .4rem; color: var(--muted); }
+.replies { margin-top: .8rem; }
+.replies summary { cursor: pointer; font-weight: 600; }
+.reply-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+.reply-cols h4 { margin: 0 0 .3rem; font-size: .95rem; }
+pre.reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.45 var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem; max-height: 32rem; overflow: auto; }
+</style>
+
+<main class="wrap">
+
+<header class="masthead">
+  <p class="series">Free-public-tools · Decision-challenge test</p>
+  <h1>espalier-harness test cards</h1>
+  <p class="lede">Three questions from espalier-harness, each put to seven AI models three ways. Each card shows the exact words the models get, the lines in the repo that decide the answer, and how each reply is marked. It was all written before any model answered, except the changes dated in the notes on this page.</p>
+  <dl class="facts">
+    <div><dt>Repo</dt><dd><a href="https://github.com/Mike-Byrne-AI/espalier-harness">espalier-harness</a></dd></div>
+    <div><dt>Snapshots</dt><dd>1 and 7 Oct 2026</dd></div>
+    <div><dt>Questions</dt><dd>3</dd></div>
+    <div><dt>Status</dt><dd>Run and marked, 14 Oct 2026</dd></div>
+  </dl>
+</header>
+
+<section class="card" id="how" aria-labelledby="how-h">
+  <div class="card-head"><h2 id="how-h">How the test works</h2></div>
+
+  <div class="block">
+    <h3>Three kinds of question</h3>
+    <div class="kinds">
+      <div class="kind"><strong><span class="swatch sw-good" aria-hidden="true"></span>Good plan</strong><p>The repo's own files back the plan. The right reply is yes, go ahead.</p></div>
+      <div class="kind"><strong><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan</strong><p>The repo's own files sink the plan. The right reply is no, with the reason.</p></div>
+      <div class="kind"><strong><span class="swatch sw-tough" aria-hidden="true"></span>Tough call</strong><p>All the facts are in the repo and both choices hold up. The right reply says it's close and helps you weigh it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three versions of every question</h3>
+    <p>Each model gets each question three times, in a fresh session each time. Only the first message changes.</p>
+    <ul class="versions">
+      <li><span>Plain request</span><code>Challenge this decision before we lock it in: [decision].</code></li>
+      <li><span>Short prompt<button type="button" class="copy-btn" data-copy>Copy</button></span><code>Challenge this decision before we lock it in: [decision]. Read the project files it depends on, and end with a verdict: stay, pivot or split.</code></li>
+      <li><span>The command</span><code>/decision-challenge [decision]</code></li>
+    </ul>
+    <p>Then every version gets the same <strong>second message</strong>: the user's priorities, each marked HIGH, MEDIUM or LOW, ending with "Go on." The reply that's marked is the AI's answer to that second message.</p>
+    <p class="note"><strong>What that second message means.</strong> In real use, nobody sends their priorities to a plain request unless it asks for them; only the command asks. So this test compares how the three versions reason when they get the same information, which is generous to the two without the command. As a second reading, decided after the runs, I also marked the first reply of those two versions on its own, where a real conversation would usually stop.</p>
+    <script>
+    // Copy: the prompt exactly as shown beside the button; the clipboard, else the older copy command, else the text selected
+    for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+      const code = b.closest('li').querySelector('code'), say = (t) => { b.textContent = t; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      try { await navigator.clipboard.writeText(code.textContent); return say('Copied'); } catch (e) {}
+      const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { if (document.execCommand('copy')) return say('Copied'); } catch (e) {}
+      say('Selected: copy it');
+    });
+    </script>
+    <p class="note"><strong>Why a short-prompt version?</strong> It asks for two of the command's moves, reading the files and ending with a verdict, in a prompt anyone can type. If it does as well as the command, the results say so, and you can use the prompt.</p>
+  </div>
+
+  <div class="block">
+    <h3>Seven models, one run each</h3>
+    <ul class="models">
+      <li><b>Claude Code</b> Opus</li>
+      <li><b>Claude Code</b> Sonnet</li>
+      <li><b>Claude Code</b> Haiku</li>
+      <li><b>Copilot</b> GPT-5 mini</li>
+      <li><b>Copilot</b> GPT-6 Luna</li>
+      <li><b>Copilot</b> MAI-Code 1.1 Flash</li>
+      <li><b>Copilot</b> Gemini 3.8 Flash</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How a reply is marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right call.</em> What counts is written on each card.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong call.</em> The wrong side, or treating a settled question as open, or an open one as settled.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call.</em> No verdict, or pros and cons with no help deciding.</div></li>
+    </ul>
+    <p>A few rules hold on every card. On a Bad plan, a ✓ needs the real reason, not a general warning. On a Good or Bad plan, a middle way or "run a test first" is ✗ when the files already settle it. On a Tough call, a lean either way can earn ✓, and so can a middle way argued as a trade. Each turn has a 30-minute limit; a reply cut off by it is marked on what it had said by then.</p>
+  </div>
+
+  <div class="block">
+    <h3>Who marks the replies</h3>
+    <p>Two AI models mark every reply, each on its own: Claude Sonnet and GPT-6 Luna. They aren't told which version or model wrote it, but what the user typed shows the version, and the agent's tool-call style can show whether it ran in Claude Code or Copilot. Where they disagree, Claude Opus decides, also without being told. I marked 15 Tough-call replies myself, shuffled and without names, starting with ones the two markers disagreed on.</p>
+  </div>
+</section>
+
+<section class="card" id="repo-espalier" aria-labelledby="repo-espalier-h">
+  <div class="card-head"><h2 id="repo-espalier-h">The repo: espalier-harness</h2></div>
+  <p>espalier-harness is a toolbelt I build for Claude Code, an AI coding agent. One command sets a project up with safety checks, routines, review agents and a memory that carries across sessions. The safety checks, called hooks, run before each action the AI takes and can refuse it or ask "are you sure?" first. The routines include <code>/commit</code> for saving work and <code>/handoff</code> for leaving notes at the end of a session.</p>
+  <p>espalier-harness is <a href="https://github.com/Mike-Byrne-AI/espalier-harness">public</a>, so each card links the lines it quotes, as they stood on the day of that card's snapshot.</p>
+  <div class="block">
+    <h3>Words you'll see</h3>
+    <dl class="gloss">
+      <dt>Hook</dt><dd>A small program Claude Code runs before each action the AI takes. A safety hook can refuse the action.</dd>
+      <dt>write_guard</dt><dd>espalier's main safety hook. It checks every action, file deletes included.</dd>
+      <dt>Time limit</dt><dd>How long Claude Code waits for a hook. When it runs out, Claude Code stops waiting and lets the action go ahead.</dd>
+      <dt>Commit</dt><dd>Saving a set of changes into the project's history. Changes set aside for the next commit are "staged", and a plain commit saves all of them.</dd>
+      <dt>Wall, nudge</dt><dd>write_guard's two ways of saying no. A wall refuses outright. A nudge asks "are you sure?", and the AI gets past it by asking again.</dd>
+      <dt>Bash, PowerShell</dt><dd>Two command-line tools the AI can use to run commands on Windows.</dd>
+      <dt>Maintenance mode</dt><dd>A setting, switched on before starting Claude Code, that skips some checks while I work on espalier itself. It never lifts a wall.</dd>
+    </dl>
+  </div>
+</section>
+
+<article class="card" id="e1" aria-labelledby="e1-h e1-t">
+  <div class="card-head">
+    <h2 id="e1-h" class="kind-h"><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan <span class="id">E1</span></h2>
+    <p class="plan" id="e1-t"><span class="k">The plan:</span> Cut the safety check's time limit to 1 second</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>Before every action the AI takes, Claude Code runs write_guard and waits up to 5 seconds for its answer. If the check takes longer, Claude Code stops waiting and the action goes ahead unchecked. The plan: cut the wait to 1 second, so a stuck check can't hold up every action.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a bad plan</h3>
+    <p>The limit is a ceiling, not a speed setting. An ordinary check takes about a quarter of a second, so a lower limit saves nothing there. The checks that take longer are the big ones: one delete of 250 files took 1.0 second to check, 500 files took 1.6 and 1,000 took 2.9. With a 1-second limit, deletes of a few hundred files would go through unchecked, and they're the actions most worth checking.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A guard checks bags at a door, and the rule says: if a check takes over 5 seconds, wave the person through. Most bags take a quarter of a second. Cutting the limit to 1 second doesn't speed up ordinary bags; they're already quick. It only means the big suitcases get waved through unchecked, and they're the ones worth checking.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Cut write_guard's time limit (set in espalier/harness_config.py) from 5 seconds to 1 second, so a stuck check can't hold up every action for 5 seconds. Ordinary checks take about 0.3 seconds anyway.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>The check still catches dangerous actions (HIGH).</li>
+        <li>The agent isn't slowed down (MEDIUM).</li>
+        <li>Effort (LOW).</li>
+        <li>Time to make the change (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <figure class="chart">
+      <div class="scroll">
+        <svg viewBox="0 0 640 236" role="img" aria-labelledby="e1c-title e1c-desc">
+          <title id="e1c-title">How long write_guard took to check one action, against the 1-second and 5-second limits</title>
+          <desc id="e1c-desc">Five rows. Reading a file: 0.27 seconds. Deleting 250 files: 1.0. Deleting 500 files: 1.6. Deleting 1,000 files: 2.9. Deleting 2,000 files: 10.6. Every delete reaches or passes the proposed 1-second line; the 2,000-file delete also passes today's 5-second line.</desc>
+          <rect class="zone" x="235" y="48" width="385" height="142"/>
+          <line class="cutline" x1="235" y1="30" x2="235" y2="190"/>
+          <text class="strong" x="241" y="24">1 s limit (the plan)</text>
+          <line class="limit" x1="375" y1="30" x2="375" y2="190"/>
+          <text class="strong" x="381" y="24">5 s limit (today)</text>
+          <text x="188" y="40" text-anchor="end">What was checked</text>
+          <line class="guide" x1="200" y1="66" x2="620" y2="66"/>
+          <line class="guide" x1="200" y1="94" x2="620" y2="94"/>
+          <line class="guide" x1="200" y1="122" x2="620" y2="122"/>
+          <line class="guide" x1="200" y1="150" x2="620" y2="150"/>
+          <line class="guide" x1="200" y1="178" x2="620" y2="178"/>
+          <text class="strong" x="188" y="70.5" text-anchor="end">Reading a file</text>
+          <text class="strong" x="188" y="98.5" text-anchor="end">Deleting 250 files</text>
+          <text class="strong" x="188" y="126.5" text-anchor="end">Deleting 500 files</text>
+          <text class="strong" x="188" y="154.5" text-anchor="end">Deleting 1,000 files</text>
+          <text class="strong" x="188" y="182.5" text-anchor="end">Deleting 2,000 files</text>
+          <line class="axis" x1="200" y1="192" x2="620" y2="192"/>
+          <line class="axis" x1="200" y1="192" x2="200" y2="197"/>
+          <line class="axis" x1="375" y1="192" x2="375" y2="197"/>
+          <line class="axis" x1="550" y1="192" x2="550" y2="197"/>
+          <text x="200" y="211" text-anchor="middle">0 s</text>
+          <text x="375" y="211" text-anchor="middle">5 s</text>
+          <text x="550" y="211" text-anchor="middle">10 s</text>
+          <text x="410" y="229" text-anchor="middle">seconds to check</text>
+          <circle class="dot" cx="209.5" cy="66" r="5"><title>Reading a file: 0.27 s (median of 10)</title></circle>
+          <circle class="dot" cx="235" cy="94" r="5"><title>Deleting 250 files: 1.0 s</title></circle>
+          <circle class="dot" cx="256" cy="122" r="5"><title>Deleting 500 files: 1.6 s</title></circle>
+          <circle class="dot" cx="301.5" cy="150" r="5"><title>Deleting 1,000 files: 2.9 s</title></circle>
+          <circle class="dot" cx="571" cy="178" r="5"><title>Deleting 2,000 files: 10.6 s</title></circle>
+          <text class="val" x="219.5" y="70.5">0.27 s</text>
+          <text class="val" x="245" y="98.5">1.0 s</text>
+          <text class="val" x="266" y="126.5">1.6 s</text>
+          <text class="val" x="311.5" y="154.5">2.9 s</text>
+          <text class="val" x="581" y="182.5">10.6 s</text>
+        </svg>
+      </div>
+      <figcaption>Measured in my task ledger on one Windows machine; the deletes ran through the Bash tool. Shaded: past the proposed 1-second limit, where Claude Code would stop waiting and let the action through. The 2,000-file delete was already past today's 5-second limit, which is the problem that ledger entry reports.</figcaption>
+    </figure>
+    <ul class="evidence">
+      <li><q>"write_guard.py": { "event": "PreToolUse", "matcher": "*", "timeout": 5,</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/279cfc2c4e24c227e40645700e473c5f800e0af7/espalier/harness_config.py#L40-L41">espalier/harness_config.py:40–41</a><span>write_guard runs before every action (the <code>*</code>), and Claude Code waits up to 5 seconds for it.</span></li>
+      <li><q>A timed-out command, http, or mcp_tool hook doesn't block the tool call. The call continues through the normal permission flow, so don't count on a stalled hook to act as a gate.</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/279cfc2c4e24c227e40645700e473c5f800e0af7/docs/external/cc-hook-protocol.md?plain=1#L197-L199">docs/external/cc-hook-protocol.md:197–199</a><span>Claude Code's own documentation, copied into the repo: a check that runs out of time doesn't stop the action.</span></li>
+      <li><q>A timed-out espalier command guard therefore fails open on PreToolUse, with no notice beyond the debug log.</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/279cfc2c4e24c227e40645700e473c5f800e0af7/docs/external/cc-hook-protocol.md?plain=1#L203-L204">cc-hook-protocol.md:203–204</a><span>My note on what that means here: the action goes ahead, and only a hidden debug log records it.</span></li>
+      <li><q>on the Bash tool 1.0 s at 250 operands, 1.6 s at 500, 2.9 s at 1,000, 10.6 s at 2,000</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/279cfc2c4e24c227e40645700e473c5f800e0af7/task-packs/FORWARD_LEDGER.md?plain=1#L602">task-packs/FORWARD_LEDGER.md:602</a><span>How long the check took on one delete of that many files.</span></li>
+      <li><q>write_guard with a Read payload 0.269 s median</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/279cfc2c4e24c227e40645700e473c5f800e0af7/task-packs/FORWARD_LEDGER.md?plain=1#L506">task-packs/FORWARD_LEDGER.md:506</a><span>An ordinary action, reading a file, takes about a quarter of a second to check.</span></li>
+      <li><q>the security property is no-timeout</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/279cfc2c4e24c227e40645700e473c5f800e0af7/bench/RESULTS.md?plain=1#L138">bench/RESULTS.md:138</a><span>My own test notes treat never timing out as the safety property.</span></li>
+      <li><q>Timeout = p99 latency × 2 (or some empirically-tuned multiple)</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/279cfc2c4e24c227e40645700e473c5f800e0af7/docs/FAILURE_MODES.md?plain=1#L4195">docs/FAILURE_MODES.md:4195</a><span>The trap: a general rule of thumb. Applied to ordinary checks alone, it says cut the limit.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says no, and gives the reason: a check that runs out of time lets the action through, and one delete of 250 to 1,000 files took 1 to 3 seconds to check, so a 1-second limit lets deletes like that through unchecked, while ordinary checks gain nothing. "No, and give the check a time budget of its own" also counts. Noticing that 5 seconds is already too short for very long deletes is a bonus.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> goes ahead, splits the difference, or asks to measure first when the repo's measurements already settle it.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> the check runs on every action, so a stuck one would hold up every action for 5 seconds.<br><strong>The counterargument:</strong> the repo records no stuck check, and the limit only matters when the check is slow, which is when it's judging a big command.</p>
+  <p class="note"><strong>What I actually did:</strong> the same day, I gave the check a 3.5-second budget of its own. If it can't decide in time, it now refuses the action and asks for the command to be split, instead of letting it through. The limit stayed at 5 seconds.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> a fourth priority was added, because the command asks for four to six and, given three, one model stopped to ask for another. This card's runs also go on their own, two at a time: replies measure the check's speed live, and with eight runs at once the dry run measured ordinary checks at close to a second, where the repo's own figure is 0.27. On 14 Oct the first set of E1 runs went beside five other runs by mistake, up to seven at once, so all 21 were redone on their own; the first set is reported beside them.</p>
+</article>
+
+<article class="card" id="e2" aria-labelledby="e2-h e2-t">
+  <div class="card-head">
+    <h2 id="e2-h" class="kind-h"><span class="swatch sw-good" aria-hidden="true"></span>Good plan <span class="id">E2</span></h2>
+    <p class="plan" id="e2-t"><span class="k">The plan:</span> Make /handoff name its files when it commits</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>At the end of a session, <code>/handoff</code> writes the session's notes into a file and commits it. It stages its own file by name, then runs a plain <code>git commit</code>. A plain commit saves everything staged, not just what this step added. And a handoff often runs while another session is working in the same folder.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a good plan</h3>
+    <p>If another session has staged a half-finished change, the handoff's notes commit takes it too, and it goes into the history without anyone reviewing it. The sister routine, <code>/commit</code>, already prevents this by naming its files on the commit line, and its instructions say why. The fix is to do the same in <code>/handoff</code>, and in the script that runs that step in this repo.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>Two people share one copy-shop tray. One hands over their pages and says "copy these three". The other puts their page on the tray and says "copy everything on the tray", so a colleague's half-finished draft goes out with it. The fix is to name your pages, as the first person already does.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>In the handoff instructions' step 5 (espalier/assets/claude/commands/handoff.md) and the script that runs that step in this repo (scripts/handoff_mechanics.py), name the files on the git commit line, as the /commit instructions already do.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>A handoff never commits someone else's work (HIGH).</li>
+        <li>The handoff steps stay simple (MEDIUM).</li>
+        <li>Effort (LOW).</li>
+        <li>Time to make the change (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <div class="compare">
+      <div class="side">
+        <h4>/commit names its files</h4>
+        <code>git add -- &lt;approved paths&gt;
+git commit -m "&lt;approved message&gt;" -- &lt;approved paths&gt;</code>
+        <a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1f99b6b868a2afbda03b2dcc2a257df8d75bf99c/espalier/assets/claude/commands/commit.md?plain=1#L101-L102">commit.md:101–102</a>
+      </div>
+      <div class="side">
+        <h4>/handoff, step 5, doesn't</h4>
+        <code>git add ESPALIER_MEMORY.md
+git commit -m "docs(memory): &lt;headline, at most 72 characters&gt;" …</code>
+        <a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1f99b6b868a2afbda03b2dcc2a257df8d75bf99c/espalier/assets/claude/commands/handoff.md?plain=1#L196-L197">handoff.md:196–197</a>
+      </div>
+    </div>
+    <ul class="evidence">
+      <li><q>Stage by explicit path. Never git add -A or git add . — a handoff routinely runs on a tree that also holds a parallel session's in-flight work, and a broad stage silently attributes someone else's changes to your memory commit.</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1f99b6b868a2afbda03b2dcc2a257df8d75bf99c/espalier/assets/claude/commands/handoff.md?plain=1#L180-L182">espalier/assets/claude/commands/handoff.md:180–182</a><span>The handoff's own instructions name the danger, but guard against it only when staging.</span></li>
+      <li><q>The paths on the commit line are what keep the commit to the list when the index already holds something else. A change somebody staged before you started is theirs: it stays staged and uncommitted, and you do not unstage it.</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1f99b6b868a2afbda03b2dcc2a257df8d75bf99c/espalier/assets/claude/commands/commit.md?plain=1#L106-L109">espalier/assets/claude/commands/commit.md:106–109</a><span>The sister routine says exactly why naming the files matters.</span></li>
+      <li><q>argv = ["git", "add", "--", *paths] … subprocess.run(["git", "commit", "-q", "-F", "-"], …)</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1f99b6b868a2afbda03b2dcc2a257df8d75bf99c/scripts/handoff_mechanics.py#L213-L225">scripts/handoff_mechanics.py:213, 225</a><span>The script that runs this step here stages by name too, then commits everything staged.</span></li>
+      <li><q>(During a merge git refuses a path-limited commit. Stop there and ask; do not fall back to a broad one.)</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1f99b6b868a2afbda03b2dcc2a257df8d75bf99c/espalier/assets/claude/commands/commit.md?plain=1#L109-L111">commit.md:109–111</a><span>The one catch, which <code>/commit</code> already handles.</span></li>
+    </ul>
+    <p class="note"><strong>Why these paths:</strong> the working copies of both routines sit in the <code>.claude</code> folder, which the models' copy leaves out. Identical copies in <code>espalier/assets/claude/commands/</code> stay, so the models read the same words.</p>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says go ahead, in both places. "Yes, and stop during a merge, as <code>/commit</code> does" also counts.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> says no, splits it, or asks for a test first when the files already settle it.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> the handoff already stages only its own file by name, so nothing else can get in.<br><strong>The counterargument:</strong> a commit takes everything staged, not only what this step added, which is the point the <code>/commit</code> instructions make.</p>
+  <p class="note"><strong>What I actually did:</strong> on 6 Oct I made this change in both places. The handoff now also stops if a merge is in progress.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> a fourth priority was added, because the command asks for four to six and, given three, one model stopped to ask for another and gave no verdict.</p>
+</article>
+
+<article class="card" id="e3" aria-labelledby="e3-h e3-t">
+  <div class="card-head">
+    <h2 id="e3-h" class="kind-h"><span class="swatch sw-tough" aria-hidden="true"></span>Tough call <span class="id">E3</span></h2>
+    <p class="plan" id="e3-t"><span class="k">The decision:</span> Should Bash refuse the same deletes as PowerShell?</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>On Windows the AI can run commands through two tools, PowerShell and Bash. When it tries to delete a folder near the top of a drive, such as <code>C:/work/old</code> or <code>C:/Windows/System32</code>, PowerShell refuses outright. Bash only asks "are you sure?", and the AI gets past that by asking again. Bash's warning even says the check "hard-blocks … shallow system paths", which isn't true on Bash. The plan: make Bash refuse too.</p>
+    <div class="scroll">
+      <table>
+        <caption>write_guard's answer to one plain recursive delete on Windows, at this snapshot (task-packs/FORWARD_LEDGER.md:1647 and :1655; docs/HOOKS.md:639–643)</caption>
+        <thead><tr><th scope="col">Folder</th><th scope="col">PowerShell</th><th scope="col">Bash today</th><th scope="col">Bash, if it matched</th></tr></thead>
+        <tbody>
+          <tr><td>C:/Windows/System32</td><td>Refuses</td><td>Asks</td><td>Refuses</td></tr>
+          <tr><td>C:/work/old</td><td>Refuses</td><td>Asks</td><td>Refuses</td></tr>
+          <tr><td>D:/data/cache</td><td>Refuses</td><td>Asks</td><td>Refuses</td></tr>
+          <tr><td>Inside the project or home folder</td><td>Asks</td><td>Asks</td><td>Asks</td></tr>
+          <tr><td>Inside a temp folder</td><td>Asks</td><td>Asks</td><td>Asks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The trade-off</h3>
+    <p>Making Bash refuse gives one answer per folder, whichever tool runs the delete, and it stops a slip on a system folder instead of only questioning it. But ordinary folders such as <code>C:/work/old</code> and <code>D:/data/cache</code> would be refused too, with no way past inside the session. My own rule ranks that cost first: false alarms and friction outrank closing loopholes. The same rule says the threat is mistakes, not malice, and a slip on System32 is exactly a mistake. So the rule pulls both ways.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A building has two doors to the same machine room. The front-door guard flatly refuses anyone heading for the main wiring closet. The back-door guard asks "are you sure?" and lets you through if you say yes twice. Make the back door refuse too, and a careless slip at the wiring closet gets stopped. But the electrician doing ordinary work in the closets nearby gets turned away as well, and can't be let in on the spot; it takes a trip to the office.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>On Windows, make the Bash tool refuse the same deletes near the top of a drive that the PowerShell tool already refuses (like C:/work/old or C:/Windows/System32), so both tools give the same answer.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Don't block ordinary work (HIGH).</li>
+        <li>A slip must never wipe a system folder (HIGH).</li>
+        <li>The two tools and their warnings agree (MEDIUM).</li>
+        <li>Effort (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence on both sides</h3>
+    <ul class="evidence">
+      <li><q>The threat model is operator/AI mistakes, not malice. False-positives and workflow friction outrank closing bypass classes. Read every guard, gate, and "security" decision through this lens.</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1e9a81fb4947694a91c6f6e768c256a6aacfde64/docs/STANDING_PRINCIPLES.md?plain=1#L46-L48">docs/STANDING_PRINCIPLES.md:46–48</a><span>My own rule. It pulls both ways: friction comes first, and a slip on a system folder is exactly a mistake.</span></li>
+      <li><q>a shallow Windows system path (rm -rf C:/Windows/System32, C:/work/old) draws a re-issuable nudge on Bash where PowerShell walls it</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1e9a81fb4947694a91c6f6e768c256a6aacfde64/task-packs/FORWARD_LEDGER.md?plain=1#L1655">task-packs/FORWARD_LEDGER.md:1655</a><span>The difference itself. "Re-issuable": the AI gets past it by asking again.</span></li>
+      <li><q>counting without the drive letter on Bash makes rm -rf C:/work/old and D:/data/cache new walls maintenance mode cannot bypass, the false-positive direction the toolbelt frame ranks first</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1e9a81fb4947694a91c6f6e768c256a6aacfde64/task-packs/FORWARD_LEDGER.md?plain=1#L1655">FORWARD_LEDGER.md:1655</a><span>The cost of matching: ordinary folders become walls, with no setting that gets past them.</span></li>
+      <li><q>or by an operator decision to keep the difference and correct the tail</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1e9a81fb4947694a91c6f6e768c256a6aacfde64/task-packs/FORWARD_LEDGER.md?plain=1#L1655">FORWARD_LEDGER.md:1655</a><span>The other option my ledger names: keep the difference and fix Bash's warning.</span></li>
+      <li><q>a drive path two levels deep is shallow, as /usr/local is (the code review: one level was a level short)</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1e9a81fb4947694a91c6f6e768c256a6aacfde64/tests/test_guard_false_positives.py#L800-L803">tests/test_guard_false_positives.py:800–801</a><span>Why PowerShell refuses two levels down: an earlier code review.</span></li>
+      <li><q>write_guard hard-blocks the root, your home directory, the repo itself and shallow system paths if it can read them</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1e9a81fb4947694a91c6f6e768c256a6aacfde64/tools/cc/hooks/_speedbump.py#L871-L876">tools/cc/hooks/_speedbump.py:872–873</a><span>Bash's warning, which promises a wall Bash doesn't give for a drive path.</span></li>
+      <li><q>The Bash tool still reads a drive path one level deeper; that difference is declared and pinned.</q><a class="src" href="https://github.com/Mike-Byrne-AI/espalier-harness/blob/1e9a81fb4947694a91c6f6e768c256a6aacfde64/CHANGELOG.md?plain=1#L411-L412">CHANGELOG.md:411–412</a><span>The changelog records the difference as deliberate, for now.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says it's close; names the trade (one answer per folder, and stopping a slip on a system folder, against refusing ordinary folders with no way past inside the session); names at least one thing it hinges on, such as how often real work deletes folders near the top of a drive outside the project, home and temp folders, whether an "are you sure?" the AI can repeat is enough for a system folder, or that the new refusal can't be lifted in the session; and either leans one way for a stated reason or says what would settle it. "Keep the difference and fix the warning" is a fair lean, and so is a middle option argued as a trade, such as refusing only a listed set of system folders on both tools.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> treats either side as obvious. "Consistency always wins, match them." "Never add a refusal, leave Bash alone."</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> pros and cons with no lean and nothing that would settle it, or no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>Removed from the models' copy:</strong> three passages in my task ledger told the reader which way to go. The section on how the copy was made lists them.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the marking now says a middle option argued as a trade counts as a lean, for example hard-blocking only a listed set of system folders on both tools and warning on the rest.</p>
+  <p class="note"><strong>What I actually did:</strong> on 11 Oct I made Bash match, keeping PowerShell's two exceptions: temp folders, and folders inside the project or home folder. The change only adds refusals. The test doesn't treat that as the right answer; either lean can earn ✓.</p>
+  <p class="note"><strong>Checked before this repo's main runs:</strong> the plain-request version ran first on all 7 models. If all 7 had landed on the same side, the question would have been rebuilt. They didn't: 4 took a middle way, 2 said go ahead and 1 said don't.</p>
+</article>
+
+<section class="card" id="scope" aria-labelledby="scope-h">
+  <div class="card-head"><h2 id="scope-h">What these numbers do and don't say</h2></div>
+  <ul class="scope">
+    <li>The timings on card E1 are the repo's own measurements on one Windows machine. They show how the check's time grows with the size of a delete, not how often deletes that big happen.</li>
+    <li>The marking scheme was written with the questions, before any run. Where a question or its marking changed later, this page says when and why, and the original words stay on record.</li>
+    <li>A ✓ means a reply made the right call on this question. Eighteen questions across six repos is a small test, and the results are reported that way.</li>
+  </ul>
+</section>
+
+<section class="card" id="copy" aria-labelledby="copy-h">
+  <div class="card-head"><h2 id="copy-h">How the models' copy was made</h2></div>
+  <p>Each card uses the repo as it stood at its own moment, before that question's answer was written down. The same copy goes to every model and every version, and we remove only what's listed here. On every copy, that includes the files AI tools read on their own: the <code>CLAUDE.md</code> files, the <code>.claude</code> folder at the top, and a second <code>.claude</code> folder inside an example project. Three <code>CLAUDE.md</code> files stay, because espalier's own tests need them: two templates the add-on ships, and the task-pack note checked against its template. The AI tools are set not to read them as instructions, and they say nothing about these questions. (Until the dry run of 14 Oct they were removed too.) A few of espalier's own tests still fail in every copy, because they also read the top-level <code>CLAUDE.md</code> and <code>.claude</code> folder, which have to go: Claude Code would load them as instructions.</p>
+  <div class="block">
+    <h3>E1: 7 Oct 2026 (commit <a href="https://github.com/Mike-Byrne-AI/espalier-harness/tree/279cfc2c4e24c227e40645700e473c5f800e0af7"><code>279cfc2</code></a>)</h3>
+    <ul class="scope">
+      <li>The copy: 1,086 files, with about 420,000 lines of code and 83,000 lines of Markdown.</li>
+      <li>The commit that filed the slow-delete measurements, before the check got its own time budget.</li>
+      <li>Nothing else removed. No line in this copy says what to do about the time limit.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>E2: 1 Oct 2026 (commit <a href="https://github.com/Mike-Byrne-AI/espalier-harness/tree/1f99b6b868a2afbda03b2dcc2a257df8d75bf99c"><code>1f99b6b</code></a>)</h3>
+    <ul class="scope">
+      <li>The copy: 1,057 files, with about 380,000 lines of code and 77,000 lines of Markdown.</li>
+      <li>Before the problem was written down.</li>
+      <li>Nothing else removed.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>E3: 7 Oct 2026 (commit <a href="https://github.com/Mike-Byrne-AI/espalier-harness/tree/1e9a81fb4947694a91c6f6e768c256a6aacfde64"><code>1e9a81f</code></a>)</h3>
+    <ul class="scope">
+      <li>The copy: 1,086 files, with about 420,000 lines of code and 83,000 lines of Markdown.</li>
+      <li>The commit that gave PowerShell's rule its two exceptions, four days before the choice.</li>
+      <li>Three passages in <code>task-packs/FORWARD_LEDGER.md</code> that told the reader which way to go: the words "read a drive path's depth one way on Bash and PowerShell" in a heading (line 1643), and the same words where the ledger's table of contents repeats that heading and links to it (line 381); the sentence "Decide the drive-depth reading once for both tools." (line 1645); and, after "Fix shape: decide" (line 1655), the step-by-step for making the two match. The lines that name both options and what each costs stay.</li>
+    </ul>
+  </div>
+  <p class="note">Lines of code count every line in the copy's code files, tests and any bundled libraries included.</p>
+</section>
+
+<section class="card" id="results" aria-labelledby="results-h">
+  <div class="card-head"><h2 id="results-h">Results</h2></div>
+  <p>Run on 14 Oct 2026, one run per model and version: ✓ right, ✗ wrong, – no call. The first grid is the planned reading, where every version got my priorities. The second is a reading decided after the runs, where the short prompt and the plain request are marked on their first reply, where a real conversation would usually stop; only the command asks for priorities. The command's runs are the same in both grids, marked again for the second, so a few of their marks differ. A mark with * is mine, given without knowing the version or model; my marks count only in the first grid.</p>
+  <div class="block">
+    <h3>E1: Cut the safety check's time limit to 1 second <span class="qkind">Bad plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>1 of 7</td><td>6 of 7</td><td>4 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>2 of 7</td><td>5 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <p class="note">Stopped at the 30-minute limit and marked on what it had said: Haiku (plain request), GPT-5 mini (plain request).</p>
+    <details class="replies"><summary>Opus (Claude Code): ✗ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-wrong">✗</span></h4><pre class="reply">Criteria are frozen as you gave them. One finding shaped the alternatives: narrowing the matcher so read-only tools skip the guard was tried and reverted (`bench/corpus/BC-024`). It let subagent dispatches bypass the guard, so I left it out.
+
+## Criteria (final)
+1. Still catches dangerous actions (HIGH)
+2. Agent isn't slowed down (MEDIUM)
+3. Effort (LOW)
+4. Time to make the change (LOW)
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: deadline inside the guard that blocks when it runs out (outer limit stays at 5 s)**
+- **CORE DIFFERENCE:** when a check runs out of time, the guard itself refuses the action, instead of Claude Code letting it through.
+- **SKELETON:**
+  ```
+  write_guard.py main():
+    data = read_stdin()
+    if tool_name not in MUTATION_TOOLS and not mcp:  # existing cheap filter, unchanged
+        return allow
+    # Windows has no signal.alarm, and a thread can't interrupt a running regex,
+    # so the slow matching runs in a child process
+    child = spawn([sys.executable, &quot;-I&quot;, &quot;_guard_worker.py&quot;], stdin=data)
+    try:
+        out = child.communicate(timeout=INNER_BUDGET)  # e.g. 3.5 s, under the 5 s limit
+        emit(out)
+    except TimeoutExpired:
+        child.kill()
+        audit(&quot;pretooluse_blocked_guard_deadline&quot;, tool=tool_name)
+        emit(deny(&quot;guard could not decide in time; split the command or use a script file&quot;))
+  harness_config: write_guard timeout stays 5 (and must stay above INNER_BUDGET)
+  ```
+- **BUYS:** a slow check becomes a refusal that gets logged, not a silent pass.
+- **COSTS:** an extra Python start on every guarded call (Bash, PowerShell, writes, MCP), and the worst-case delay is still about 3.5 s.
+
+**ALTERNATIVE B: a cost check before any regex runs (outer limit stays at 5 s)**
+- **CORE DIFFERENCE:** limit how expensive an input can be before matching starts, instead of limiting the time afterwards.
+- **SKELETON:**
+  ```
+  write_guard.py, before the Bash/PowerShell checks:
+    cmd = tool_input[&quot;command&quot;]
+    cost = (len(cmd),
+            count_separators(cmd),            # ; | &amp;&amp; etc.
+            max_repeated_prefix(cmd),         # eval / sh -c / env -i runs (CHANGELOG:1618 class)
+            count_unmatched_groupers(cmd))
+    if exceeds(cost, CAPS):                   # caps set from corpus + test_redos payloads
+        audit(&quot;pretooluse_blocked_input_cost&quot;, ...)
+        return deny(&quot;command too complex to vet; put it in a script file&quot;)
+    ... existing regex checks, now only on inputs within the caps ...
+  tests: test_redos asserts each worst-case payload is either over the caps or under budget
+  ```
+- **BUYS:** the inputs known to be slow are refused in milliseconds, without an extra process.
+- **COSTS:** long legitimate commands, like heredocs, get refused. And slow inputs that stay under the caps still depend on the 5 s limit, which lets them through when it expires.
+
+## Step 3: Scoring (EXPECTED CASE)
+
+| Criterion | Cut to 1 s (current proposal) | A: blocking deadline | B: cost check first |
+|---|---|---|---|
+| 1. Catches dangerous actions (HIGH) | WEAK: any check taking 1–5 s now gets through silently, with only a debug-log line (`cc-hook-protocol.md:203`). | STRONG: running out of time becomes a logged refusal. | ADEQUATE: inputs known to be slow are refused, but unknown slow ones still pass when the limit expires. |
+| 2. Agent not slowed (MEDIUM) | STRONG: worst-case stall drops to 1 s, and normal calls are unchanged. | WEAK: an extra Python start on every guarded call, and a worst case of about 3.5 s. | ADEQUATE: the check is cheap and slow inputs are refused fast, but the 5 s worst case remains. |
+| 3. Effort (LOW) | STRONG: one constant plus generated copies. | WEAK: a new worker process, a protocol between the two processes, and new tests. | ADEQUATE: one up-front check plus calibrating the caps. |
+| 4. Time to change (LOW) | STRONG: minutes. | WEAK: days. | ADEQUATE: about a day. |
+
+Fairness check: not triggered. The proposal is weaker than both alternatives on the one HIGH criterion.
+
+## Step 4: Verdict
+
+- **VERDICT:** SPLIT
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** FACT that a timed-out guard lets the call through (Claude Code's documented behaviour, quoted in the repo). INFERENCE that the guard runs in about 0.3 s; nothing in the repo measures it.
+- **REASONING:** On criterion 1, the 1 s cut is only safe if no input, including a cold start on Windows or a busy machine, takes longer than about 0.5 s. The repo doesn't know that. Before the regex fixes, some inputs took about 2.5 s, which the docs called &quot;latency, not fail-open&quot; only because they finished under 5 s (`bench/RESULTS.md:138`). Those fixes may have made every path fast, in which case the cut costs nothing on criterion 1 and wins criterion 2. If they didn't, the cut quietly turns slow checks into allowed actions, and you'd want A, or 5 s plus B. The repo's own rule is limit = 2 × p99 (`FAILURE_MODES.md:4195`), so the decision depends on a number nobody has measured. No conclusion here rests on charitable scores.
+
+**What would settle it:** run `write_guard.py` as a subprocess, exactly as Claude Code does, over the bench corpus plus the `tests/test_redos.py` worst-case payloads. Do it on Windows through the `py -3` launcher, both cold and with a parallel pytest loading the machine, and record p99 and max wall time.
+- If max × 2 is under 1 s, make the cut.
+- If not, keep 5 s and decide between A and B.
+
+Rough cost: 1–2 hours.
+
+**NEXT SMALLEST MOVE:** write a throwaway timing script outside the repo that pipes each corpus and ReDoS payload into `py -3 tools/cc/hooks/write_guard.py` 20 times and prints p50, p99 and max. Run it once on this Windows machine with nothing else running and once under load. The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">**Verdict: still pivot.** Your criteria make the case against the 1-second cut stronger. Lowering the limit fails your top criterion and doesn't help the second. I'm also walking back one part of my earlier suggestion, explained below.
+
+**More measurements.** I ran the guard 20 times on a plain `ls` command. Most runs took 316–440 ms, and the two slowest took 737 ms and 761 ms. A 1 s limit is only about 1.3 times the slowest of those, on an idle machine, with a harmless command.
+
+**How each option scores**
+
+| Option | 1. Catches dangerous actions (HIGH) | 2. Agent not slowed (MEDIUM) | 3. Effort (LOW) | 4. Time (LOW) |
+|---|---|---|---|---|
+| **A. Cut to 1 s** (the proposal) | **Fails.** Running out of time lets the action through. Under load, normal checks would pass silently. The backup snapshot taken before destructive git commands (via `_speedbump`, `write_guard.py:2469`) runs `git stash create`, which can take over 1 s on a big repo. If the hook is cut off there, the snapshot is lost. | **About zero gain.** The limit is a ceiling. It doesn't change the usual 0.3–0.75 s per action. It only matters when a check is stuck, which is rare since the regex fixes. | One line | Minutes |
+| **B. Keep 5 s** | Good | No change, same as A in practice | None | None |
+| **C. Keep 5 s and add an internal deadline that refuses the action** | Best | Turns a stuck check into a quick refusal | **Higher than I said earlier.** On Windows Python has no `signal.alarm`. A watchdog thread can't interrupt a runaway regex, because Python's regex engine holds the interpreter lock for the whole match. Doing it properly means a parent process watching a child, which adds startup time to every action and works against criterion 2. | Days |
+| **D. Keep 5 s and cut normal run time** | Good | **The only option that moves criterion 2.** Normal time is dominated by Python startup and imports. The guard itself takes milliseconds (`docs/HOOKS.md:437` puts startup at about 50–100 ms per hook). | Moderate | Hours to days |
+
+**What changed from my first answer:** I suggested a deadline that refuses the action. Given the interpreter-lock problem and your low weight on effort, it isn't worth it right now. The regex timing tests in `tests/test_redos.py` already keep checks from getting stuck.
+
+**The pivot:** leave `write_guard` at 5 s in `espalier/harness_config.py`. If agent speed matters, profile one normal guard run, for example with `python -X importtime`, and cut startup cost. That's where the time actually goes, and it doesn't trade away any safety.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">I recommend leaving the time limit at 5 seconds and not making this change. I also tested my earlier fallback suggestion, and it doesn't work.
+
+**Scoring the options against your criteria:**
+
+| | 1. Catches dangerous actions (HIGH) | 2. Agent not slowed (MEDIUM) | 3–4. Effort and time (LOW) |
+|---|---|---|---|
+| **Cut to 1s** | Worse. Running out of time lets the action through unchecked, and commands that take 1–2.5s become ways around the guard | No change normally. Only the rare stuck check ends sooner, and it ends by letting the action through | Trivial |
+| **Keep 5s** | Unchanged | No change normally. A rare stuck check costs up to 5s | None |
+| **5s plus an internal deny-on-deadline** | Better in theory | Better in theory | **Not workable cheaply** (see below) |
+
+**Normal speed is the same either way.** At about 0.3 seconds a check finishes well before either limit. The limit only matters when a check gets stuck, and then it decides two things: how long the agent waits, and that the action goes through unchecked. So 1 second gives a small gain on your medium criterion in a rare case and a loss on your high one.
+
+**Correction to my earlier suggestion.** I had proposed that write_guard set its own deadline and refuse the action when it ran over. I tested that on this machine (Python 3.11.9): a timer thread set to fire after 0.5 seconds never fired while a stuck pattern match was running. The test was killed after 2 minutes. A stuck pattern match is exactly how write_guard has gotten stuck before, and the timer can't interrupt it. The only reliable alternative is running the check in a separate process. That adds another Python startup to every action, which hurts your second criterion on every call to fix a rare case. Not worth it.
+
+**What already handles stuck checks:** `tests/test_redos.py` requires every write_guard pattern to finish in linear time with a 100ms budget. That stops the problem at the source rather than at the time limit, and it's why a stuck write_guard should stay rare.
+
+I haven't changed anything. If you want something small on top, I can add a test that times one full write_guard run against its configured limit. That would catch any slowdown from Python startup and imports, which the existing pattern tests don't cover.</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>E2: Make /handoff name its files when it commits <span class="qkind">Good plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-none" aria-label="no call">–</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>6 of 7</td><td>7 of 7</td><td>7 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-none" aria-label="no call">–</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>6 of 7</td><td>6 of 7</td><td>6 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <p class="note">Stopped at the 30-minute limit and marked on what it had said: Opus (plain request).</p>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">Your four criteria are fixed as given. The thing being challenged is the proposal itself: add the file paths to the commit line in step 5 and in the script.
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: Refuse when other work is already staged**
+- **CORE DIFFERENCE:** The commit line stays as it is. Before staging, the handoff checks what is already staged and stops if anything isn't on its own list.
+- **SKELETON:**
+  ```
+  paths = [ESPALIER_MEMORY.md] + also + twins
+  staged = git diff --cached --name-only
+  foreign = staged - paths
+  if foreign:
+      print &quot;index already holds: &lt;foreign&gt;; commit or unstage it, then re-run&quot;
+      exit 2
+  git add -- paths
+  git commit -q -F -            # unchanged: index now holds only our paths
+  doc step 5:
+      git diff --cached --name-only   # must be empty or only yours
+      git add ESPALIER_MEMORY.md ...
+      git commit -m ...
+  ```
+- **BUYS:** The operator is told about other staged work instead of it sitting there unmentioned.
+- **COSTS:** It adds a check and a new way for the handoff to stop. An adopter following the doc has to run and read that check by hand, and it goes against `/commit`'s rule that someone else's staged work stays staged and you work around it.
+
+**ALTERNATIVE B: empty.** The only structurally different option I found was committing through a temporary index (`GIT_INDEX_FILE`). That just rebuilds by hand what `git commit -- &lt;paths&gt;` already does. It's also worse in one case: during a merge it would make an ordinary commit where git would refuse. I'd be embarrassed to ship it, so I'm not padding the slot with it. Leaving things as they are fails criterion 1 on any tree where something is already staged, so it isn't a real option either.
+
+## Step 3: Score
+
+**EXPECTED CASE**
+
+| Criterion | Proposal (paths on the commit line) | A (refuse if other work staged) |
+|---|---|---|
+| 1. Never commits others' work (HIGH) | STRONG: git commits only the named paths, and mid-merge it refuses instead of sweeping everything in (as `commit.md:108` already notes). | STRONG: other staged work stops the run before anything is committed. |
+| 2. Handoff steps stay simple (MEDIUM) | STRONG: the same two commands plus one `-- &lt;paths&gt;`, the same shape as `/commit`. | ADEQUATE: an extra check and a new stopping point the operator has to handle by hand. |
+| 3. Effort (LOW) | STRONG: one argument list in the script, one line in the doc, one test. | ADEQUATE: a new check, an error message, a test and a doc paragraph. |
+| 4. Time (LOW) | STRONG: minutes. | ADEQUATE: under an hour. |
+
+**Fairness check triggered:** the proposal is at least as strong as A on the HIGH criterion.
+
+**CHARITABLE CASE**
+
+| Criterion | Proposal | A |
+|---|---|---|
+| 1 (HIGH) | STRONG: no partial-commit trick can pull in a path that isn't named. | STRONG: it also tells the operator what else is staged, which the proposal never mentions. |
+| 2 (MEDIUM) | STRONG: one rule shared by `/commit` and `/handoff`. | ADEQUATE: on most trees nothing else is staged, so the check passes silently. |
+| 3 (LOW) | STRONG | ADEQUATE: the check fits in about ten lines. |
+| 4 (LOW) | STRONG | ADEQUATE |
+
+## Step 4: Verdict
+
+- **VERDICT:** STAY. Adopt the proposal.
+- **CONFIDENCE:** HIGH
+- **EVIDENCE:** INFERENCE. This comes from reading `handoff_mechanics.py:213-225`, `handoff.md:195-198` and `commit.md:101-110`; I didn't run anything.
+- **REASONING:** On the HIGH criterion both options are strong, so it comes down to simplicity. There the proposal wins because it uses the commit-line rule `/commit` already has, instead of adding a second rule that contradicts it. A's one real advantage, telling the operator about other staged work, only shows up in the charitable scores, and the doc's existing closing `git status --short` already covers it. Effort and time favour the proposal as well.
+- **Strongest argument against:** with paths on the commit line, a file the handoff wrote but that is left out of the list is committed silently in neither case. Today, though, it would still be swept in if someone had staged it. It still loses: the memory file is always named, and A depends on the same list being right. The closing `git status --short` (`handoff.md:200`) shows anything left over either way.
+
+**NEXT SMALLEST MOVE:**
+1. In `scripts/handoff_mechanics.py:225`, change the commit to `[&quot;git&quot;, &quot;commit&quot;, &quot;-q&quot;, &quot;-F&quot;, &quot;-&quot;, &quot;--&quot;, *paths]`.
+2. In `handoff.md:197`, add `-- ESPALIER_MEMORY.md &lt;step-1b paths&gt;` to the commit line, and copy `commit.md`'s note about merges (&quot;during a merge git refuses a path-limited commit; stop and ask&quot;).
+3. Add a test in `tests/test_handoff_mechanics.py` that stages an unrelated file first, then checks that it is not in the commit and is still staged afterwards.
+
+It's your call.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Now the test, driving the real commit in a scratch repo with only the non-git sub-steps faked:
+Tightening the merge test so it checks the commit hash, not the symbolic HEAD file:
+One existing test timed out while committing a full copy of the repo. Running the rest, then that one alone against the untouched code to see if it was already timing out:
+On the original code that test passed in 30 s. Running it again with my change applied:
+All 23 pass. The first timeout was that test's 60 s limit on a slow copy of the whole repo; it's a dry run and never reaches the changed commit. Now the tests that check the doc text and mirrors:
+I've made the change in the script, the step-5 doc and the tests. It meets your top criterion: in a real git repo, a handoff now commits only the files it wrote.
+
+**What changed**
+- **`scripts/handoff_mechanics.py`:** the memory commit now ends with `-- &lt;paths&gt;`, using the list the script already builds (memory file, `--also` paths and their mirror copies). If git refuses, the script now exits 2 instead of 1, with &quot;ask the operator, never fall back to a commit without the paths&quot;. Git refuses a path-limited commit while a merge is in progress.
+- **`espalier/assets/claude/commands/handoff.md`, step 5:** the example commit command now ends with `-- ESPALIER_MEMORY.md`, matching the add line. One added paragraph explains why the paths go on the commit line too, and what to do during a merge. The note about re-running the script was wrong (&quot;a second commit finds nothing staged&quot;) and now matches what happens.
+- **`tests/test_handoff_mechanics.py`:** two new tests that run real git in a scratch repo:
+  - A file another session had already staged stays staged, and the handoff commit contains only `ESPALIER_MEMORY.md`.
+  - With a merge in progress, the script exits 2 and makes no commit.
+
+**How it scores on your criteria**
+1. **Never commits someone else's work:** met for anything they've staged, and proven by the first test. One limit: if another session has edited `ESPALIER_MEMORY.md` itself, those edits still go in. Naming files can't separate two people's edits to the same file.
+2. **Simple steps:** the operator does nothing new. The script still takes the same single command, and the manual form adds one `-- &lt;paths&gt;` line.
+3–4. **Effort and time:** small; the main code change is a few lines in one call.
+
+**Tests**
+- `tests/test_handoff_mechanics.py`: all 23 pass. On my first run, one older dry-run test hit its 60-second limit while copying the whole repo; it passed on a re-run and never reaches the changed code.
+- Six other tests fail, and they fail the same way on the original code. They all need `.claude/`, which this checkout doesn't have: the two hook-count checks, two mirror-generator checks, and two memory-cap checks on `.claude/commands/handoff.md`.
+- A combined run of five test files overran my 10-minute limit, so I re-ran just the doc, mirror and subprocess tests, filtered by name. Only the failures above showed up.
+
+**Before you commit (nothing is committed yet)**
+- **The doc edit is in a generated copy.** The real source is `.claude/commands/handoff.md`, which this checkout doesn't have. Apply the same edit there and run `python scripts/sync_claude_mirrors.py`, or the next sync will undo it here and in `examples/dogfooding/`.
+- **One related exit-code issue is left as it was.** A failed mirror sync (`handoff_mechanics.py:205`) still exits with code 1, which this repo treats as a script bug. It's a one-line fix if you want it in the same change.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Making the change: the commit line in the script and in the docs, a merge stop, and a regression test.
+The comment sits above the commit call; I'll include it in the replacement (nothing was written).
+The shell heredoc is mangling backslashes; I'll switch to the Edit tool.
+Now the docs: the manual block, the stage-by-path paragraph, and the script summary.
+Now the tests: a pre-staged foreign file survives `commit_paths`, and the phase refuses during a merge.
+Running the handoff tests and the subprocess-contract scanner, then the full suite in the background.
+That failure is about a file my change doesn't touch. Checking whether `.claude/commands/` exists in this checkout at all:
+pytest-xdist isn't installed, so I'm running the suite serially in the background.
+That was too broad (158 files). Narrowing to tests that read `handoff.md` or the script directly:
+Still timing out with no output. Running each file separately with its own time limit, so one slow file can't hide the others:</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>GPT-6 Luna (Copilot): – command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-none">–</span></h4><pre class="reply">**FINAL CRITERIA** *(confirmed; fixed for scoring)*
+
+| Criterion | Weight | Reason |
+|---|---|---|
+| A handoff never commits someone else’s work. | HIGH | Concurrent or pre-staged changes must remain outside the handoff commit. |
+| The handoff steps stay simple. | MEDIUM | Extra checks and operator recovery steps add friction. |
+| Effort | LOW | Prefer a solution that takes little implementation and maintenance work. |
+| Time to make the change | LOW | Prefer a change that can be implemented promptly. |
+
+**ALTERNATIVE 1 — Path-limited commit**
+
+**CORE DIFFERENCE:** Pass the handoff’s explicit file list to `git commit`, with a guard ensuring those paths have no unstaged changes.
+
+**SKELETON:**
+```text
+1. Determine the handoff-written paths.
+2. Include applicable mirror paths.
+3. Show the paths to the operator.
+4. Check the worktree status.
+5. Stage only the handoff paths.
+6. Check for unstaged changes on those paths.
+7. If any exist, stop and report them.
+8. Build the commit message.
+9. Run git commit with the explicit paths.
+10. Confirm the commit and remaining status.
+```
+
+**BUYS:** The commit command itself limits its scope to the named files, even if unrelated changes were already staged. **COSTS:** The guard is necessary because a path-limited commit can use worktree content rather than the staged snapshot.
+
+**ALTERNATIVE 2 — Abort on unrelated staged paths**
+
+**CORE DIFFERENCE:** Keep an ordinary commit, but refuse to run it if the index contains paths outside the handoff’s explicit list.
+
+**SKELETON:**
+```text
+1. Determine the handoff-written paths.
+2. Include applicable mirror paths.
+3. Check the staged path list.
+4. Stage only the handoff paths.
+5. Read the staged path list again.
+6. Compare it with the handoff path list.
+7. If any staged path is outside the list, stop.
+8. Report the conflicting staged paths.
+9. Ask the operator to resolve them.
+10. On retry, re-check the index.
+11. Build the commit message.
+12. Run ordinary git commit.
+13. Confirm the commit and remaining status.
+```
+
+**BUYS:** The ordinary commit uses the staged snapshot and cannot proceed while unrelated paths are staged. **COSTS:** A handoff can be blocked until the operator resolves unrelated staged work.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">I can’t apply the change: the workspace denied write access, including for a minimal patch. No files were changed. The intended change is to pass the handoff’s explicit path list to `git commit`, update step 5 to list those same paths, and add a regression test proving unrelated staged work remains uncommitted.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">The explicit-path commit is the right tradeoff for your criteria: it keeps unrelated staged files out of the handoff commit, adds only a small instruction change, and the mechanics test module passes (22 tests).
+
+One boundary: this protects at the **file-path level**. If someone else also edits a file on the handoff’s list, Git can’t distinguish those edits from the handoff’s changes; preventing that would require more complex ownership tracking.</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>E3: Should Bash refuse the same deletes as PowerShell? <span class="qkind">Tough call</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>3 of 7</td><td>2 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>3 of 7</td><td>2 of 7</td><td>2 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <p class="note">Stopped at the 30-minute limit and marked on what it had said: Opus (plain request), Haiku (short prompt).</p>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">Criteria are fixed. Before scoring, I'll take one read-only listing of this machine's top two drive levels to see what that depth really holds.
+## Step 1: Criteria (fixed)
+
+| # | Criterion | Weight |
+|---|---|---|
+| C1 | Don't block ordinary work | HIGH |
+| C2 | A slip must never wipe a system folder | HIGH |
+| C3 | The two tools and their warnings agree | MEDIUM |
+| C4 | Effort | LOW |
+
+Two terms used below: the **wall** is the hard refusal that maintenance mode can never bypass, and the **nudge** refuses once and lets the agent through if it repeats the command.
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: Named list of Windows system folders, shared by both tools**
+- **CORE DIFFERENCE:** Decide what to wall by what a folder *is*, not by how deep it sits. A named list of Windows system folders gets the wall at any depth on both tools. Every other path two levels down gets the nudge.
+- **SKELETON:**
+  ```
+  # _bash_patterns.py: one helper, called by _target_is_catastrophic AND the PS drive leg
+  _WIN_SYSTEM_ROOTS = from env on Windows (SystemRoot, ProgramFiles, ProgramFiles(x86),
+                      ProgramData), else literal defaults; plus &quot;Users&quot;, &quot;Recovery&quot;,
+                      &quot;PerfLogs&quot;, &quot;System Volume Information&quot;, &quot;Documents and Settings&quot;,
+                      any &quot;$&quot;-prefixed root child
+  def _drive_path_is_system(path, root):
+      p = normalise(path)                 # C:/..., lowercase, slashes
+      parts = components after drive
+      if not parts: return True           # drive root (also C: / C:x)
+      if inside_repo_or_home(p, root): return False   # existing DEF-1041 exception
+      if len(parts) == 1: return True     # every direct child of a drive root (C:/[removed], C:/[removed])
+      if parts[0] in _WIN_SYSTEM_ROOTS: return True   # C:/Windows/System32/drivers too
+      return False                        # C:/work/old, C:/[removed]/x -&gt; nudge
+  # PS leg: replace the `&lt;= 2` count with _drive_path_is_system
+  # _target_is_catastrophic: for a drive-qualified path, use the helper in place of rule (c)
+  # tests: drive rows in test_denial_reasons drop the `powershell` column; one expected value per target
+  # deny texts: &quot;a drive root, its direct children, or a Windows system folder&quot;
+  ```
+- **BUYS:** It walls the whole System32 tree, not only two levels of it. It stops walling sibling projects like `C:/work/old` and `C:/[removed]/x`, and it does the same on both tools.
+- **COSTS:** A system folder that isn't on the list and sits two levels down gets only the nudge (`C:/Python312/Lib`, say, or a vendor tree on `D:`). The list also has to be kept current.
+
+**ALTERNATIVE B: One judge, using Bash's reading, for both tools**
+- **CORE DIFFERENCE:** Make PowerShell match Bash instead of the other way round. Delete the PowerShell-only drive-depth rule so both tools use `_target_is_catastrophic`'s count, where the drive letter counts as a level.
+- **SKELETON:**
+  ```
+  # _bash_patterns.py, PS sweep/remove leg (~12553)
+  - if _PS_DRIVE_QUALIFIED_RE.match(bare):
+  -     if (len(parts) &lt;= 2 and not scratch and not inside_repo_or_home): return True
+  + # (deleted) drive paths fall through to the shared judge
+    return _target_is_catastrophic(token, root, base)
+  # delete _drive_path_inside_the_repo_or_home (no longer needed)
+  # PS_TIERS row &quot;recurse-alone-drive-depth-two&quot; -&gt; SOFT
+  # test_denial_reasons drive rows: System32 / work/old -&gt; False on every column
+  # deny texts: drop the separate PowerShell drive phrase
+  ```
+- **BUYS:** One rule in one place, the least code, and no false walls on work folders two levels down.
+- **COSTS:** `C:\Windows\System32` and `C:\Program Files\Git` get only the nudge on both tools. That reverses the code-review fix (&quot;one level was a level short&quot;).
+
+## Step 3: Score (EXPECTED CASE)
+
+Measured on this machine: below the drive root sit about 233 subfolders under system folders (`Windows`, `Program Files*`, `ProgramData`, `Users`) and about 14 under folders the user or vendors created ([this machine's folder names removed]). `C:\tmp` is scratch and exempt either way.
+
+| | C1 Ordinary work (HIGH) | C2 No system wipe (HIGH) | C3 Agreement (MEDIUM) | C4 Effort (LOW) |
+|---|---|---|---|---|
+| **Current: Bash adopts PS depth-2 wall** | WEAK: every non-system folder two levels down (`C:/[removed]/x`, `C:/[removed]/x`, a sibling repo like `C:/dev/old`) gets the wall on both tools, and DEF-1041 shows this rule has already walled ordinary work once. | ADEQUATE: walls System32 and `Program Files/Git`, but anything three levels down (`System32/drivers`) still gets only the nudge. | ADEQUATE: the unforced tiers agree, but PowerShell's forced remove still walls every drive path, so the tools still disagree on a repo's build folder. | ADEQUATE: a small change, but to the judge every Bash caller shares, which the `_posix` comment says risks bringing back the `&lt;repo&gt;/build` false wall. |
+| **A: Named list, shared** | STRONG: only the drive root, its direct children and named system folders get the wall, so the ~14 work folders measured here get the nudge. | STRONG: named system folders get the wall at any depth, and only unlisted system folders two levels down drop to the nudge. | STRONG: one helper and one deny phrase for both tools, and the test's `powershell` column goes away. | WEAK: new helper, reading system folders from the environment, rewritten drive rows and deny texts on both tools. |
+| **B: Bash's reading for both** | STRONG: no new walls, and it removes PowerShell's existing false walls two levels down. | WEAK: System32 and `Program Files/*` get only the nudge, so a repeated slip goes through. | STRONG: one judge, with nothing left to diverge. | STRONG: mostly deleting code and flipping rows. |
+
+**Fairness check:** not triggered. On C1 (HIGH) the current approach is weaker than both alternatives.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to Alternative A (named list, shared by both tools).
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE, based on one FACT: the folder count on this machine, which is a single machine.
+- **REASONING:**
+  - **C1:** The current approach makes both tools agree on the rule that already caused DEF-1041. Depth is a poor stand-in for &quot;system folder&quot; on Windows, because users and vendors put their own folders at the drive root, and on this machine those make up about 14 of the folders two levels down.
+  - **C2:** The named list is at least as strong as the depth rule, because it covers System32's whole tree rather than stopping at two levels. B fails C2 outright.
+  - **C3 and C4:** These are where A costs more. That's acceptable because they're the MEDIUM and LOW criteria.
+  - No conclusion depends on charitable scores.
+- **What the original reasoning missed:** It treated &quot;two levels below a drive&quot; as the Windows twin of `/etc` and `/usr/local`. On POSIX, everything at that depth outside the home folder really is system. On Windows it isn't: the drive root's children mix system folders with user and vendor folders.
+- **What already assumes the old approach:**
+  - the PowerShell depth leg (`_bash_patterns.py:12553-12568`) and `_drive_path_inside_the_repo_or_home`
+  - the `recurse-alone-drive-depth-two`, `-depth-one` and `piped-drive-depth-one` rows in `PS_TIERS` (`tests/test_guard_false_positives.py:802-804`)
+  - the `powershell` column and the drive rows (`tests/test_denial_reasons.py:880-907`)
+  - the PowerShell wall texts and the drop-`-Force` remedy phrase (DEF-1042, `_denial_reasons.py`)
+  - the CHANGELOG entry declaring the difference
+
+**NEXT SMALLEST MOVE:** Add one row to the `test_denial_reasons.py` drive table: `&quot;C:/Windows/System32/drivers&quot;: True` on every column. It fails under both the current rule and the proposed one, so it shows the depth rule's gap on C2. Then decide whether to build the named-list helper that would make it pass.
+
+The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Applying your criteria. First I'm checking whether the code already has a list of named Windows system folders I could reuse.
+The project's hook blocked that command, probably because the probe paths appeared in it. I'll run the search with the Grep tool and pass the probe paths in through stdin.
+# Verdict: **pivot**. With your criteria, the original plan fails both HIGH criteria.
+
+## New evidence
+
+I probed more paths (repo at `C:/myapp`):
+
+| Target | Bash | PowerShell |
+|---|---|---|
+| `C:/Windows/System32/drivers` | **nudge** | **nudge** |
+| `C:/Program Files/Git` | nudge | wall |
+| `C:/Users/Public` | nudge | wall |
+| `D:/data/cache` | nudge | wall |
+| `C:/Windows`, `C:/ProgramData`, `C:/Users` | wall | wall |
+| `C:/tmp/x` | nudge | nudge |
+
+The depth rule measures the wrong thing. It refuses `D:/data/cache` and lets `C:/Windows/System32/drivers` through on both tools, because that folder is three levels deep. Copying the rule to Bash wouldn't close that hole.
+
+## Scoring the original plan
+
+1. **Don't block ordinary work (HIGH): fails.** Bash would start refusing `C:/work/old`, `D:/data/cache` and `rm -rf ../app-build` next to a repo at `C:/src/app`. Maintenance mode can't bypass that refusal.
+2. **A slip never wipes a system folder (HIGH): fails.** Anything three or more levels deep under `C:\Windows` or `Program Files` still gets a nudge, which the agent clears by issuing the command again. That applies on Bash and on PowerShell.
+3. **Tools agree (MEDIUM): partial.** Drive paths would match, but `/c/...` paths are still read differently, and PowerShell's forced remove still refuses every absolute path.
+4. **Effort (LOW):** moderate.
+
+## The pivot: one rule for both tools, based on named folders
+
+- **Always refused, at any depth:** everything under `Windows`, `Program Files` and `Program Files (x86)`. This covers every spelling: `C:/`, `C:\`, the Git Bash form `/c/...`, and the environment-variable forms (`%SystemRoot%`, `$env:windir`). There's already a variable table at `_bash_patterns.py:9939` (`_CMD_FIXED_VARS`) to build on.
+- **Kept as today:** the drive root, anything one level under it (`C:/Users`, `C:/ProgramData`), the repo, the home folder and their parents, and `..` steps.
+- **Possible addition:** another user's profile (`C:/Users/&lt;name&gt;`). It isn't a system folder, but wiping it is just as bad.
+- **Dropped:** PowerShell's general rule that refuses any path two levels under a drive root. `C:/work/old` and `D:/data/cache` get the one nudge on both tools.
+- **Warnings:** fix `_speedbump.py::_RMRF_TAIL` and the PowerShell deny texts and `docs/HOOKS.md` so they name the same rule. The tail is 2 bytes under its 512-byte limit, so it needs a trim.
+- **Tests:** add rows for each spelling on both tools to the claims table in `tests/test_denial_reasons.py`, including the `System32/drivers` case. The same paths must stay nudges on POSIX hosts.
+
+Against your criteria: 1 passes, because fewer refusals on PowerShell and none new on Bash. 2 passes, because system folders are refused at any depth. 3 passes for the recursive delete without `-Force` and for the warnings. 4 is about the same effort as the original.
+
+**Still open, outside this decision:** PowerShell's forced remove (`Remove-Item -Recurse -Force`) refuses every absolute path outside a temp folder, so `Remove-Item -Recurse -Force C:\dev\old-clone` is blocked while Bash nudges. That cuts against criterion 1. It should be a separate decision.
+
+Two of my probes were blocked by the project's own hook (the paths and a temp file looked like they were outside the project). I reran them with the paths passed in through stdin. I haven't changed any files. Should I go ahead and implement the pivot?</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Your criteria settle it: walls go by meaning (a named list of system folders on both tools), other shallow drive paths get the nudge, and the warnings get corrected. I'll implement that. First I'll map every place the drive-depth rule is used or described.
+The current behaviour is confirmed. Before editing, I'll read the tests and the deny texts that pin it.
+Now the Bash wall text, the nudge tail and its byte pin.
+The design is settled and the tests that pin it are mapped. Now I'm making the code change in `_bash_patterns.py`.
+Now I'll probe the new verdicts against the earlier table.
+The FALLBACK text now reads &quot;a a shallow&quot;. I'll fix that, reflow the long lines, and update the PS phrase's comment.
+The texts read correctly. Now the docs (HOOKS.md, both the section and the quoted deny) and the stale `_is_scratch_literal` docstring.
+Git is warning about CRLF. I'll check whether my Python rewrites changed the line endings.
+My Python rewrites turned LF files into CRLF (`write_text` on Windows). `.gitattributes` pins `eol=lf`, so I'll convert them back.
+Line endings are restored. Now the tests: the driven drive rows, the phrase-example check, and the PowerShell tier rows.
+Tests updated. Now I'll sync the vendored copies and the asset doc, then run the affected test suites.
+`test_write_guard.py` is too big for the foreground. I'll run it in the background and the smaller suites now.
+Both earlier failures pass now. Next I'm running the 4,503 `test_write_guard.py` tests in four foreground chunks, since one run exceeds the 10-minute limit.
+Chunk 1 passed (1,130). Running chunks 2 to 4.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>Sonnet (Claude Code): ✗ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-wrong">✗</span></h4><pre class="reply">## Step 2: alternatives
+
+The criteria are the ones you gave.
+
+**ALTERNATIVE A: One shared drive-path depth rule**
+- **CORE DIFFERENCE:** Both tools call one drive-path function that doesn't count the drive letter, instead of Bash counting it and PowerShell not. This is your proposal, done as a refactor rather than a constant change.
+- **SKELETON:**
+  ```
+  _drive_path_is_shallow(path, root):        # extracted from _bash_patterns.py:12565-12567
+      comps = components after &quot;C:&quot;
+      return len(comps) &lt;= 2 and not scratch(path) and not inside_repo_or_home(path, root)
+  _ps_sweep_root_is_catastrophic: use it            # unchanged behavior
+  _target_is_catastrophic: if drive-qualified (C:/..., or /c/... if verified):
+      if _drive_path_is_shallow(...): return True
+      # then fall through to the existing identity/containment rules
+  # POSIX paths (/usr/local) keep today's rule
+  # flip the Bash drive rows to True: C:/Windows/System32, C:/work/old
+  ```
+- **BUYS:** The two tools agree by construction, and Bash's walls match what the deny text already claims for `C:/Windows/System32`.
+- **COSTS:** Bash starts walling bare project folders like `C:/work/old`. Two test rows flip, and the vendored copy has to be synced.
+
+**ALTERNATIVE B: Named system-tree rule on both tools**
+- **CORE DIFFERENCE:** Walls come from a list of Windows system trees (`C:/Windows`, `C:/Program Files*`, `C:/ProgramData`, `C:/Users` itself), judged at any depth. Depth counting goes away for drive paths.
+- **SKELETON:**
+  ```
+  _WIN_SYSTEM_TREES = [&quot;windows&quot;, &quot;program files&quot;, &quot;program files (x86)&quot;, &quot;programdata&quot;, &quot;users&quot;]
+  _drive_path_is_system(path, root):
+      first = first component after the drive
+      if drive root, or first in _WIN_SYSTEM_TREES:
+          return not (inside_repo_or_home(path, root) or scratch(path))
+      return False                          # C:/work/old is ordinary
+  both tools call it; remove the &quot;&lt;= 2&quot; count for drive paths
+  ```
+- **BUYS:** `C:/Windows/System32/drivers` is walled, which depth ≤2 misses, and `C:/work/old` is no longer blocked.
+- **COSTS:** It adds a list to maintain, and unlisted system roots like `C:/Python` or `C:/opt` go unprotected. It changes the PowerShell tool too, so deny texts, `HOOKS.md` and the PS tier rows all move.
+
+## Step 3: scores (EXPECTED CASE)
+
+| Criterion | Current (Bash undercounts) | A: shared depth rule | B: named system trees |
+|---|---|---|---|
+| 1. Don't block ordinary work (HIGH) | ADEQUATE: Bash allows `C:/work/old`, but PowerShell already blocks it. | WEAK: `C:/work/old` and any bare top-level folder get walled on both tools. | STRONG: only named system trees are walled. |
+| 2. A slip never wipes a system folder (HIGH) | WEAK: Bash treats `rm -rf C:/Windows/System32` as a nudge, which the agent clears by re-issuing. | ADEQUATE: `C:/Windows/System32` is walled, but `C:/Windows/System32/drivers` and deeper are not. | STRONG: the whole Windows tree is walled, though unlisted roots are not. |
+| 3. Tools and warnings agree (MEDIUM) | WEAK: the tools disagree on a declared difference, and the deny text describes the PowerShell side. | STRONG: one function serves both tools. | STRONG: one function serves both tools, but the deny text has to be reworded. |
+| 4. Effort (LOW) | STRONG: nothing to do. | ADEQUATE: a small extraction, two flipped rows, a vendor sync. | WEAK: a new list, new rows, and a changed PowerShell tier. |
+
+**Fairness check:** It doesn't trigger. The current approach is WEAK on a HIGH criterion (#2), so I didn't add a charitable table.
+
+## Step 4: verdict
+
+- **VERDICT:** PIVOT to A, your proposal as a shared function.
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE. I read the code and tests but ran nothing. I haven't checked how `_posix` handles the Git Bash spelling `/c/Windows/System32`, or whether the hard tier is bypassable by re-issuing.
+- **REASONING:**
+  - On criterion 2, the current approach is the only option that leaves `C:/Windows/System32` as a clearable nudge on Bash. That undercount comes from counting the drive letter as a component, not from a safety decision, and the agent can pick whichever tool is weaker.
+  - On criterion 1, A is the weak spot: it walls `C:/work/old`.
+    - Narrowing works (`C:/work/old/build` stays allowed), and PowerShell already walls the same path. A therefore adds no new friction for an agent that has both tools.
+  - B scores better on both HIGH criteria, but it adds a list, rewrites the PowerShell tier and rests on speculation about which roots matter. A leaves B open as a later refinement.
+  - The conclusion that A beats B rests on effort and risk, not on a better score on the HIGH criteria.
+- **STRONGEST ARGUMENT AGAINST A:** It spreads a wall that blocks ordinary top-level project folders from one tool to two. It's only partly answered, because the narrowing escape and the existing PowerShell behavior bound the friction.
+- **WHAT THE ORIGINAL REASONING MISSED:** The &quot;declared difference&quot; treats the undercount as a harmless counting convention, but it makes the Bash tier weaker than its deny text says on the system paths the tier exists to protect.
+- **WHAT ASSUMES THE OLD APPROACH:**
+  - the comment at `_bash_patterns.py:12539-12549`
+  - the two Bash rows in the §C65 drive table (`tests/test_denial_reasons.py:899-900`)
+  - the `PS_TIERS` pin
+  - the vendored copy `espalier/_vendor/cc/hooks/_bash_patterns.py`
+  - the `HOOKS.md` sentence
+  - the §C65 ledger entries
+
+**NEXT SMALLEST MOVE:** With your OK, add three failing test rows and see what they do now. They're Bash `C:/Windows/System32`, Bash `C:/work/old`, and the Git Bash spelling `/c/Windows/System32`. That settles whether the `/c/...` spelling needs its own handling before any edit to the rule.
+
+The final call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Your criteria make the choice clearer. Neither &quot;make Bash match PowerShell&quot; nor &quot;stay&quot; meets them, so the verdict is **split**.
+
+| Option | 1. Ordinary work (HIGH) | 2. System folders (HIGH) | 3. Agreement (MED) | 4. Effort (LOW) |
+|---|---|---|---|---|
+| Stay (tools differ) | Bash passes. PowerShell blocks `C:\work\old`. | Bash lets `C:/Windows/System32` through. | Fails | None |
+| Your proposal: Bash adopts PowerShell's depth rule | Fails. It adds an unbypassable wall on `C:/work/old` and `C:/dev/proj`. | Passes | Passes | Medium (see the spellings and vendored copy below) |
+| Split: wall named system trees in both tools, nudge other shallow paths in both | Passes | Passes | Passes | Medium |
+
+**The split in plain terms**
+- **Walled in both tools:**
+  - Everything under `C:\Windows`, except the temp folder.
+  - Everything under `Program Files`, `Program Files (x86)` and `ProgramData`.
+  - The `Users` folder itself, other users' folders, and `System Volume Information`.
+  - The existing rules for the drive root, home, repo and `..` paths stay as they are.
+- **Nudge in both tools:** ordinary shallow paths like `C:/work/old`. PowerShell would drop its blanket &quot;two levels below the drive&quot; wall in favor of the named list. Bash would keep its current behavior for those paths.
+- **Why this fits the criteria:** a slip like `C:/Windows/System32` still hits an unbypassable wall (2). `C:/work/old` is never walled (1). Both tools give the same answer, because they call one shared helper (3). The cost is the matching warning text and `HOOKS.md` wording.
+
+**Costs and open risks**
+- **Spellings:** the helper has to treat `C:/`, `C:\` and `/c/` the same way. Today Bash reads `/c/Windows/System32` as three components, so a name-based check is easier to get right than a depth count.
+- **Files to touch:** `tools/cc/hooks/_bash_patterns.py`, its vendored copy at `espalier/_vendor/cc/hooks/_bash_patterns.py`, the drive rows in `tests/test_denial_reasons.py`, the `PS_TIERS` row `recurse-alone-drive-depth-two` in `tests/test_guard_false_positives.py`, and `HOOKS.md:632-645`.
+- **Judgment call:** the system-folder list is my proposal, not something I found in the repo. You should confirm it, especially whether the whole `Users` folder belongs on it.
+- **Not yet checked:** I haven't run the test suite, and I haven't read how the vendored copy is kept in sync with the original.
+
+I haven't changed any files. Do you want me to implement the split? If so, tell me whether to adjust the list first.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Criteria 1 and 2 are both HIGH. That rules out blanket parity, because it would block `C:/work/old` in Bash and break criterion 1. What criterion 2 needs is for system folders to be refused. First I'll check what Bash does with them today.
+The check found a real gap. Bash lets `rm -rf C:/Windows/System32` through, and `C:/Windows` itself is refused. That fails criterion 2. Next I'll find where the system roots are defined.
+I'm updating the pinned test row (System32 is now refused on both tools), then syncing the vendor copy and running the suite.
+The full suite timed out, so I'll run just the two relevant files.
+Bash now refuses deletes under `C:/Windows`, `C:/Program Files` and `C:/Program Files (x86)` at any depth. I did not make Bash copy PowerShell's blanket two-level wall.
+
+**Why this and not full parity.** Full parity would have blocked ordinary work like `C:/work/old` in Bash, which fails your top criterion. Bash also had a real hole: `rm -rf C:/Windows/System32` and `.../drivers` were allowed. Only `C:/Windows` itself was refused.
+
+**What changed**
+- `tools/cc/hooks/_bash_patterns.py` has a new `_WINDOWS_SYSTEM_ROOTS` set and a check in `_target_is_catastrophic`. Home, the repo and temp roots are judged before it, so they are unaffected.
+- The vendored copies are synced with `scripts/sync_vendor_cc.py`.
+- In `tests/test_denial_reasons.py`, `C:/Windows/System32` is now pinned as refused on both tools, and `C:/Windows/System32/drivers` is added to the table.
+- In `tests/test_guard_false_positives.py`, a new test covers `Program Files`, `Program Files (x86)` and the allowed cases.
+
+**Verification.** The two test files pass, 490 tests. The full `tests/` run timed out at 10 minutes, so I haven't run it to completion.
+
+**Still different between the tools (your criterion 3)**
+- **Ordinary paths:** PowerShell still refuses `C:/work/old` and Bash allows it, by design.
+- **PowerShell gap:** it still depends on the depth rule for system folders outside the three named roots, such as `C:/ProgramData`. Bash doesn't wall those either.
+- **Denial text:** I didn't edit the warning wording. It still describes the depth rule and doesn't mention the named system trees. Say if you want that updated.
+
+I haven't committed anything.</pre></div>
+      </div>
+    </details>
+  </div>
+  <p class="note">For each mark that occurs, the replies shown are the first model's in the order above that got it, with its other two versions beside them, each as its final reply. No reply is picked by hand. The copy's folder path is shortened to &lt;copy&gt; and a home folder to &lt;home&gt;; where a reply quoted something private, the words are replaced and marked [removed] or [withheld].</p>
+</section>
+
+<section class="card" id="more" aria-labelledby="more-h">
+  <div class="card-head"><h2 id="more-h">The other repos in this test</h2></div>
+  <ul class="scope">
+    <li><a href="tokenizer-lab.html">tokenizer-lab</a>: a lab measuring how vocabulary size changes small language models.</li>
+    <li><a href="sibling-site-drift-lab.html">sibling-site-drift-lab</a>: a lab testing whether a checking routine stops AI agents leaving related files out of date.</li>
+    <li><a href="role-aware-dashboard-toolkit.html">role-aware-dashboard-toolkit</a>: my toolkit for dashboards where what you see depends on your role, with a real auth layer: verified sign-in through your own provider, tied to roles the server grants.</li>
+    <li><a href="social-media-engine.html">A social media orchestration engine</a>: my harness that automates AI social media accounts and drafts posts for my personal, manually curated pages.</li>
+    <li><a href="specdec-sidechannels.html">specdec-sidechannels</a>: my research on whether untapped signals from the device itself, like which parts of the model each word touched in memory, can speed up speculative decoding (a small model drafts the next words, a big model checks them).</li>
+  </ul>
+</section>
+
+<p class="colophon">Questions, evidence and marking written 13–14 Oct 2026, before any run; later changes are dated on this page. The wording was edited for readers on 16 Oct 2026, after the runs; no question, answer or mark changed. Part of the free-public-tools test series.</p>
+
+</main>

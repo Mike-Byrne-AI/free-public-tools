@@ -1,0 +1,1222 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>specdec-sidechannels Test Cards</title>
+<style>@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); }</style>
+<link rel="icon" href="data:,">
+<style>
+/* Layout: the free-public-tools look (generator/assets/style.css): parchment graph paper with the red margin line,
+   always light like the site. Every block is a notecard; a parchment wash around each card fades the grid as it
+   meets the card. No pen labels or speech bubbles here. */
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --focus: #1f5fd6;
+  --good: #2f7d32;
+  --bad: #c8372a;
+  --tough: #6a4c9c;
+  --none: #8a6d1e;
+  --dot: #0a8a73;
+  --cut: #f6e2da;
+  --radius: 14px;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --label: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* the red margin line of writing paper, near the screen's left edge */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+.wrap { max-width: 48rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 3.25rem; }
+@media (max-width: 900px) { .wrap { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+
+h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.55rem); }
+h3 { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; font-variant-ligatures: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* a notecard: the parchment wash around it fades the grid where the grid meets the card */
+.card, .masthead {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem clamp(1rem, 4vw, 1.9rem) 1.6rem; display: grid; gap: 1.1rem; min-width: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .05), 0 8px 22px rgb(0 0 0 / .06), 0 0 22px 12px var(--wash);
+}
+.masthead { background: var(--wash); border-color: transparent; box-shadow: 0 0 26px 18px var(--wash); gap: .9rem; }
+/* the index card's ruled header line */
+.card-head { display: grid; gap: .45rem; padding-bottom: .8rem; border-bottom: 2px solid var(--margin); }
+
+.series { font: 700 .95rem/1.2 var(--label); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+.draft { justify-self: start; font-size: .8rem; font-weight: 600; color: var(--muted); border: 1px dashed var(--border); border-radius: 999px; padding: 2px 10px; background: var(--surface); }
+.lede { font-size: 1.08rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 0; padding-top: .8rem; border-top: 1px solid var(--border); }
+.facts div { display: grid; gap: .05rem; }
+.facts dt { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.block { display: grid; gap: .65rem; min-width: 0; }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: .7rem; }
+.kind { display: grid; gap: .3rem; padding: .8rem .95rem; border: 1px solid var(--border); border-radius: 10px; background: var(--code-bg); min-width: 0; }
+.kind strong { display: flex; align-items: center; gap: .5rem; }
+.swatch { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+.sw-good { background: var(--good); }
+.sw-bad { background: var(--bad); }
+.sw-tough { background: var(--tough); }
+
+.versions { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.versions li { display: grid; grid-template-columns: 8.5rem 1fr; gap: .25rem 1rem; align-items: baseline; }
+.versions li > span { font-weight: 600; }
+.versions code { display: block; padding: .45rem .6rem; border-radius: 8px; }
+.copy-btn { display: block; margin-top: .4rem; padding: .2rem .7rem; font: 600 .78rem/1.4 var(--sans); color: var(--accent); background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+@media (max-width: 34rem) { .versions li { grid-template-columns: 1fr; } }
+
+.models { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+.models li { border: 1px solid var(--border); border-radius: 999px; padding: .15rem .7rem; font-size: .9rem; background: var(--code-bg); }
+.models li b { font-weight: 600; color: var(--muted); }
+
+.marks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.marks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+.marks li > div { min-width: 0; }
+.mark { font-weight: 700; font-size: 1.1rem; line-height: 1.45; text-align: center; }
+.m-right { color: var(--good); }
+.m-wrong { color: var(--bad); }
+.m-none { color: var(--none); }
+.marks em { font-style: normal; font-weight: 600; }
+
+.gloss { display: grid; grid-template-columns: 7.5rem 1fr; gap: .55rem 1.2rem; margin: 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; min-width: 0; }
+@media (max-width: 34rem) { .gloss { grid-template-columns: 1fr; gap: .1rem; } .gloss dd { margin-bottom: .5rem; } }
+
+.chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.chip .id { font: 700 .8rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+/* a question's card: its kind is the heading, with the colour block; the plan or decision is the line under it */
+.kind-h { display: flex; align-items: center; gap: .55rem; }
+.kind-h .swatch { width: 1.05rem; height: 1.05rem; border-radius: 3px; }
+.kind-h .id { font: 700 .95rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+.plan { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+.plan .k { font: 700 .76rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.analogy { display: grid; gap: .3rem; padding: .8rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.analogy .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+.prompt { display: grid; gap: .6rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; font: .9rem/1.55 var(--mono); font-variant-ligatures: none; overflow-wrap: anywhere; }
+.prompt .k { font: 700 .72rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prompt ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .3rem; }
+
+.evidence { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.evidence li { display: grid; gap: .2rem; padding-left: .9rem; border-left: 2px solid var(--border); min-width: 0; }
+.evidence q { font: .86rem/1.5 var(--mono); quotes: none; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.evidence .src { font: .76rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .93rem; }
+th, td { text-align: right; padding: .4rem .7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+/* the test's results table: its row labels wrap and its cells are a little tighter, so it fits the card without a
+   sideways scroll on a computer */
+.results th, .results td { padding-inline: .55rem; }
+.results th[scope=row] { white-space: normal; }
+thead th { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+caption { caption-side: bottom; text-align: left; padding-top: .45rem; font: .76rem/1.4 var(--mono); color: var(--muted); }
+
+figure { margin: 0; display: grid; gap: .5rem; }
+figcaption { font-size: .92rem; color: var(--muted); }
+.chart svg { display: block; width: 100%; min-width: 32rem; height: auto; }
+.chart .zone { fill: var(--cut); }
+.chart .cutline { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .guide { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 13px; }
+.chart .strong { fill: var(--text); font-weight: 600; }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .7rem; }
+.side { display: grid; gap: .45rem; padding: .85rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.side h4 { margin: 0; font-size: 1.1rem; }
+.side dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: .3rem .75rem; font-variant-numeric: tabular-nums; }
+.side dt { color: var(--muted); }
+.side dd { margin: 0; text-align: right; font-weight: 600; }
+
+.voice { margin: 0; display: grid; gap: .55rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; }
+.voice p { font-size: 1.04rem; }
+.voice footer { font-size: .85rem; color: var(--muted); }
+
+.note { font-size: .93rem; color: var(--muted); }
+.note strong { color: var(--text); }
+.scope { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.scope li { padding-left: .9rem; border-left: 2px solid var(--border); }
+.pending { border-style: dashed; box-shadow: 0 0 22px 12px var(--wash); }
+.colophon { justify-self: center; font-size: .85rem; color: var(--muted); background: var(--wash); box-shadow: 0 0 16px 10px var(--wash); padding: .2rem .6rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* linked sources, the time-limit chart, side-by-side code and lists */
+.evidence a.src, .side a.src { font: .76rem/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.chart .limit { stroke: var(--text); stroke-width: 1.5; }
+.chart .val { fill: var(--text); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.side code { display: block; white-space: pre-wrap; padding: .5rem .6rem; border-radius: 8px; font-size: .8rem; background: var(--surface); }
+.side { align-content: start; }
+.side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; align-content: start; }
+/* results: the mark grids (tools/card-results.mjs) and the replies */
+.grids { display: grid; gap: 1.2rem; margin-top: .6rem; }
+.marks-grid caption { caption-side: top; padding: 0 0 .4rem; font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--text); }
+.marks-grid td, .marks-grid th[scope="col"] { text-align: center; }
+.marks-grid th[scope="row"] { text-align: left; font-weight: 600; }
+.marks-grid .where { display: block; font-size: .72rem; font-weight: 400; color: var(--muted); }
+.marks-grid .total th, .marks-grid .total td { font-weight: 700; border-top: 2px solid var(--border); }
+.marks-grid sup { color: var(--muted); }
+h3 .qkind { margin-left: .4rem; color: var(--muted); }
+.replies { margin-top: .8rem; }
+.replies summary { cursor: pointer; font-weight: 600; }
+.reply-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+.reply-cols h4 { margin: 0 0 .3rem; font-size: .95rem; }
+pre.reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.45 var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem; max-height: 32rem; overflow: auto; }
+</style>
+
+<main class="wrap">
+
+<header class="masthead">
+  <p class="series">Free-public-tools · Decision-challenge test</p>
+  <h1>specdec-sidechannels test cards</h1>
+  <p class="lede">Three questions from specdec-sidechannels, each put to seven AI models three ways. Each card shows the exact words the models get, the lines in the repo that decide the answer, and how each reply is marked. It was all written before any model answered, except the changes dated in the notes on this page.</p>
+  <dl class="facts">
+    <div><dt>Repo</dt><dd>specdec-sidechannels</dd></div>
+    <div><dt>Snapshots</dt><dd>5 Sep and 10 Oct 2026</dd></div>
+    <div><dt>Questions</dt><dd>3</dd></div>
+    <div><dt>Status</dt><dd>Run and marked, 14 Oct 2026</dd></div>
+  </dl>
+</header>
+
+<section class="card" id="how" aria-labelledby="how-h">
+  <div class="card-head"><h2 id="how-h">How the test works</h2></div>
+
+  <div class="block">
+    <h3>Three kinds of question</h3>
+    <div class="kinds">
+      <div class="kind"><strong><span class="swatch sw-good" aria-hidden="true"></span>Good plan</strong><p>The repo's own files back the plan. The right reply is yes, go ahead.</p></div>
+      <div class="kind"><strong><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan</strong><p>The repo's own files sink the plan. The right reply is no, with the reason.</p></div>
+      <div class="kind"><strong><span class="swatch sw-tough" aria-hidden="true"></span>Tough call</strong><p>All the facts are in the repo and both choices hold up. The right reply says it's close and helps you weigh it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three versions of every question</h3>
+    <p>Each model gets each question three times, in a fresh session each time. Only the first message changes.</p>
+    <ul class="versions">
+      <li><span>Plain request</span><code>Challenge this decision before we lock it in: [decision].</code></li>
+      <li><span>Short prompt<button type="button" class="copy-btn" data-copy>Copy</button></span><code>Challenge this decision before we lock it in: [decision]. Read the project files it depends on, and end with a verdict: stay, pivot or split.</code></li>
+      <li><span>The command</span><code>/decision-challenge [decision]</code></li>
+    </ul>
+    <p>Then every version gets the same <strong>second message</strong>: the user's priorities, each marked HIGH, MEDIUM or LOW, ending with "Go on." The reply that's marked is the AI's answer to that second message.</p>
+    <p class="note"><strong>What that second message means.</strong> In real use, nobody sends their priorities to a plain request unless it asks for them; only the command asks. So this test compares how the three versions reason when they get the same information, which is generous to the two without the command. As a second reading, decided after the runs, I also marked the first reply of those two versions on its own, where a real conversation would usually stop.</p>
+    <script>
+    // Copy: the prompt exactly as shown beside the button; the clipboard, else the older copy command, else the text selected
+    for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+      const code = b.closest('li').querySelector('code'), say = (t) => { b.textContent = t; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      try { await navigator.clipboard.writeText(code.textContent); return say('Copied'); } catch (e) {}
+      const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { if (document.execCommand('copy')) return say('Copied'); } catch (e) {}
+      say('Selected: copy it');
+    });
+    </script>
+    <p class="note"><strong>Why a short-prompt version?</strong> It asks for two of the command's moves, reading the files and ending with a verdict, in a prompt anyone can type. If it does as well as the command, the results say so, and you can use the prompt.</p>
+  </div>
+
+  <div class="block">
+    <h3>Seven models, one run each</h3>
+    <ul class="models">
+      <li><b>Claude Code</b> Opus</li>
+      <li><b>Claude Code</b> Sonnet</li>
+      <li><b>Claude Code</b> Haiku</li>
+      <li><b>Copilot</b> GPT-5 mini</li>
+      <li><b>Copilot</b> GPT-6 Luna</li>
+      <li><b>Copilot</b> MAI-Code 1.1 Flash</li>
+      <li><b>Copilot</b> Gemini 3.8 Flash</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How a reply is marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right call.</em> What counts is written on each card.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong call.</em> The wrong side, or treating a settled question as open, or an open one as settled.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call.</em> No verdict, or pros and cons with no help deciding.</div></li>
+    </ul>
+    <p>A few rules hold on every card. On a Bad plan, a ✓ needs the real reason, not a general warning. On a Good or Bad plan, a middle way or "run a test first" is ✗ when the files already settle it. On a Tough call, a lean either way can earn ✓, and so can a middle way argued as a trade. Each turn has a 30-minute limit; a reply cut off by it is marked on what it had said by then.</p>
+  </div>
+
+  <div class="block">
+    <h3>Who marks the replies</h3>
+    <p>Two AI models mark every reply, each on its own: Claude Sonnet and GPT-6 Luna. They aren't told which version or model wrote it, but what the user typed shows the version, and the agent's tool-call style can show whether it ran in Claude Code or Copilot. Where they disagree, Claude Opus decides, also without being told. I marked 15 Tough-call replies myself, shuffled and without names, starting with ones the two markers disagreed on.</p>
+  </div>
+</section>
+
+<section class="card" id="repo-specdec" aria-labelledby="repo-specdec-h">
+  <div class="card-head"><h2 id="repo-specdec-h">The repo: specdec-sidechannels</h2></div>
+  <p>specdec-sidechannels is my research into whether a cheap side signal from AI serving hardware, such as which memory slots a big model touches, can predict what the model says next well enough to speed up speculative decoding. After many tests, each written down before it ran, no usable gain was shown, and the release says so.</p>
+  <p>The research is ongoing and planned for future release, so each card quotes the lines that decide its question. The cards use dated snapshots of the private repository the release is being cut from, and quote only files the release will include.</p>
+  <div class="block">
+    <h3>Words you'll see</h3>
+    <dl class="gloss">
+      <dt>Speculative decoding</dt><dd>A way to speed up AI text generation: a small model drafts a few words ahead and the big model checks them in one go.</dd>
+      <dt>Side signal</dt><dd>Information that leaks from how the hardware runs the model, not from its output. Also called the side channel or telemetry.</dd>
+      <dt>Free baseline</dt><dd>What the decoder already knows for free from the model's own output. The side signal only matters if it adds something beyond that.</dd>
+      <dt>Source</dt><dd>One of the two hardware signals tested, called S1 and S3.</dd>
+      <dt>Reader</dt><dd>A small model trained to read a signal. The simple reader draws straight lines; the larger reader is a small neural network.</dd>
+      <dt>Dated note</dt><dd>A correction added under old text, with its date, without rewriting the text.</dd>
+      <dt>Commit, hash</dt><dd>A saved version of the project in git, and its unique ID. The history is the dated chain of commits.</dd>
+      <dt>F-24</dt><dd>The repo numbers its findings: F-15, F-17, F-24 and so on.</dd>
+    </dl>
+  </div>
+</section>
+
+<article class="card" id="c1" aria-labelledby="c1-h c1-t">
+  <div class="card-head">
+    <h2 id="c1-h" class="kind-h"><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan <span class="id">C1</span></h2>
+    <p class="plan" id="c1-t"><span class="k">The plan:</span> Lock the headline result and call it closed</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The release headline says the side signal carries information about what comes next "beyond the strongest free baseline": beyond what the decoder already gets for free. The plan locks that headline and stops re-testing, so the remaining time goes to the write-up.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a bad plan</h3>
+    <p>The baseline the headline beat wasn't the strongest one. The method's own rule says the free baseline must include the words themselves (token identity), and the README lists both stronger baselines as untested. The repo had already found that the token-identity version does better than the side signal at a related task. At one source, the free baseline it beat was barely better than always guessing the most common answer.</p>
+    <div class="scroll">
+      <table>
+        <caption>results/real/probes_s3.json: source S3, two steps ahead, first seed. At the other source the free baseline does better: 60.6% against a 59.1% floor.</caption>
+        <thead><tr><th scope="col">What was read</th><th scope="col">Reader</th><th scope="col">Correct</th></tr></thead>
+        <tbody>
+          <tr><td>Always guessing the most common answer</td><td>None</td><td>58.0%</td></tr>
+          <tr><td>The free baseline</td><td>Simple</td><td>58.2%</td></tr>
+          <tr><td>The free baseline</td><td>Larger</td><td>58.4%</td></tr>
+          <tr><td>The side signal plus the free baseline</td><td>Larger</td><td>60.3%</td></tr>
+          <tr><td>The model's hidden state (also free)</td><td>Simple only</td><td>57.9%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A runner claims the fastest time in the region, but has only raced the slowest club. The entry sheet lists the two fastest clubs as "not yet raced". The plan is to print the trophy and stop racing. The next morning the fast clubs race, and the "record" is beaten.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Lock the v0.3.0 release README with existence as the headline result (the side channel carries future-concept information beyond what the decoder already gets for free; F-15 and F-17, shown and replicated at two sources), and treat that question as closed so the remaining time goes to the write-up, not more re-tests.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Every headline claim survives the strongest comparison available (HIGH).</li>
+        <li>Ship this week, while the newcomer docs are fresh (MEDIUM).</li>
+        <li>Don't spend compute reopening results the record marks "shown" (MEDIUM).</li>
+        <li>A short headline for newcomers (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <ul class="evidence">
+      <li><q>telemetry carries future-concept information beyond the strongest free baseline at offsets &gt;= 2 … shown, replicated on fresh seeds at two sources</q><span class="src">README.md:49</span><span>The headline.</span></li>
+      <li><q>The existence margins (F-15, F-17) against two stronger free baselines: one that includes the anchor's token identities … and a NONLINEAR probe on the full next-token distribution … Both untested;</q><span class="src">README.md:80–84</span><span>The same README says the two stronger comparisons were never run.</span></li>
+      <li><q>The free baseline must be the strongest available, including token identity</q><span class="src">docs/METHOD.md:56</span><span>The method's own rule.</span></li>
+      <li><q>TOKEN-IDENTITY-NOT-EXCLUDED — FREETOK reconstructs h_a CI-clear slightly BETTER than telemetry</q><span class="src">OPEN_QUESTIONS.md:477–478</span><span>The token-identity version already beat the side signal at a related task.</span></li>
+      <li><q>What was never run: a NONLINEAR-in-p free baseline at the registered mlp256 capacity (the grids carry (h) at "linear" only).</q><span class="src">docs/BLUEPRINT.md:3903–3905</span><span>The free information never got the larger reader the side signal got.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says no, and gives the reason: the free baseline the headline beat wasn't the strongest available, because it left out token identity and a nonlinear reading of the full output, which the README lists as untested and the method requires. "No, run the stronger baselines first" also counts, and so does "narrow the headline to what was tested", when it gives that reason.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> goes ahead, or says no only out of general caution.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> the record itself says "So the K-2 margins are not linear-logit information, and F-15/F-17 stand."<br><strong>The counterargument:</strong> that rests on the simple reader of the hidden state, which scored below always guessing the most common answer, and the next sentence says the stronger version was never run.</p>
+  <p class="note"><strong>What I actually did:</strong> about 14 hours later I ran those stronger baselines, as one combined test. The side signal's edge was "ABSORBED by the full free baseline" at both sources, and the claims got dated notes.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the decision said "upcoming-topic information", which clashes with the research's own terms, and every dry-run reply objected to the word. It now uses the README's own phrase, "future-concept information". The marking now also counts "narrow the headline to what was tested and keep the question closed" as right, when it gives the reason.</p>
+</article>
+
+<article class="card" id="c2" aria-labelledby="c2-h c2-t">
+  <div class="card-head">
+    <h2 id="c2-h" class="kind-h"><span class="swatch sw-good" aria-hidden="true"></span>Good plan <span class="id">C2</span></h2>
+    <p class="plan" id="c2-t"><span class="k">The plan:</span> Add dated corrections under two stale README paragraphs</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>After the re-test, the README's own results table carries a dated note saying the result was absorbed. But two paragraphs further down still say the signal is "established at probe level" and that the two stronger baselines are "Both untested". The plan adds dated notes under those two paragraphs, without rewriting them.</p>
+    <div class="scroll">
+      <table>
+        <caption>README.md and docs/REPORT.md at this snapshot</caption>
+        <thead><tr><th scope="col">Place</th><th scope="col">Says</th><th scope="col">Dated note</th></tr></thead>
+        <tbody>
+          <tr><td>README results table</td><td>Absorbed by the full free baseline</td><td>Yes</td></tr>
+          <tr><td>Longer report</td><td>Superseded</td><td>Yes</td></tr>
+          <tr><td>README one-line reading</td><td>"established at probe level"</td><td>No</td></tr>
+          <tr><td>README list of open tests</td><td>"Both untested"</td><td>No</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a good plan</h3>
+    <p>The README contradicts itself. The repo's rule for errors is a dated note, never a rewrite, and the longer report and a neighbouring README bullet already follow it. Two paragraphs were missed.</p>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A newspaper's main claim was proven wrong a week later. Its rule is to print a dated correction, never to rewrite the old story, and the long-form edition already carries one. But the front page still says "proven" and still lists the decisive test as "not yet done". The plan is to add dated corrections under those two lines.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Add dated notes, without rewriting the original text, under the two README paragraphs written on 2026-09-05 (the one-line reading that calls existence 'established at probe level', and the bullet that calls the two stronger free baselines 'Both untested'), recording that F-24 ran those baselines, as one combined test, and the margin was absorbed.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Keep the findings' own limits; no "refuted" sentence, since one sub-question is still open (HIGH).</li>
+        <li>Follow the never-rewrite rule (MEDIUM).</li>
+        <li>Check the other summary pages for the same stale wording (LOW).</li>
+        <li>Effort (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <ul class="evidence">
+      <li><q>DATED NOTE 2026-09-06 (F-24): ABSORBED by the FULL free baseline</q><span class="src">README.md:49</span><span>The results table already knows.</span></li>
+      <li><q>The calibrated one-line reading: existence of a cheap signal that the registered free baselines do not carry is established at probe level</q><span class="src">README.md:62–63</span><span>Still says "established".</span></li>
+      <li><q>… Both untested;</q><span class="src">README.md:104</span><span>Still lists the stronger baselines as untested.</span></li>
+      <li><q>DATED NOTE (2026-09-06, F-24): the existence statements below that read "beyond the strongest free baseline" are superseded</q><span class="src">docs/REPORT.md:8</span><span>The longer report already added its note.</span></li>
+      <li><q>Registered text with an error gets a dated erratum, never a rewrite;</q><span class="src">README.md:132</span><span>The rule.</span></li>
+      <li><q>BOTH SOURCES: the existence layer is NOT SHOWN anywhere at the registered reader</q><span class="src">docs/WHY_THIS_DIES.md:117</span><span>The verdict the two paragraphs miss.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says go ahead. "Yes, and check the other pages" or "yes, but don't call it refuted" also counts.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> says no because it changes registered text, says the table row is enough, says to wait, or splits it.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> the results table already carries the correction.<br><strong>The counterargument:</strong> the longer report kept its own table row and still added a note for the text.</p>
+  <p class="note"><strong>What I actually did:</strong> two days later I added these notes, before the public cut. They ship in the release README.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the decision said F-24 ran "exactly those baselines", which overstates it (the research ran them as one combined test), and all six dry-run replies objected. A fourth priority was added, because the command asks for four to six and, given three, one model stopped to ask for another and gave no verdict.</p>
+</article>
+
+<article class="card" id="c3" aria-labelledby="c3-h c3-t">
+  <div class="card-head">
+    <h2 id="c3-h" class="kind-h"><span class="swatch sw-tough" aria-hidden="true"></span>Tough call <span class="id">C3</span></h2>
+    <p class="plan" id="c3-t"><span class="k">The decision:</span> Publish a fresh copy, or the full history?</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>When the research goes public, should it be today's files as a fresh one-commit copy, with the old commit messages exported as a cleaned-up log? Or the repository with its full history of about 130 commits?</p>
+  </div>
+
+  <div class="block">
+    <h3>The trade-off</h3>
+    <div class="compare">
+      <div class="side">
+        <h4>For the full history</h4>
+        <ul>
+          <li>The history shows each test was written down before it ran.</li>
+          <li>The record cites 31 commit hashes that a fresh copy would orphan.</li>
+          <li>The exposure is a first name in a path, not a secret.</li>
+        </ul>
+      </div>
+      <div class="side">
+        <h4>For a fresh copy</h4>
+        <ul>
+          <li>Old commits hold paths into other private projects, removed from today's files but still in the history.</li>
+          <li>Anything withheld later would have to be removed from every old commit too.</li>
+          <li>Outsiders check the numbers from the saved state files anyway.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A scientist's lab notebook is dated page by page, which proves each experiment was planned before it ran, and the paper cites notebook page numbers. But some early pages mention private projects and home folders. Do you publish the whole notebook, or a clean copy of today's pages plus a typed list of the old entries?</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Publish sideband as a fresh one-commit copy of today's files, with the private commit messages exported as a cleaned-up commit-log file, instead of pushing the repository with its full 130-commit history (this checkout is a one-commit snapshot of today's files; the full history is in my private copy).</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>A stranger can check that every experiment was registered before it ran, using the commit hashes the record cites (HIGH).</li>
+        <li>Nothing from my private projects or old drafts goes public (HIGH).</li>
+        <li>Every headline number recomputes from a clone without a GPU (MEDIUM).</li>
+        <li>Release effort (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence on both sides</h3>
+    <ul class="evidence">
+      <li><q>31 short commit hashes cited in FINDINGS.md, DECISIONS.md, OPEN_QUESTIONS.md and docs/BLUEPRINT.md resolve to real commits (checked this session) and would be orphaned. The exposure is a first name in a path, not a secret.</q><span class="src">docs/RELEASE_NOTES.md:108–111</span><span>The case for keeping the history.</span></li>
+      <li><q>never rewrite history the registered documents cite by commit hash.</q><span class="src">CONTRIBUTING.md:50–51</span><span>The repo's own rule for contributors.</span></li>
+      <li><q>(Section rewritten 2026-09-05 for release: the original carried absolute paths into the author's private working copies; the paths and personal folder names are removed and the rest is kept.</q><span class="src">docs/ECOSYSTEM.md:93–95</span><span>Today's file is clean. The original is still in the older commits.</span></li>
+      <li><q>The intended public verification surface is the committed state files (section 7).</q><span class="src">docs/RELEASE_NOTES.md:238–239</span><span>Outsiders check the numbers from saved files, not the history.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says it's close; names the trade (proof that tests came before results, against keeping private paths and projects out); names at least one thing it hinges on, such as whether anything in the old commits must stay private, which would force a rewrite that breaks the hashes anyway, what the release must prove, or whether a text log is a fair stand-in; and either leans one way for a stated reason or says what would settle it. A middle option, such as a cleaned history with a published table of old and new hashes, counts as a lean.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> treats either side as obvious. "Never break the record's hashes." "Never publish private history."</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> pros and cons with no lean and nothing that would settle it, or no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>Removed from the models' copy:</strong> two sentences that said a history rewrite was ruled out. The section on how the copy was made lists them.</p>
+  <p class="note"><strong>What I actually did:</strong> the next day the release plan chose a fresh history to keep unrelated, unreleased assets private. The test doesn't treat that as the right answer; either lean can earn ✓.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> every copy has a single commit, so the history this question is about isn't in it, and all seven dry-run replies said so. The decision now says so itself. The real history can't go in instead: the two removed sentences sit in the 59 commits after they were written. The facts the question turns on, the commit hashes the research cites and the private paths in old commits, are stated in the files.</p>
+  <p class="note"><strong>Checked before this repo's main runs:</strong> the plain-request version ran first on all 7 models. If all 7 had landed on the same side, the question would have been rebuilt. They didn't: 4 took a middle way, 2 said don't and 1 said go ahead.</p>
+</article>
+
+<section class="card" id="scope" aria-labelledby="scope-h">
+  <div class="card-head"><h2 id="scope-h">What these numbers do and don't say</h2></div>
+  <ul class="scope">
+    <li>The table on card C1 shows one source, one step distance and one seed. The other source's free baseline does better, and the card says so.</li>
+    <li>The marking scheme was written with the questions, before any run. Where a question or its marking changed later, this page says when and why, and the original words stay on record.</li>
+    <li>A ✓ means a reply made the right call on this question. Eighteen questions across six repos is a small test, and the results are reported that way.</li>
+    <li>Cards C1 and C2 are about the same claim, at its two ends: made too early, then corrected. Each uses its own snapshot, so C1's copy doesn't contain the re-test, but the two aren't fully independent.</li>
+  </ul>
+</section>
+
+<section class="card" id="copy" aria-labelledby="copy-h">
+  <div class="card-head"><h2 id="copy-h">How the models' copy was made</h2></div>
+  <p>Each card uses the private repository as it stood at its own moment, before that question's answer was written down. The same copy goes to every model and every version, and we remove only what's listed here. On every copy, that includes the files AI tools read on their own: <code>CLAUDE.md</code> files and the <code>.claude</code> folder. The copies hold a few files the release will withhold; the cards quote none of them.</p>
+  <div class="block">
+    <h3>C1: 5 Sep 2026 (commit <code>601c210</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 487 files, with about 21,000 lines of code and 9,200 lines of Markdown.</li>
+      <li>The evening the release README was written, before the re-test.</li>
+      <li>Also removed: <code>docs/IDEAS.md</code>, a notes file the release withholds, which said to re-test the claim. C1's README still points to that file, so a model may notice it's missing.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>C2: 10 Oct 2026 (commit <code>362964a</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 757 files, with about 90,000 lines of code and 39,000 lines of Markdown.</li>
+      <li>The last change to the README before the notes were added.</li>
+      <li>Nothing else removed.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>C3: 10 Oct 2026 (commit <code>738bddc</code>)</h3>
+    <ul class="scope">
+      <li>The copy: 757 files, with about 90,000 lines of code and 39,000 lines of Markdown.</li>
+      <li>Two hours before I gave the direction, a day before the plan was written.</li>
+      <li>Two passages in <code>docs/RELEASE_NOTES.md</code>: "A history rewrite is likewise out:" (line 108), and "the history rewrite that 3.1 rules out" (line 221), which becomes "a history rewrite" so the sentence still reads. The facts around them stay.</li>
+    </ul>
+  </div>
+  <p class="note">Lines of code count every line in the copy's code files, tests and any bundled libraries included.</p>
+</section>
+
+<section class="card" id="results" aria-labelledby="results-h">
+  <div class="card-head"><h2 id="results-h">Results</h2></div>
+  <p>Run on 14 Oct 2026, one run per model and version: ✓ right, ✗ wrong, – no call. The first grid is the planned reading, where every version got my priorities. The second is a reading decided after the runs, where the short prompt and the plain request are marked on their first reply, where a real conversation would usually stop; only the command asks for priorities. The command's runs are the same in both grids, marked again for the second, so a few of their marks differ. A mark with * is mine, given without knowing the version or model; my marks count only in the first grid.</p>
+  <div class="block">
+    <h3>C1: Lock the headline result and call it closed <span class="qkind">Bad plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>6 of 7</td><td>5 of 7</td><td>5 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-none" aria-label="no call">–</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>6 of 7</td><td>4 of 7</td><td>5 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">Before scoring, one read-only check: whether the comparator could run on the existing harvests, which determines whether it fits a one-week release.
+Fixed criteria: **C1** every headline claim survives the strongest comparison available (HIGH) · **C2** ship this week (MEDIUM) · **C3** no compute spent reopening results marked &quot;shown&quot; (MEDIUM) · **C4** short headline for newcomers (LOW).
+
+**What the check found:** the probes' free baseline (a) leaves out token identities that the harvest already stores. Both harvesters write `top_ids` (`src/sideband/real/shadow_telemetry.py:302`, `moe_telemetry.py:335`). But feature set (a) uses only `mass16/32/64/512 + entropy + top_p` (`tools/run_probes.py:203-206`), which is the 657 dims. The README calls (a) the &quot;strongest free baseline&quot;, yet it leaves out logged free token identities. That is the same kind of information that beat telemetry at the reconstruction layer (DR-2). The shards themselves are gitignored and not in this checkout; only the 36K summary folders are here.
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: Ship a scoped headline and leave the question open**
+- **CORE DIFFERENCE:** The headline claims existence only against the baselines actually run, and the stronger comparator is listed as a named open question instead of being treated as closed.
+- **SKELETON:**
+  ```
+  README Existence row, Status column:
+    &quot;shown against the registered free baseline (p summaries + linear full-logit
+     probe), replicated at S1 and S3&quot;
+  Same row, one added clause:
+    &quot;not yet tested against token identity (top_ids, already harvested) or a
+     nonlinear-in-p probe; OQ-17&quot;
+  OPEN_QUESTIONS.md: add OQ-17 (comparator, pinned cells, decision rule sketch), status OPEN
+  One-line reading: &quot;existence beyond the tested free baselines&quot; instead of &quot;beyond what the decoder has&quot;
+  FINDINGS.md: untouched (registered text stands; README is not registered text)
+  Tag v0.3.0 this week
+  ```
+- **BUYS:** It ships on schedule with zero compute, and the headline never claims more than was measured.
+- **COSTS:** The headline is longer and carries a visible caveat, and the main result stays provisional in public.
+
+**ALTERNATIVE B: Run the named comparator, then ship whatever it says**
+- **CORE DIFFERENCE:** Before tagging, register and run the K-2 comparator that F-23 calls unrun, and let the result set the headline.
+- **SKELETON:**
+  ```
+  BLUEPRINT: dated block &quot;K-2 STRONG-FREE COMPARATOR&quot;
+    features: (a+) = (a) ++ hashed top_ids multi-hot; (h) at mlp256
+    cells: L1/off2 pinned (+ off3) x {linear, mlp256} x seeds {0,1,2}
+    grids: probes_s1, s1_r, s3, s3_r (existing harvest shards)
+    estimand: (a+ ++ b) - (a+), and (h_mlp ++ b) - (h_mlp); paired_cluster_delta_ci
+    labels pinned: SURVIVES / ABSORBED / PARTIAL
+  run_probes.py: add feats &quot;a+&quot; and allow h x mlp256  (~small diff + tests)
+  GPU: ~4 grids x few dozen probe fits on the 3080 Ti
+  critic recompute from state.jsonl -&gt; FINDINGS F-24
+  README headline = F-24 label; tag
+  ```
+- **BUYS:** The headline either faces the strongest comparison the record names, or is corrected before anyone cites it.
+- **COSTS:** It needs the shards on the operator's machine, a registration, a GPU run and a critic pass, and it reopens a result marked &quot;shown&quot;. This week becomes unlikely.
+
+## Step 3: Score (EXPECTED CASE)
+
+| | Current (lock, close) | A: Scoped headline | B: Run comparator first |
+|---|---|---|---|
+| **C1 (HIGH)** | WEAK: the headline says &quot;beyond the strongest free baseline&quot; while (a) omits harvested `top_ids`, and F-23 itself calls the nonlinear-in-p comparator unrun. | ADEQUATE: the headline claims only what survived the comparisons run, but the strongest available comparison is still not faced. | STRONG: the headline is set by the strongest comparator the record names, on data already harvested. |
+| **C2 (MEDIUM)** | STRONG: README text exists already. | STRONG: a wording edit plus one OQ entry, done in a day. | WEAK: registration, code, GPU run, critic pass and write-up likely push past the week, and the shards aren't in this checkout. |
+| **C3 (MEDIUM)** | STRONG: no compute. | STRONG: no compute. | WEAK: this is exactly spending compute to reopen a &quot;shown&quot; result. |
+| **C4 (LOW)** | STRONG: one clean clause. | ADEQUATE: one added caveat clause. | STRONG if the margin survives, ADEQUATE if it must be restated. |
+
+Fairness check: not triggered, because the current approach is the weakest option on the only HIGH criterion.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to A.
+- **CONFIDENCE:** HIGH that the current approach loses. MEDIUM on A over B.
+- **EVIDENCE:** FACT for the gap (code shows `top_ids` harvested but excluded from (a); F-23 records the nonlinear comparator as unrun). INFERENCE for whether the margin would survive it.
+- **REASONING:**
+  - On C1, your only HIGH criterion, the locked headline asserts something the record says it has not tested.
+  - DR-2 is the warning here: at the reconstruction layer, exactly this kind of token-identity encoding absorbed telemetry's margin.
+  - A matches the current approach on C2 and C3 and is strictly better on C1, so the current approach is dominated.
+  - B is the only option that fully meets C1, but it costs both MEDIUM criteria. Under your weights, A wins as long as the headline makes only the bounded claim.
+  - No conclusion rests on charitable scores.
+- **What the original reasoning missed:**
+  - F-23's re-check covered only *linear*-in-p.
+  - &quot;Strongest free baseline&quot; was inherited from the Phase-3 registration, which called (a) &quot;ALL logged free summaries&quot; even though `top_ids` was logged and left out.
+- **What already assumes the old approach:**
+  - `README.md`: the Existence row and the one-line reading.
+  - `docs/REPORT.md:12`, `:18` and `:294`.
+  - `docs/RELEASE_NOTES.md`: the status table.
+  - `docs/WHY_THIS_DIES.md`: the K-2 STATUS line &quot;survived&quot;.
+  - `docs/FINDINGS_INDEX.md`.
+  - F-15 and F-17 titles (&quot;beyond the strongest free baseline&quot;). These are registered text, so they get a dated addendum, not a rewrite.
+
+**NEXT SMALLEST MOVE:** Rewrite the README Existence row and the one-line reading to say &quot;beyond the registered free baseline (p summaries; linear full-logit)&quot;. Add the clause naming the untested token-identity and nonlinear-in-p comparator, and point it to a new OQ-17. That is about 3 lines plus one OQ entry; I haven't edited anything. Say if you want me to draft it.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Your criteria change my answer. I'm dropping the parallel re-test, and the verdict becomes a **pivot of the headline, with no new compute**.
+
+## Scoring the three options
+
+| | 1. Strongest comparison (HIGH) | 2. Ship this week (MED) | 3. No reopening (MED) | 4. Short headline (LOW) |
+|---|---|---|---|---|
+| **Stay**: existence leads, marked closed | **fails** | passes | passes | passes |
+| **Split**: narrowed lock plus a re-test | passes | at risk | **fails** | partial |
+| **Pivot**: conversion null leads, existence as a qualified second line | passes | passes | passes | passes, if worded tightly |
+
+**Stay fails your top criterion.** The strongest comparisons for F-15 and F-17 are telemetry against the anchor's token identities and against a nonlinear read of the full next-token distribution. Neither was run, and the README says so itself. This repo's own F-22 and F-23 show that this exact gap has overturned a registered pass before.
+
+**Split was my earlier answer. Criterion 3 rules it out.** Adding a stronger baseline arm to F-15/F-17 means reopening results marked &quot;shown&quot;. It also risks the ship date: the harvest fields it needs are unconfirmed, and it would need a registration and a critic pass. And it isn't needed: criterion 1 can be met by changing what the headline claims instead of spending compute to defend it.
+
+**Pivot meets all four.** The conversion and reconstruction results already hold up against the strongest comparisons:
+- Conversion is null against vanilla. It also *loses* CI-clear to the same head on free features alone (F-21, −0.082). The oracle ceiling caps the earlier actuator near zero (F-14).
+- F-23 is a mathematical identity, so no stronger comparison can undo it.
+
+A stronger free baseline could only make these results more null. They're the claims that need no defending. Existence stays in the README, labelled &quot;qualified&quot;, which is the house status word for a result that holds only in a narrower sense, with its qualifier written into the claim.
+
+One wording guard: the nulls are &quot;not shown&quot; at one seed with 30-cluster power. The headline must not say &quot;doesn't work&quot;.
+
+## Proposed headline (to replace the &quot;calibrated one-line reading&quot;)
+
+&gt; Through every actuator tried, the address stream did not turn into more tokens per verify call (F-12–F-14, F-19, F-21). The hidden state it partly reconstructs turned out to be information the decoder already has (F-23). At probe level it does predict concepts 2–3 tokens ahead better than a 657-dim summary of the verifier's next-token distribution, replicated at two sources (F-15, F-17). That margin has not been tested against token identities or a nonlinear read of the full distribution.
+
+## Edits for this week (docs only, no compute)
+
+1. **Existence row of the status table:**
+   - Change the status from &quot;shown, replicated…&quot; to &quot;qualified: shown against the registered 657-dim summary baseline, replicated at two sources&quot;.
+   - Replace &quot;beyond the strongest free baseline&quot; with &quot;beyond the registered p_a-summary baseline&quot;.
+   - Add F-20 (ARTIFACT-DOMINANT; the free head beat the telemetry head outright).
+2. **Swap in the headline above.** Mirror the same wording in `docs/REPORT.md` and `docs/RELEASE_NOTES.md` so they don't disagree.
+3. **Record the untested baselines as a dated open question** for a later release instead of a re-test now. This puts &quot;not closed&quot; in the record without spending compute.
+4. **Fix the broken `docs/IDEAS.md` links** in `README.md:85`, `README.md:344` and `docs/REPORT.md:344`. The file is `docs/FUTURE_IDEAS.md`.
+
+Under the repo's own rules, F-15 and F-17 themselves are never rewritten. Only the reading layer changes.
+
+**Verdict: pivot.** Conversion-null leads the headline, existence ships as qualified, and no compute is spent. Want me to make these edits?</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Applying your criteria in priority order:
+
+**Criterion 1 (HIGH) rules out the decision as written.** &quot;Existence beyond what the decoder already gets for free&quot; doesn't survive the strongest comparison available. The record names two comparisons that were never run: the nonlinear-in-p baseline (F-23 calls it &quot;the unrun K-2 comparator&quot;) and a multi-seed stale-label control (the F-20 lesson, which the record calls &quot;the cheap check if this is ever contested&quot;). F-22 already showed what happens when a pass against the 657-summary free arm meets a stronger comparator. Since this is your highest-weight criterion, it outweighs the rest.
+
+**There are two ways to meet criterion 1, and they conflict with criteria 2 and 3 differently:**
+
+| Option | C1 (HIGH) | C2 ship this week | C3 no reopening compute | C4 short headline |
+|---|---|---|---|---|
+| A. Lock existence as headline, question closed | fails | yes | yes | yes |
+| B. Run stale-label (+ register mlp256) first | passes if it survives | at risk; mlp256 needs your exception to the hard stop plus a registration | violates | yes |
+| **C. Narrow the headline to what it survived; name the unrun checks** | **passes** | **yes** | **yes** | **yes** |
+
+**I recommend C.** It meets criterion 1 by shrinking the claim to fit the evidence. It needs no compute, and it's an hour of editing, not a week of runs. B is only worth it if you specifically want the broad wording (&quot;beyond what the decoder gets for free&quot;). Then criterion 1 forces criterion 3 to give way. You'd need a dated registration for mlp256 and your explicit exception to the fold-back hard stop, which together are unlikely to fit in this week.
+
+**Draft headline for C** (two sentences, for newcomers, placed right under the bolded question):
+
+&gt; **Result:** The address stream carries a small amount of future-token information (about +1.4 points top-1) that the tested free baselines don't. That holds at two sources: a summary of the verifier's next-token distribution, and a linear probe on its hidden state. No actuator we tried turned it into more tokens per verify call, and a nonlinear free baseline and a stale-label control are still unrun.
+
+The status table stays as it is. Its existence row already lists both comparators and both gaps, so only the headline changes. What changes in the plan is &quot;treat as closed&quot;: the release should say the existence question is **open with two named checks**, not closed. That still lets all remaining time go to the write-up, which was the point of your decision.
+
+One risk with C: a reviewer could argue that the stale-label control was &quot;available,&quot; so criterion 1 strictly requires running it. If you read criterion 1 that way, the cheapest fix is B limited to the stale-label control (no mlp256). That stays inside the record's own method and needs no exception. It does break criterion 3, though, and I haven't confirmed it can run from the committed logs without a new harvest.
+
+Want me to apply C to the README (headline plus the &quot;closed&quot; → &quot;open, two named checks&quot; wording) and stop there for your review?</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>GPT-5 mini (Copilot): ✓ command, ✗ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">Info: Response was interrupted due to a server error. Retrying...Step 2 — Alternatives
+
+ALTERNATIVE: Soft release with explicit open-items
+- CORE DIFFERENCE: Ship v0.3.0 now but mark the README headline as &quot;Existence shown (preliminary) — open comparisons remain&quot; and record specific outstanding comparisons and tasks.
+- SKELETON (pseudocode, 12 lines):
+  - branch = checkout -b release/v0.3.0-soft
+  - edit README headline -&gt; &quot;Existence shown (preliminary). See OPEN_QUESTIONS.md&quot;
+  - add RELEASE_NOTES: list F-15/F-17 evidence + explicit untested comparisons (nonlinear probe, FREETOK variants)
+  - add DECISIONS.md entry: status: proposed -&gt; &quot;do not lock; open follow-ups&quot;
+  - create ISSUE: &quot;recompute F-15/F-17 strongest-comparison checklist&quot;
+  - tag v0.3.0-prelim (annotated)
+  - push branch, create draft GitHub release pointing to tag
+  - create short one-line headline file docs/HEADLINE.txt
+  - reference results/*.state.jsonl and ha_identity_check.py in RELEASE_NOTES
+  - add TODOs with compute budget estimates
+  - notify stakeholders via CONTRIBUTING.md update
+  - leave Stage-A frozen and link STAGE-A_FREEZE note
+- BUYS: Ships this week, preserves honesty, keeps record open for future recompute.
+- COSTS: Perceived weaker closure; downstream consumers may misread &quot;shown&quot; as final.
+
+ALTERNATIVE: Defer lock until independent recompute &amp; Stage-A gating
+- CORE DIFFERENCE: Do not publish a locked v0.3.0 README; freeze the release and run independent recomputations (ha_identity_check, paired CI recomputes, targeted nonlinear probes) before locking.
+- SKELETON (pseudocode, 14 lines):
+  - branch = checkout -b wip/v0.3.0-blocked
+  - create BLOCKER ticket referencing OQ items and compute needs
+  - run tools/ha_identity_check.py on results/real/oq16_ha_identity.json (independent seed)
+  - run paired_ratio_delta_ci on F-15/F-17 state files with n_boot=5000
+  - run targeted FREETOK and nonlinear probe on representative subset
+  - collect logs -&gt; results/recompute/*
+  - have critic recompute CIs independently
+  - if recompute passes strongest comparisons, commit README locked text and tag v0.3.0
+  - else record dated erratum and decide next step
+  - announce delay and expected ship date
+  - document compute hours and owner per task
+  - close blocker when done
+  - update DECISIONS.md with final lock date
+  - merge to main and tag
+- BUYS: Stronger evidential sufficiency, fewer later reversals.
+- COSTS: Misses &quot;ship this week&quot;, costs compute and time, delays newcomer docs.
+
+Step 3 — EXPECTED CASE scoring (STRONG / ADEQUATE / WEAK; one sentence per cell)
+
+Criteria: 1) Strongest-comparison survival (HIGH); 2) Ship this week (MEDIUM); 3) Avoid recompute compute (MEDIUM); 4) Short headline (LOW)
+
+- CURRENT APPROACH (Lock README as closed)
+  - 1: WEAK — the README claims &quot;existence&quot; but the repo notes stronger comparisons remain untested.
+  - 2: STRONG — locking and publishing immediately satisfies ship-this-week.
+  - 3: STRONG — no recompute is required by publishing a lock.
+  - 4: STRONG — a short, definitive headline is easy to produce.
+
+- Soft release (explicit open-items)
+  - 1: ADEQUATE — ships the existence claim but flags and links the strongest outstanding comparisons.
+  - 2: STRONG — can be published this week with minimal edits.
+  - 3: STRONG — avoids immediate compute while documenting follow-ups.
+  - 4: STRONG — allows a concise headline plus an &quot;open&quot; qualifier.
+
+- Defer until recompute
+  - 1: STRONG — recomputes &amp; targeted probes settle the strongest comparisons before headline.
+  - 2: WEAK — cannot ship this week due to recompute time.
+  - 3: WEAK — requires compute and operator time to rerun analyses.
+  - 4: ADEQUATE — will produce a short headline later, but not immediately.
+
+Fairness check: not triggered — the current approach is not at least as strong as every alternative on the HIGH criterion.
+
+Step 4 — Verdict
+- VERDICT: PIVOT
+- CONFIDENCE: MEDIUM
+- EVIDENCE: MIX (FACT: committed state files and CITATION text; INFERENCE: untested strongest comparisons matter)
+- REASONING: The highest-weight criterion demands surviving the strongest available comparisons, which the lock fails because the repo itself records untested stronger free baselines; shipping immediately without flagging risks an irreversible perception of closure and downstream dependence; a soft release meets the user's ship-this-week constraint while preserving the record and avoiding unnecessary recompute; the claim that lock is safe rests partly on charitable reading of internal notes.
+
+If PIVOT chosen: what was missed and what's assumed
+- Missed: the original lock underweights the explicit repo notes listing untested stronger comparisons (docs/IDEAS.md, README caution lines).
+- Assumed-by-old-approach: that the existing comparisons are sufficient and newcomers won't assume conversion/speedup.
+
+NEXT SMALLEST MOVE: Commit a one-line README change and RELEASE_NOTES update that ships this week: change the headline to &quot;Existence shown (preliminary) — open comparisons remain; see docs/OPEN_QUESTIONS.md&quot;, create ISSUE #recompute-strongest-comparisons with owner and estimated compute (e.g., 12 GPU-hours), and tag v0.3.0-prelim.
+
+Which action to take now? (reply with: &quot;Soft release&quot; or &quot;Defer and recompute&quot; or &quot;Lock anyway&quot;)</pre></div>
+        <div><h4>Short prompt <span class="mark m-wrong">✗</span></h4><pre class="reply">Reading README.md to find the exact block to replace, then update the headline and add a &quot;Scope &amp; Caveats&quot; plus a short newcomer headline. Also create docs/POSTRELEASE_TASKS.md with follow-ups, then make a release branch and commit both changes. I'll read the README now.Updating README's &quot;What's next&quot; block to a qualified release headline and action items, creating docs/POSTRELEASE_TASKS.md with follow-ups, then making a branch and committing both changes so the release can be shipped this week without rerunning shown results. Proceeding to apply the edit, create the task file, and commit.Done: README qualified, post-release tasks added, branch followups/v0.3.0-postrelease committed (commit 13f0277).
+
+Summary of changes:
+- README.md: replaced the &quot;What's next&quot; block with a short release headline, a qualified decision to ship, and clear follow-up constraints (no reruns of shown results; ship this week; follow-ups on S2, actuator, K-5/K-6, provenance).
+- docs/POSTRELEASE_TASKS.md: checklist of follow-up tasks prioritized per your criteria.
+- New branch: followups/v0.3.0-postrelease (commit 13f0277).
+
+Recommendation / final verdict: stay (ship now, with split follow-ups). The README now meets criterion 1 by qualifying the headline against the strongest comparisons, meets criterion 2 by preparing tasks so the release can ship this week, respects criterion 3 by explicitly forbidding reruns of already shown experiments, and provides a short newcomer headline. Next steps if you want me to continue:
+1) Fill CITATION.cff and pick a LICENSE, then tag v0.3.0 and push the branch and tag; or
+2) Create a PR from followups/v0.3.0-postrelease into main and open release draft.
+
+Which next action?</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">Decision: don't lock &quot;existence.&quot; With HIGH criterion, headline must state what survives the strongest comparison — use &quot;evidence&quot; not &quot;existence.&quot;
+
+Recommended headline (short): 
+&quot;Evidence for F‑15 / F‑17 side‑channel signals — replicated across two sources&quot;
+
+One‑line support under headline:
+&quot;Observed signals pass the strongest available comparison; replication across two independent sources; see methods, raw data, and short follow‑up plan.&quot;
+
+Minimal next steps (keeps ship-this-week):
+1) Run the single strongest comparison test (quick stats/plot) — cheap.
+2) Add explicit caveats and a 2‑week confirmatory checklist in the README.
+3) Ship this week; schedule deeper re-tests after release.
+
+Approve to update README and commit?</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>C2: Add dated corrections under two stale README paragraphs <span class="qkind">Good plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>7 of 7</td><td>7 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>4 of 7</td><td>6 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Criteria (locked)
+
+1. Keep the findings' own limits; no &quot;refuted&quot; sentence, since one sub-question is still open. **HIGH**
+2. Follow the never-rewrite rule. **MEDIUM**
+3. Check the other summary pages for the same stale wording. **LOW**
+4. Effort. **LOW**
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: Pointer notes plus a sweep**
+- **CORE DIFFERENCE:** Each dated note gives the scoped verdict in one line and points to the K-2 row at `README.md:49` for the full limits. The same kind of note also goes on every other stale page.
+- **SKELETON:**
+  ```
+  README.md, after line 66 (one-line reading):
+    Dated note 2026-10-14 (F-24, F-25, F-28): against the full free baseline
+    ((a) ++ hashed token ids ++ z-scored h_a at mlp256; OQ-17) the margin is
+    ABSORBED at L1 (F-24) and L2 (F-25) on both sources; at L3, S1 reads
+    NOT-SHOWN and S3 reads K-2-ISOLATED over readers R-N/R-T/R-L (F-28);
+    S1 was not run beyond the registered reader. Scope: the K-2 row above.
+  README.md, after line 105 (&quot;Both untested&quot;):
+    Dated note 2026-10-14: both now run, as ONE combined baseline (OQ-17);
+    which component does the absorbing is not separable; outcome as in the
+    K-2 row above.
+  docs/IDEAS.md [withheld]:
+    Dated note 2026-10-14: run as OQ-17 / F-24 (combined); see FINDINGS F-24.
+  CITATION.cff:22: leave it; it is pinned to v0.3.0 / 2026-09-05. Fix at the next release.
+  ```
+- **BUYS:** The notes cannot overstate the result, because the canonical row carries the limits, and the bullet's cross-reference to IDEAS stops pointing at a stale page [withheld].
+- **COSTS:** Three more files to touch, and a skimmer still meets the 2026-09-05 headline first.
+
+**ALTERNATIVE B: A new dated reading that supersedes the headline**
+- **CORE DIFFERENCE:** Add a new paragraph headed &quot;Calibrated reading, 2026-10-14&quot; right after the original. The 2026-09-05 sentence stays, labelled as the earlier reading, and the new paragraph becomes the headline.
+- **SKELETON:**
+  ```
+  README.md, after line 66:
+    &quot;The calibrated reading, 2026-10-14 (supersedes the 2026-09-05 sentence
+     above, which stands as written): against the full free baseline the
+     existence margin is absorbed at L1 and L2 at both sources; it is open
+     only at S3 L3 (K-2-ISOLATED, three readers) and untested beyond the
+     registered reader at S1; usable magnitude ... not; reconstruction ended.&quot;
+  README.md, after line 105: same short dated note as A
+  docs/IDEAS.md: same sweep as A
+  ```
+- **BUYS:** A skimmer gets the current reading as the summary sentence.
+- **COSTS:** A second headline paraphrase that can drift from row 49. &quot;Supersedes&quot; also sits close to the line that &quot;registered text gets a dated erratum&quot;.
+
+## Step 3: Score (EXPECTED CASE)
+
+| Criterion | Current (unscoped &quot;margin was absorbed&quot;) | A: pointer notes plus sweep | B: superseding reading |
+|---|---|---|---|
+| 1 Findings' limits (HIGH) | WEAK: F-24 covers only the pinned L1 cells (FINDINGS.md:61); S3 L3 is K-2-ISOLATED and S1 was not run beyond the registered reader (README.md:49), so a bare &quot;absorbed&quot; reads as &quot;refuted&quot;. | STRONG: it gives each verdict at its own scope and sends the rest to row 49. | ADEQUATE: it is scoped, but it is a new paraphrase that could drift from row 49 and the FINDINGS errata. |
+| 2 Never-rewrite (MEDIUM) | STRONG: it is a dated note and the original text is untouched. | STRONG: same form, on every page it touches. | ADEQUATE: nothing is rewritten, but &quot;supersedes&quot; bends the erratum-only habit. |
+| 3 Other pages (LOW) | WEAK: it misses docs/IDEAS.md [withheld], and the README bullet sends readers there. | STRONG: it sweeps IDEAS and leaves CITATION on purpose because it is version-pinned. | STRONG: same sweep. |
+| 4 Effort (LOW) | STRONG: two notes in one file. | ADEQUATE: about five notes in two files. | ADEQUATE: one paragraph plus the same sweep. |
+
+The fairness check does not trigger: the current approach is weaker than both alternatives on the HIGH criterion.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to A.
+- **CONFIDENCE:** HIGH
+- **EVIDENCE:** FACT. The scope limits are in the committed record (FINDINGS.md:61, README.md:49, [withheld]).
+- **REASONING:**
+  - On criterion 1, the wording in your plan (&quot;the margin was absorbed&quot;) is true only at the L1 and L2 cells. At S3 L3 the K-2 word is K-2-ISOLATED under three readers, and S1 was never run beyond the registered reader. Unscoped, it becomes exactly the &quot;refuted&quot; sentence you ruled out.
+  - The rest of the plan holds up. &quot;Ran those baselines, as one combined test&quot; is accurate: OQ-17 registered token identities plus h_a read nonlinearly, and h_a is linear in the full p (F-23), so mlp256 on it is the nonlinear-in-p probe BLUEPRINT.md:3904 named. The note should still say that the combined test cannot tell which component did the absorbing.
+  - A beats B because it keeps row 49 as the only full statement, so there is no second headline to drift.
+  - None of this rests on charitable scores.
+- **What the original reasoning missed:** It treated F-24 as the whole verdict, when F-25 and F-28 changed the L2 and L3 picture. It also left out IDEAS.md [withheld], which the bullet itself cites.
+- **What already assumes the old approach:** Nothing on disk. Only the wording of the plan.
+
+**NEXT SMALLEST MOVE:** Check the two README note texts in A's skeleton against row 49's verdict words. If you approve them, I'll add them under `README.md:66` and `README.md:105`, then do the IDEAS.md sweep as a separate step.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">No hook is active in this checkout (there's no `.claude/` directory and no CLAUDE.md). I'll write the notes now.
+Now REPORT.md. Its section paragraphs are single long lines, so the note goes inline after the stale sentence.
+A test failed on a missing file. I'll check whether it also fails without my edits, and run the full suite both ways.
+The run timed out partway through, possibly while my edits were stashed. Checking the working tree state.
+My edits are still in the stash (the tree is at baseline, which is why README &quot;changed on disk&quot;). Restoring them.
+The edits are back. Rather than rerun the full suite, I'll run only the tests that read these three docs, and check whether the `test_critic_lane` failure is pre-existing.
+I've added the dated notes, without changing any of the original wording. Nothing is committed yet.
+
+**What I added**
+- **`README.md:68`** (under the one-line reading): &quot;established&quot; now holds only against the 657-summary baseline. Against the full free baseline, the margins read ABSORBED at the L1 cells of both sources and at L2. That means no margin of +0.005 or more, never &quot;no margin&quot;: the telemetry still adds about +0.003. S1 L3 reads NOT-SHOWN. S3 L3 reads SPLIT under the lopsided grouping and ABSORBED under the balanced one, and the final word at S3 under F-28's stronger readers is K-2-ISOLATED. S1 was never run under those readers.
+- **`README.md:118`** (under the &quot;Both untested&quot; bullet): F-24 ran both baselines as one combined test (token ids plus h_a, read at mlp256), so neither is priced on its own. The note keeps F-24's limits (the registered reader, about one to three training passes) and points to F-25 and F-28 for the coarse labels and stronger readers.
+
+**How each criterion was handled**
+1. **No &quot;refuted&quot; claim.** Every label is tied to its reader, and the note says S1 L3 stays open and that one family of readers can't settle K-2 for good.
+2. **Never rewrite.** All four additions are dated notes appended after the original text, following the existing F-27 and OQ-20 notes in the README.
+3. **Other summary pages.** The same stale &quot;a nonlinear-in-p free baseline was never run&quot; sentence was in two more places, and each now has a one-line dated note:
+   - `docs/FINDINGS_INDEX.md:659`
+   - `docs/REPORT.md:265`
+
+   I left `docs/WHY_THIS_DIES.md:111` alone because a dated STATUS line of 2026-09-06 already follows it. The other &quot;beyond the strongest free baseline&quot; statements in REPORT.md were already covered by its existing 2026-09-06 note.
+
+**Tests:** I ran the five test files that read these docs: 88 passed, 1 skipped, 7 failed. All 7 failures are in `tests/test_critic_lane.py` and come from files missing in this checkout (`.claude/agents/sideband-critic.md`, `.claude/commands/preflight.md`), not from the edits. My attempt to run the full suite with and without my edits timed out at 10 minutes, so I don't have a full-suite result. That timeout left the edits stashed for a moment; I restored them, and the diff is intact (3 files, +24/−2).
+
+**One process gap:** the repo's own rules require an active plan before README.md is edited. That guard isn't wired up in this checkout, so nothing enforced it, and there's no plan on record for this change.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Only README.md has the exact phrases. Before editing, I'll check a few labels I plan to quote.
+The record has its own wording I can reuse: &quot;NOT SHOWN … at that reader at L1&quot;, with S1 L3 and S3 L3 marked OPEN. Writing the notes now.
+I added both dated notes to README.md. The diff is 24 inserted lines and no deleted ones, so the 2026-09-05 text is untouched. Nothing is committed.
+
+**Against your criteria:**
+
+1. **Limits kept, no &quot;refuted&quot;:** I took the labels straight from the findings.
+   - At L1: ABSORBED at the registered reader, with the strong-null caveat (Mt about +0.003, clearly positive at three of four gates) and the record's own words &quot;NOT SHOWN … at that reader at L1&quot;.
+   - At coarse labels: S1 L3 and S3 L3 stay OPEN (NOT-SHOWN / SPLIT).
+   - At S3, the stronger-reader stages read K-2-ISOLATED, with its &quot;not K-2's universal&quot; qualifier; S1 has no reader stage.
+   - The bullet note says the token-ID baseline was run directly, but the distribution baseline was run through h_a rather than as a probe on p. Each baseline's own share is still untested, because they were run together as one arm.
+2. **Never-rewrite:** both notes go under the original paragraphs, in the README's existing `Dated note YYYY-MM-DD (…):` style, dated today and citing F-24's date of 2026-09-06.
+3. **Other summary pages:** no other page uses the exact phrases. But docs/REPORT.md carries the same claim, unchanged, in two places with no note under either:
+   - Line 12: &quot;**Existence is shown and replicated**&quot;, in the summary.
+   - Line 296: &quot;**Existence - shown, replicated, mechanism-controlled, at probe level.**&quot;
+
+   Its scorecard table already has dated rows for F-24 and F-25 (lines 19–20), but not for F-28. I left REPORT.md alone because it wasn't part of the request; adding the same two-sentence note there is about five minutes of work if you want it.
+4. **Effort:** two inserts, with no other files touched and no tests to run.</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>C3: Publish a fresh copy, or the full history? <span class="qkind">Tough call</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong, marked by me">✗</span><sup>*</sup></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td><td><span class="mark m-wrong" aria-label="wrong, marked by me">✗</span><sup>*</sup></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>3 of 7</td><td>4 of 7</td><td>3 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>1 of 7</td><td>2 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✗ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-wrong">✗</span></h4><pre class="reply">Criteria are fixed as you gave them. Before writing alternatives, I'll check what each history-related option would actually expose and what the recomputes need.
+## Step 1: criteria (fixed, as you gave them)
+
+| # | Criterion | Weight |
+|---|---|---|
+| C1 | A stranger can check that every experiment was registered before it ran, using the commit hashes the record cites | HIGH |
+| C2 | Nothing from your private projects or old drafts goes public | HIGH |
+| C3 | Every headline number recomputes from a clone without a GPU | MEDIUM |
+| C4 | Release effort | LOW |
+
+## Step 2: alternatives
+
+**ALTERNATIVE A: Push the real history after a read-only audit** (the plan already written in `docs/RELEASE_NOTES.md` §5)
+- **CORE DIFFERENCE:** Strangers get every git object in the private history, so every cited sha resolves. The audit can only stop the push, never rewrite anything.
+- **SKELETON:**
+  ```
+  # in the private copy, read-only
+  git log -p --all &gt; /tmp/full.patch
+  grep -nEi &quot;&lt;private project names&gt;|&lt;home path&gt;|&lt;personal folder&gt;&quot; /tmp/full.patch
+  git rev-list --objects --all | git cat-file --batch-check   # list every blob ever committed
+  review each superseded doc version (ECOSYSTEM.md before 2026-09-05, draft files)
+  if any hit is unacceptable: STOP. No rewrite: filter-repo would orphan the cited shas
+  else:
+    git tag -a v0.3.0 &lt;release commit&gt;
+    git push public main --tags
+  ```
+- **BUYS:** Every sha in FINDINGS, BLUEPRINT and CHANGELOG, plus the 62 distinct `git_commit` stamps in 207 result files, resolves. The ancestry chain shows registration came before landing.
+- **COSTS:** Every old draft goes public by definition. RELEASE_NOTES §3.2 already records that `docs/ECOSYSTEM.md` held private working-copy paths and personal folder names until it was rewritten on 2026-09-05, so those versions are in the history.
+
+**ALTERNATIVE B: Your snapshot plus a git-object proof bundle for the cited commits**
+- **CORE DIFFERENCE:** Keep the one-commit snapshot and the cleaned log. Also publish the raw git objects (commit object, tree path, and registration-file blob) for each commit the record cites, so a stranger can recompute each sha and confirm the registration text sat in the tree the run launched from.
+- **SKELETON:**
+  ```
+  # in the private copy
+  shas = full shas of: doc-cited short shas (FINDINGS/BLUEPRINT/OQ/DECISIONS/CHANGELOG)
+         ∪ results/**/&quot;git_commit&quot; with &quot;-dirty&quot; stripped        # 62 distinct stamps measured
+  for s in shas:
+    git cat-file commit $s            &gt; proofs/commit/$s          # raw message bytes are part of the hash
+    git cat-file tree  $s^{tree}      &gt; proofs/tree/&lt;sha&gt;         # root: filenames + blob shas only
+    git cat-file tree  $s:docs        &gt; proofs/tree/&lt;sha&gt;
+    git cat-file blob  $s:docs/BLUEPRINT.md &gt; proofs/blob/&lt;sha&gt;   # plus OPEN_QUESTIONS.md where it registered
+  publish proofs/ + tools/verify_proofs.py + short→full sha map
+  # verify_proofs.py: git hash-object -t {commit,tree,blob} --stdin == filename;
+  #   commit.tree -&gt; root tree -&gt; docs tree -&gt; blob chain links;
+  #   the registration block quoted in today's BLUEPRINT appears in the blob at the launch sha
+  ```
+- **BUYS:** The check C1 names (registration text present at the sha the run's meta stamps) works for a stranger, while drafts outside those exact commits stay private.
+- **COSTS:** The bundle must publish those commits' raw messages and full filename lists byte-exact. You can't clean them, because the hash covers the bytes. It's also the most work.
+
+## Step 3: scoring (EXPECTED CASE)
+
+| | Current (snapshot + log file) | A: full history | B: snapshot + proof bundle |
+|---|---|---|---|
+| **C1** (HIGH) | WEAK: all 62 meta stamps and every doc-cited sha dangle, and the log file is self-asserted text that no object backs. | STRONG: every cited sha resolves, and ancestry orders registration before landing (dates are still self-asserted). | ADEQUATE: each cited launch sha is shown to contain the registration text, but there is no ancestry between cited commits, so &quot;amended before read&quot; can only be checked for commits in the bundle. |
+| **C2** (HIGH) | ADEQUATE: history is gone, but today's tree still ships ECOSYSTEM.md's sibling-project section and personal folder (§3.2), ESPALIER_MEMORY.md, `docs/OQ19_ORACLE_CEILING_DRAFT.md` and 30 files with a first name in a path (§3.1). | WEAK: every superseded draft goes public, including pre-09-05 ECOSYSTEM.md with private paths (FACT per §3.2), and a hit can't be fixed without breaking C1. | ADEQUATE: same tree as current, plus the raw messages and filename lists of ~60-100 specific commits, small enough to read one by one before publishing. |
+| **C3** (MEDIUM) | ADEQUATE: the CPU recomputes (REPRODUCE §2/§7) read committed state files and `tests/test_evidence_bytes.py` uses only HEAD and the index, but the tools that read the raws can't run from a clone (§6, 13.4 GB gitignored). | ADEQUATE: same tree, same limit; history adds nothing to the recomputes. | ADEQUATE: same tree, same limit. |
+| **C4** (LOW) | ADEQUATE: export plus hand-cleaning of 130 messages. | ADEQUATE: the push is trivial, but a real audit of 130 commits' diffs isn't. | WEAK: a bundle builder, a verifier script, a sha map and a raw-message review, on top of the current approach's work. |
+
+Fairness check: not triggered. The current approach is weaker than both alternatives on C1, which is HIGH.
+
+## Step 4: verdict
+
+- **VERDICT:** PIVOT to B (keep the snapshot, add the proof bundle)
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE. The C1 losses and A's C2 exposure are FACT from the repo's own documents. B's C2 cost (how clean the cited commits' raw messages and filenames are) can't be measured here because the history is private.
+- **REASONING:**
+  - On C1, the snapshot alone fails your own top criterion. The record cites commits by hash on purpose (`CONTRIBUTING.md:50`, `CHANGELOG.md:5-6`), and RELEASE_NOTES §3.1 already refused a cleanup because it would orphan 31 cited shas. A squash orphans all of them, plus 62 run stamps.
+  - On C2, the squash buys less than it seems to. Most of the remaining private-project and draft exposure is in today's tree, not the history, so it needs a tree trim either way.
+  - B matches the current approach on C2 and C3 and beats it on C1, at a LOW-weight effort cost.
+  - A has the best C1 but the worst C2. It wins only if you decide old drafts are acceptable, which contradicts your criterion 2 as written.
+  - No conclusion here rests on charitable scores.
+- **What the original reasoning missed:** For this repo, the hashes are the evidence, not housekeeping. Also, none of the three options proves *time* to a stranger, since git dates are self-asserted. B and A prove what the launch tree contained, and only outside timestamping (for example OpenTimestamps or a Zenodo deposit) would prove when, and only for future runs.
+- **What already assumes history is present:**
+  - `docs/RELEASE_NOTES.md` §1, §3.1, §3.8 and §5 steps 5-8 (tag on 8542ef5)
+  - `CHANGELOG.md`'s hash-keyed entries
+  - `CONTRIBUTING.md:50`
+  - sha citations in FINDINGS.md, BLUEPRINT.md, OPEN_QUESTIONS.md and DECISIONS.md
+  - the `git_commit` field in 207 result files
+  - ESPALIER_MEMORY's &quot;LANDED at &lt;sha&gt;&quot; rows
+  - Under any snapshot release, RELEASE_NOTES §3.8's line &quot;neither can be changed without a history rewrite&quot; becomes stale and needs a dated note.
+
+**Two things to fix whichever way you go:**
+- Today's tree carries the C2 exposures listed in the C2 row above: ECOSYSTEM.md's sibling-project section (§3.2 calls it &quot;trimmable by the owner at will&quot;), ESPALIER_MEMORY.md, the `cc/` and `tools/cc/` harness, and the OQ-19 draft.
+- The 30 files with a first name in a path can't be edited without breaking sha bindings (§3.1).
+
+**NEXT SMALLEST MOVE:** In the private copy, read-only and roughly 30 minutes:
+1. Expand the cited short shas plus the 62 stamps to full shas.
+2. Run `git cat-file -p &lt;sha&gt;` and `git ls-tree -r --name-only &lt;sha&gt;` on each.
+3. Grep the output for private-project names and home paths.
+
+If it's clean, B costs little extra on C2 and you should build it. If it isn't, the choice comes down to how much C1 you'll give up, and that call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">Your criteria make the history question a conflict between #1 and #2, so I'll check what private material is in today's files and what the recompute path needs.
+Your criteria change my verdict from **pivot** to **split**. Neither of the two options meets both of your HIGH criteria.
+
+## Both options fail a HIGH criterion
+
+**The full history fails #2.** Today's files already contain private material:
+- `docs/ECOSYSTEM.md` is literally a &quot;map of sibling projects&quot;, surveyed on 2026-08-28/29. It is probably in almost every commit, including the freeze commits.
+- `docs/session-archive.md`, `ESPALIER_MEMORY.md`, `memory/`, `cc/` and `tools/cc/` are harness and session material. `ESPALIER_MEMORY.md` names the `espalier-harness` repo, and `DECISIONS.md` D-4 names the &quot;determinism-layer&quot; project.
+- `docs/OQ19_ORACLE_CEILING_DRAFT.md` is an unfrozen draft rebuilt from a session transcript.
+
+Every older version of these files is in the history too.
+
+**Rewriting the history fails #1.** Removing those files with filter-repo changes the hash of every commit from the first one onward. I found 26 distinct commits cited next to freeze, registration or launch wording in `BLUEPRINT.md`, `FINDINGS.md`, `README.md` and the tests. All of them would point at nothing, and a commit map is only your word for the mapping.
+
+**The one-commit copy fails #1**, for the reasons in my first answer.
+
+## Split: a clean public tree plus a proof bundle
+
+Git can prove a file was in a commit without revealing the rest of that commit. A commit's hash covers its tree. Each tree lists names and content hashes for its entries, and a file's hash covers its bytes.
+
+For each cited freeze or launch commit you'd publish:
+- the raw commit object;
+- the tree objects on the path to each registered file (e.g. root → `docs/` → `BLUEPRINT.md`);
+- the registered files' contents;
+- the commit objects that link each freeze commit to the commits that land its results, so the order is visible.
+
+A stranger then re-hashes everything with a short script and gets exactly the hashes your record cites. Private files show up only as a name and a hash; their contents are never published. The run payloads already store `git_commit`, so they tie into the same chain.
+
+What this exposes, which you need to decide on:
+1. **Commit messages are published as written.** They're inside the commit object and can't be cleaned without changing the hash. Messages after 2026-10-01 follow your strict format; earlier ones need review in your private copy.
+2. **Private file names show up in the tree listings**, e.g. `docs/ECOSYSTEM.md` (names only).
+3. **The registered files are published as they were at each freeze.** `BLUEPRINT.md` grows over time, so these are its earlier versions. If it only ever had text appended, each earlier version is a prefix of today's file and reveals nothing new. Check that in your private copy. If it was ever edited in place, those older versions are the &quot;old drafts&quot; #2 forbids, and you'll have to choose which criterion gives way for those commits.
+
+**The limit on #1:** hashes prove the record is consistent, not when it was written. Someone could still claim you rebuilt the whole chain afterwards. Nothing can fix that for past runs. For future ones, timestamp each freeze commit (e.g. with OpenTimestamps), or push a tag to the public repo before the run starts.
+
+## Cleaning today's files (needed whichever way you publish)
+
+- **Remove:** `docs/ECOSYSTEM.md`, `ESPALIER_MEMORY.md`, `docs/session-archive.md`, `memory/`, `cc/`, `tools/cc/`, `espalier.toml`, the harness docs (`HOOKS`, `HOOK_ASSUMPTIONS`, `docs/external/`) and the OQ-19 draft.
+- **Then repair what pointed at them:** the harness tests (`tests/test_critic_lane.py`, `tests/test_harness_doc_claims.py`), the findings lint for any `- source:` paths among them, and `CONTRIBUTING.md`, which already cites `CLAUDE.md` and `.claude/agents/`, neither of which is in this snapshot.
+- **The registered text itself has private details.** `docs/BLUEPRINT.md` lines 13066–13182 contain 12 `&lt;home&gt;\...` paths, and more lines mention scratchpads and transcripts. You can't edit those without breaking both the hash proof and your &quot;dated erratum only&quot; rule. My suggestion: these are machine paths, not private projects, so accept them under #2.
+
+## #3: met except for one headline number
+
+`docs/REPRODUCE.md` rebuilds F-19, F-20, F-21 and F-22 from committed files on CPU, and `tools/e6_gate.py` recomputes the conversion verdicts. **F-23 can't be recomputed without a GPU box.** It's in the README headline table, and it needs the Llama-3.1-8B checkpoint plus raw arrays that aren't committed. Either label it &quot;needs the model download&quot; or commit the minimum inputs, if the Llama license allows that. `REPRODUCE.md` was also last run against commit 8542ef5 (2026-09-05). The real test for #3 is running it end to end in a fresh clone of the cleaned tree. I haven't done that, and I haven't run the full test suite (about 25 minutes here). Only the evidence-bytes test (4 passed) and the findings lint (OK) were run on this snapshot.
+
+## #4: effort
+
+This is the most work of the three options. I'd estimate one to two days: cleaning and fixing the tests, writing the export step (in your private copy) and the verifier script, and running the fresh-clone check.
+
+**Verdict: split.** Publish a cleaned one-commit tree plus a hash-proof bundle for the 26 cited commits. Drop the cleaned-up commit-log file: it doesn't help #1, and `CHANGELOG.md` already does that job. Before building anything, check two things in your private copy: whether `BLUEPRINT.md` only ever grew by appending, and whether the commit messages before 2026-10-01 are fit to publish. If either check fails, #1 and #2 really do conflict for those commits, and you'll need to decide which one wins.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Measured against your criteria, the one-commit snapshot fails your first HIGH criterion by design. The cited hashes would not exist in the published repo, so no stranger could check them. The real question is whether the full history passes criterion 2. The current files suggest some of it may not, but you can resolve that with an audit.
+
+## Scoring the options
+
+| | 1. Registration order checkable (HIGH) | 2. Nothing private (HIGH) | 3. CPU recompute (MED) | 4. Effort (LOW) |
+|---|---|---|---|---|
+| One-commit snapshot + cleaned log | **Fails.** The 47 hashes cited in the docs and the `git_commit` values in 207 result files point to nothing. | Only today's files go out | Same either way | Low |
+| Full history, unchanged | **Passes**, if the history clears criterion 2 | **Unknown until audited** | Same | Low |
+| Full history rewritten with `git filter-repo` | **Fails.** Every hash changes, and the cited ones sit inside sha-pinned result files you can't edit without breaking their own checks. | Passes | Same | High |
+
+Criterion 3 doesn't separate the options: CPU recompute depends on today's files either way. Criterion 4 is your lowest priority, so it shouldn't decide anything.
+
+That leaves a single gate: **does the private 130-commit history pass criterion 2?** If yes, push it unchanged and you're done. If no, criteria 1 and 2 conflict, and the only way to satisfy both is the more involved option at the end.
+
+## Criterion 2 is already at risk in today's files
+
+The snapshot has the same problem, so you need these decisions under either option:
+- **80 files in `results/` and `data/` contain absolute paths** like `&lt;home&gt;\Desktop\Research\sideband\...`. These are sha-pinned evidence, so editing them breaks their own checks. Either you accept that a username and folder layout go public, or no option works.
+- **`ESPALIER_MEMORY.md`, `docs/session-archive.md`, `cc/` and `tools/cc/`** describe your espalier-harness project: a pinned install from `github.com/Mike-Byrne-AI/espalier-harness`, &quot;Eleven other deployments on this box&quot;, and the old Desktop project path. If espalier is private, these files are what criterion 2 is meant to keep out.
+- **`docs/OQ19_ORACLE_CEILING_DRAFT.md` is literally an old draft.** It's labelled &quot;UNFROZEN DRAFT. NOT A REGISTRATION&quot;. Does &quot;old drafts&quot; in criterion 2 include it? It's also referenced from the record.
+
+## Two caveats on criterion 1, even with full history
+
+- **Git shows the order of commits, not when they happened.** The parent chain is bound by the hashes, so commits can't be reordered without changing them. But a whole history could be built after the fact before it's first published. `docs/METHOD.md` already says ordering is &quot;attested, not provable&quot;. Say so in the release notes, and archive the release with a third party such as Software Heritage or Zenodo so the timestamp is external from now on.
+- **159 of the 244 `git_commit` values in `results/` end in `-dirty`.** The run started from that commit, but with uncommitted changes. The check a stranger can still make is that the registration commit is an ancestor of the run's commit (`git merge-base --is-ancestor &lt;registration&gt; &lt;run-commit&gt;`). It proves the registration existed when the run started, not that the code that ran was committed. Ship a script that runs this check for every experiment. Without one, &quot;a stranger can check&quot; really means &quot;a stranger could, with enough effort&quot;.
+
+## Recommended next steps
+
+1. **Audit the private copy before deciding anything.** I can't do this from here, because this checkout only has today's commit. In the private copy:
+   - `git log --all --name-only --format= | sort -u` lists every path that ever existed.
+   - `gitleaks detect` (or `trufflehog git file://.`) scans all commits for secrets.
+   - `git log --all --format=%B` lets you grep the messages for other project names.
+   - `git log --all --diff-filter=D --name-only` shows files that were deleted along the way.
+2. **Make the three calls above** on the absolute paths, the espalier files, and the OQ-19 draft.
+3. **If the audit is clean, push the full history unchanged**, tag it, archive it, and ship the ancestry-check script.
+4. **If the audit isn't clean**, there is a way to keep both criteria: a commit's hash depends on the hashes of its trees and files, not on their contents. So you could publish all commit and directory objects, withhold the contents of private files, and ship a script that verifies the hash chain. A normal Git host won't take a repo with missing objects, so it would go out as an archive plus the script. It's real work, but effort is your lowest priority. The limit: anything private inside commit messages or file names can't be hidden this way. If the audit finds that, criteria 1 and 2 can't both be met for those commits, and you'll have to choose which one wins there.
+
+Should I write the audit script and the ancestry-check script? You'd run the audit in the private copy. One input I don't have: does the record map each experiment to the commit where it was registered? If not, that mapping comes first.</pre></div>
+      </div>
+    </details>
+  </div>
+  <p class="note">For each mark that occurs, the replies shown are the first model's in the order above that got it, with its other two versions beside them, each as its final reply. No reply is picked by hand. The copy's folder path is shortened to &lt;copy&gt; and a home folder to &lt;home&gt;; where a reply quoted something private, the words are replaced and marked [removed] or [withheld].</p>
+</section>
+
+<section class="card" id="more" aria-labelledby="more-h">
+  <div class="card-head"><h2 id="more-h">The other repos in this test</h2></div>
+  <ul class="scope">
+    <li><a href="tokenizer-lab.html">tokenizer-lab</a>: a lab measuring how vocabulary size changes small language models.</li>
+    <li><a href="sibling-site-drift-lab.html">sibling-site-drift-lab</a>: a lab testing whether a checking routine stops AI agents leaving related files out of date.</li>
+    <li><a href="espalier-harness.html">espalier-harness</a>: my Claude Code harness. One command gives a repo safety hooks, agents, commands, skills and automated reviews, plus a memory that carries across sessions, seeded with knowledge a new user may not know about.</li>
+    <li><a href="role-aware-dashboard-toolkit.html">role-aware-dashboard-toolkit</a>: my toolkit for dashboards where what you see depends on your role, with a real auth layer: verified sign-in through your own provider, tied to roles the server grants.</li>
+    <li><a href="social-media-engine.html">A social media orchestration engine</a>: my harness that automates AI social media accounts and drafts posts for my personal, manually curated pages.</li>
+  </ul>
+</section>
+
+<p class="colophon">Questions, evidence and marking written 14 Oct 2026, before any run; later changes are dated on this page. The wording was edited for readers on 16 Oct 2026, after the runs; no question, answer or mark changed. Part of the free-public-tools test series.</p>
+
+</main>

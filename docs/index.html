@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; style-src &#39;sha256-STSmSiyHziDd4Mej92gZyU4siIopfCJ3UNrdZup8gqE=&#39;; img-src &#39;self&#39; data:; font-src &#39;self&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">
+<meta http-equiv="x-dns-prefetch-control" content="off">
+<title>Free-Public-Tools</title>
+<meta name="description" content="Free tools and knowledge about working with AI, one at a time. Copy any tool in one tap, or explore everything on GitHub.">
+<meta property="og:site_name" content="Free-Public-Tools">
+<meta property="og:title" content="Free-Public-Tools">
+<meta property="og:description" content="Free tools and knowledge about working with AI, one at a time. Copy any tool in one tap, or explore everything on GitHub.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mike-byrne-ai.github.io/free-public-tools/">
+<meta property="og:image" content="https://mike-byrne-ai.github.io/free-public-tools/card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Free-Public-Tools">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:,">
+<style>/* The look of the tools' link cards and videos (2026-10-11): graph paper on parchment, always (a dark-mode screen
+   gets the same paper), with a red margin line near the left edge as on writing paper; labels in black and red pen,
+   the series label in a typewriter face. The fonts ship with the site (fonts/, SIL Open Font License beside them); build.mjs
+   puts the folder's path in place of fonts/. Latin letters only: anything else falls back to the system font. */
+@font-face { font-family: "Kalam"; font-style: normal; font-weight: 700; font-display: swap; src: url(fonts/kalam-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Caveat"; font-style: normal; font-weight: 700; font-display: swap; src: url(fonts/caveat-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(fonts/jetbrainsmono-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  /* the text column's wash: the parchment, nearly opaque, so the grid barely shows under the words */
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --pen: #1d1c1a;
+  --red: #c8372a;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --accent-hover: #095a4e;
+  --accent-text: #ffffff;
+  --focus: #1f5fd6;
+  --warn-bg: #fdf3d3;
+  --warn-border: #e6cf7f;
+  --warn-text: #57430a;
+  --fixture-bg: #fbe6e4;
+  --fixture-border: #eab8b2;
+  --fixture-text: #7b2219;
+  --toast-bg: #1d1c1a;
+  --toast-text: #f7f6f2;
+  --radius: 10px;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px); background-size: 24px 24px; }
+/* the red margin line of writing paper, near the screen's left edge (12 to 64 px in); on a narrow screen the text
+   starts just right of it */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+main { max-width: 46rem; margin: 0 auto; padding: 20px 16px 96px; background: var(--wash); box-shadow: 0 0 32px 32px var(--wash); }
+@media (max-width: 900px) { main { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+a { color: var(--accent); }
+h1 { font-size: 1.85rem; line-height: 1.2; margin: .4rem 0 .5rem; letter-spacing: -0.01em; }
+/* labels in black pen */
+h2 { font: 700 1.6rem/1.2 Kalam, var(--sans); color: var(--pen); margin: 2rem 0 .5rem; }
+h3 { font: 700 1.25rem/1.25 Kalam, var(--sans); color: var(--pen); margin: 1.2rem 0 .3rem; }
+/* the series label, as on the cards: FREE-PUBLIC-TOOLS */
+h1.label { font: 700 1.7rem/1.2 "JetBrains Mono", var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+p { margin: .5rem 0; }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; }
+pre { margin: 0; padding: 12px 14px; background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--radius); font: 13px/1.5 var(--mono); white-space: pre; overflow: auto; max-width: 100%; max-height: 30rem; tab-size: 4; overflow-wrap: normal; }
+pre.wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+pre:focus-visible, .btn:focus-visible, a:focus-visible, summary:focus-visible, textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* the back link at the left and the tool's kind at the far right, so the two red-pen words never read as one label */
+.topline { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.crumbs a { font: 700 1.35rem/1.2 Caveat, cursive; color: var(--red); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font-size: .8rem; font-weight: 600; color: var(--muted); }
+/* the kind of tool, in red pen */
+.badge.kind { padding: 0; border: 0; border-radius: 0; background: none; font: 700 1.45rem/1 Caveat, cursive; color: var(--red); transform: rotate(-3deg); }
+.badge.fixture { background: var(--fixture-bg); border-color: var(--fixture-border); color: var(--fixture-text); }
+.badge.scheduled { border-style: dashed; color: var(--accent); }
+.summary { font-size: 1.05rem; color: var(--muted); }
+.why { margin: .9rem 0 0; padding: .6rem .85rem; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 1.25rem 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.actions.spaced { margin-top: 8px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: var(--text); font: 600 .95rem/1.2 var(--sans); text-decoration: none; cursor: pointer; text-align: center; max-width: 100%; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.small { min-height: 36px; padding: 6px 10px; font-size: .85rem; }
+.note { font-size: .875rem; color: var(--muted); }
+.warn { background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-text); border-radius: var(--radius); padding: 10px 12px; font-size: .9rem; }
+.warn code { background: transparent; }
+.fixture-banner { background: var(--fixture-bg); border: 1px solid var(--fixture-border); color: var(--fixture-text); border-radius: var(--radius); padding: 8px 12px; font-weight: 600; }
+.section-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin: 2rem 0 .6rem; }
+.section-head h2 { margin: 0; }
+.facts { margin: 8px 0 0; font-size: .9rem; color: var(--muted); }
+.hash { word-break: break-all; }
+.where dt { font-weight: 700; margin-top: .9rem; }
+.where dd { margin: .2rem 0 0; }
+.where-text table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: .7rem 0; font-size: .95rem; }
+.where-text th.num, .where-text td.num { text-align: right; font-variant-numeric: tabular-nums; } /* a "---:" column in the README */
+.where-text th, .where-text td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+.where-text th { font-weight: 700; }
+.where-text pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+details { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 0 12px; margin: 8px 0; }
+details > summary { cursor: pointer; padding: 10px 0; font-weight: 600; }
+details[open] { padding-bottom: 12px; }
+.manual { margin-top: 12px; }
+.manual label { display: block; font-weight: 600; margin-bottom: 6px; }
+.manual textarea { display: block; width: 100%; min-height: 10rem; font: 13px/1.5 var(--mono); padding: 10px; border-radius: var(--radius); border: 2px solid var(--accent); background: var(--code-bg); color: var(--text); resize: vertical; }
+.status { position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 40rem; margin: 0 auto; padding: 12px 16px; border-radius: 12px; background: var(--toast-bg); color: var(--toast-text); font-size: .95rem; box-shadow: 0 6px 24px rgb(0 0 0 / .25); opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.status.show { opacity: 1; transform: none; }
+.status:empty { display: none; }
+.offscreen { position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+[hidden] { display: none !important; }
+footer { margin-top: 3rem; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; }
+.cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.card h2, .card h3 { margin: .45rem 0 .2rem; font: 700 1.15rem/1.3 var(--sans); color: var(--text); }
+.card a.title { color: var(--text); text-decoration: none; }
+.card a.title:hover { text-decoration: underline; }
+.card p { margin: .2rem 0 0; color: var(--muted); }
+/* a tool with a link card: the card is the whole box, and the whole card is the link */
+.cards.pics { gap: 22px; }
+.card.pic { padding: 0; border: 0; border-radius: 0; background: none; }
+.card.pic .badges { margin-bottom: 6px; }
+.card.pic a.title { display: block; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(0 0 0 / .06), 0 8px 22px rgb(0 0 0 / .08); transition: transform .15s, box-shadow .15s; }
+.card.pic a.title:hover { transform: translateY(-2px) rotate(-.4deg); box-shadow: 0 2px 4px rgb(0 0 0 / .08), 0 14px 30px rgb(0 0 0 / .12); text-decoration: none; }
+.card.pic img { display: block; width: 100%; height: auto; }
+/* the passed notes drift a little: the card is a base picture with each bubble on its own clear layer */
+.card.pic .art { position: relative; display: block; }
+.card.pic .art img.layer { position: absolute; inset: 0; pointer-events: none; transform-origin: 80% 50%; }
+.card.pic .art img.you { animation: skate-you 6s ease-in-out infinite alternate; }
+.card.pic .art img.ai { animation: skate-ai 7.5s ease-in-out infinite alternate -3s; }
+@keyframes skate-you { from { transform: translate(-.6%, -.8%) rotate(-.6deg); } to { transform: translate(.6%, 1%) rotate(.5deg); } }
+@keyframes skate-ai { from { transform: translate(.7%, .9%) rotate(.6deg); } to { transform: translate(-.6%, -.9%) rotate(-.5deg); } }
+/* a folded box under the buttons showing exactly what an install button copies */
+details.preview { margin-top: 12px; }
+details.preview summary { cursor: pointer; font-weight: 600; }
+details.preview pre { margin-top: 8px; max-height: 24rem; }
+.fixtures { margin-top: 2rem; }
+.fixtures .cards { margin-top: 4px; }
+@media (prefers-reduced-motion: reduce) { .status, .card.pic a.title { transition: none; } .card.pic a.title:hover { transform: none; } .card.pic .art img.layer { animation: none; } }
+/* No programming ligatures: a font such as Cascadia Code draws "-->" as an arrow, and the page must
+   show the characters that get copied. Keep this last: the font shorthand above resets ligatures. */
+pre, code, textarea, .manual textarea { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1 class="label">Free-Public-Tools</h1>
+<p class="summary">Free tools and knowledge about working with AI, one at a time. Copy any tool in one tap, or explore everything on GitHub.</p>
+<div class="actions"><a class="btn" id="github-link" href="https://github.com/Mike-Byrne-AI/free-public-tools" target="_blank" rel="noopener">Explore everything on GitHub</a></div>
+</header>
+<h2 id="featured-h">Start here</h2>
+<ul class="cards pics" id="featured" aria-labelledby="featured-h">
+<li class="card pic" data-slug="decision-challenge">
+<a class="title" href="decision-challenge/index.html"><span class="art"><img class="base" src="decision-challenge/card-base.png" width="1200" height="630" alt="Decision challenge: test a choice before you lock it in. A command for your coding agent that pressure-tests one decision before it becomes hard to reverse. You fix weighted criteria first, it writes real alternatives before scoring anything, and then it returns STAY, PIVOT or SPLIT. A SPLIT names the experiment that would settle it." loading="lazy" decoding="async"><img class="layer you" src="decision-challenge/card-you.png" width="1200" height="630" alt="" loading="lazy" decoding="async"><img class="layer ai" src="decision-challenge/card-ai.png" width="1200" height="630" alt="" loading="lazy" decoding="async"></span></a>
+</li>
+</ul>
+<h2 id="tools-h">More tools, newest first</h2>
+<ul class="cards pics" id="tools" aria-labelledby="tools-h">
+<li class="card pic" data-slug="adversarial-self-review">
+<a class="title" href="adversarial-self-review/index.html"><span class="art"><img class="base" src="adversarial-self-review/card-base.png" width="1200" height="630" alt="Adversarial self-review: make your AI check its own work before saying done. A command for coding agents that asks your agent to check its own change before calling it done: can the new tests fail, did a deliberate break hit the right line, is every number counted, and which checks never ran. Each check needs pasted evidence, not &quot;I reviewed it&quot;." loading="lazy" decoding="async"><img class="layer you" src="adversarial-self-review/card-you.png" width="1200" height="630" alt="" loading="lazy" decoding="async"><img class="layer ai" src="adversarial-self-review/card-ai.png" width="1200" height="630" alt="" loading="lazy" decoding="async"></span></a>
+</li>
+<li class="card pic" data-slug="agent-assets-lint">
+<a class="title" href="agent-assets-lint/index.html"><span class="art"><img class="base" src="agent-assets-lint/card-base.png" width="1200" height="630" alt="Agent assets lint: check your AI instruction files against your own rules. A small Node tool that checks CLAUDE.md, AGENTS.md, skills and agent files against rules you write in one JSON file: line budgets, required headings, matching skill names, real descriptions. Comes with a starter policy for a plain Claude Code project." loading="lazy" decoding="async"><img class="layer you" src="agent-assets-lint/card-you.png" width="1200" height="630" alt="" loading="lazy" decoding="async"><img class="layer ai" src="agent-assets-lint/card-ai.png" width="1200" height="630" alt="" loading="lazy" decoding="async"></span></a>
+</li>
+<li class="card pic" data-slug="claim-auditor">
+<a class="title" href="claim-auditor/index.html"><span class="art"><img class="base" src="claim-auditor/card-base.png" width="1200" height="630" alt="Claim auditor: check your AI&#39;s numbers before you publish. A subagent that checks every claim in your README, changelog or benchmark write-up before you post it, and grades each one BLOCK, WARN, NIT or PASS. It rechecks numbers against the data, flags an &quot;X causes Y&quot; with nothing measuring the link, and lists the claims that pass too." loading="lazy" decoding="async"><img class="layer you" src="claim-auditor/card-you.png" width="1200" height="630" alt="" loading="lazy" decoding="async"><img class="layer ai" src="claim-auditor/card-ai.png" width="1200" height="630" alt="" loading="lazy" decoding="async"></span></a>
+</li>
+<li class="card pic" data-slug="epistemic-stance">
+<a class="title" href="epistemic-stance/index.html"><span class="art"><img class="base" src="epistemic-stance/card-base.png" width="1200" height="630" alt="Epistemic stance: make your AI push back. Encourages your AI to push back with evidence instead of agreeing, to say how sure it is about the claims that matter, and to stop treating &quot;I think that&#39;s how it goes&quot; as evidence. A full version, plus a compact one that fits ChatGPT&#39;s free-plan settings box." loading="lazy" decoding="async"><img class="layer you" src="epistemic-stance/card-you.png" width="1200" height="630" alt="" loading="lazy" decoding="async"><img class="layer ai" src="epistemic-stance/card-ai.png" width="1200" height="630" alt="" loading="lazy" decoding="async"></span></a>
+</li>
+</ul>
+
+<footer><p>No scripts or trackers on this page, and nothing loads from any other site.</p></footer>
+</main>
+</body>
+</html>

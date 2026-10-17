@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;; script-src &#39;sha256-hALupjOY6rYF4Pgr0xUDhb42pj8LCY6EofbSE10oP3U=&#39;; style-src &#39;sha256-pZxBX8PqRTiAeth7eQhqKuj8WEJhNIjDDQHSV/raPjU=&#39;; img-src data:; font-src &#39;self&#39;; base-uri &#39;none&#39;; form-action &#39;none&#39;">
+<meta http-equiv="x-dns-prefetch-control" content="off">
+<title>Adversarial self-review: make your AI check its own work before saying done · Free-Public-Tools</title>
+<meta name="description" content="A command for coding agents that asks your agent to check its own change before calling it done: can the new tests fail, did a deliberate break hit the right line, is every number counted, and which checks never ran. Each check needs pasted evidence, not &quot;I reviewed it&quot;.">
+<meta property="og:site_name" content="Free-Public-Tools">
+<meta property="og:title" content="Adversarial self-review: make your AI check its own work before saying done">
+<meta property="og:description" content="A command for coding agents that asks your agent to check its own change before calling it done: can the new tests fail, did a deliberate break hit the right line, is every number counted, and which checks never ran. Each check needs pasted evidence, not &quot;I reviewed it&quot;.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://mike-byrne-ai.github.io/free-public-tools/adversarial-self-review/">
+<meta property="og:image" content="https://mike-byrne-ai.github.io/free-public-tools/adversarial-self-review/card.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Adversarial self-review: make your AI check its own work before saying done">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:,">
+<style>/* The look of the tools' link cards and videos (2026-10-11): graph paper on parchment, always (a dark-mode screen
+   gets the same paper), with a red margin line near the left edge as on writing paper; labels in black and red pen,
+   the series label in a typewriter face. The fonts ship with the site (fonts/, SIL Open Font License beside them); build.mjs
+   puts the folder's path in place of ../fonts/. Latin letters only: anything else falls back to the system font. */
+@font-face { font-family: "Kalam"; font-style: normal; font-weight: 700; font-display: swap; src: url(../fonts/kalam-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Caveat"; font-style: normal; font-weight: 700; font-display: swap; src: url(../fonts/caveat-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  /* the text column's wash: the parchment, nearly opaque, so the grid barely shows under the words */
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --pen: #1d1c1a;
+  --red: #c8372a;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --accent-hover: #095a4e;
+  --accent-text: #ffffff;
+  --focus: #1f5fd6;
+  --warn-bg: #fdf3d3;
+  --warn-border: #e6cf7f;
+  --warn-text: #57430a;
+  --fixture-bg: #fbe6e4;
+  --fixture-border: #eab8b2;
+  --fixture-text: #7b2219;
+  --toast-bg: #1d1c1a;
+  --toast-text: #f7f6f2;
+  --radius: 10px;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px); background-size: 24px 24px; }
+/* the red margin line of writing paper, near the screen's left edge (12 to 64 px in); on a narrow screen the text
+   starts just right of it */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+main { max-width: 46rem; margin: 0 auto; padding: 20px 16px 96px; background: var(--wash); box-shadow: 0 0 32px 32px var(--wash); }
+@media (max-width: 900px) { main { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+a { color: var(--accent); }
+h1 { font-size: 1.85rem; line-height: 1.2; margin: .4rem 0 .5rem; letter-spacing: -0.01em; }
+/* labels in black pen */
+h2 { font: 700 1.6rem/1.2 Kalam, var(--sans); color: var(--pen); margin: 2rem 0 .5rem; }
+h3 { font: 700 1.25rem/1.25 Kalam, var(--sans); color: var(--pen); margin: 1.2rem 0 .3rem; }
+/* the series label, as on the cards: FREE-PUBLIC-TOOLS */
+h1.label { font: 700 1.7rem/1.2 "JetBrains Mono", var(--mono); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+p { margin: .5rem 0; }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; }
+pre { margin: 0; padding: 12px 14px; background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--radius); font: 13px/1.5 var(--mono); white-space: pre; overflow: auto; max-width: 100%; max-height: 30rem; tab-size: 4; overflow-wrap: normal; }
+pre.wrap { white-space: pre-wrap; overflow-wrap: anywhere; }
+pre:focus-visible, .btn:focus-visible, a:focus-visible, summary:focus-visible, textarea:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+/* the back link at the left and the tool's kind at the far right, so the two red-pen words never read as one label */
+.topline { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.crumbs a { font: 700 1.35rem/1.2 Caveat, cursive; color: var(--red); text-decoration: none; }
+.crumbs a:hover { text-decoration: underline; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font-size: .8rem; font-weight: 600; color: var(--muted); }
+/* the kind of tool, in red pen */
+.badge.kind { padding: 0; border: 0; border-radius: 0; background: none; font: 700 1.45rem/1 Caveat, cursive; color: var(--red); transform: rotate(-3deg); }
+.badge.fixture { background: var(--fixture-bg); border-color: var(--fixture-border); color: var(--fixture-text); }
+.badge.scheduled { border-style: dashed; color: var(--accent); }
+.summary { font-size: 1.05rem; color: var(--muted); }
+.why { margin: .9rem 0 0; padding: .6rem .85rem; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 16px; margin: 1.25rem 0; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.actions.spaced { margin-top: 8px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); color: var(--text); font: 600 .95rem/1.2 var(--sans); text-decoration: none; cursor: pointer; text-align: center; max-width: 100%; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+.btn.primary:hover { background: var(--accent-hover); }
+.btn.small { min-height: 36px; padding: 6px 10px; font-size: .85rem; }
+.note { font-size: .875rem; color: var(--muted); }
+.warn { background: var(--warn-bg); border: 1px solid var(--warn-border); color: var(--warn-text); border-radius: var(--radius); padding: 10px 12px; font-size: .9rem; }
+.warn code { background: transparent; }
+.fixture-banner { background: var(--fixture-bg); border: 1px solid var(--fixture-border); color: var(--fixture-text); border-radius: var(--radius); padding: 8px 12px; font-weight: 600; }
+.section-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin: 2rem 0 .6rem; }
+.section-head h2 { margin: 0; }
+.facts { margin: 8px 0 0; font-size: .9rem; color: var(--muted); }
+.hash { word-break: break-all; }
+.where dt { font-weight: 700; margin-top: .9rem; }
+.where dd { margin: .2rem 0 0; }
+.where-text table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: .7rem 0; font-size: .95rem; }
+.where-text th.num, .where-text td.num { text-align: right; font-variant-numeric: tabular-nums; } /* a "---:" column in the README */
+.where-text th, .where-text td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+.where-text th { font-weight: 700; }
+.where-text pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+details { border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); padding: 0 12px; margin: 8px 0; }
+details > summary { cursor: pointer; padding: 10px 0; font-weight: 600; }
+details[open] { padding-bottom: 12px; }
+.manual { margin-top: 12px; }
+.manual label { display: block; font-weight: 600; margin-bottom: 6px; }
+.manual textarea { display: block; width: 100%; min-height: 10rem; font: 13px/1.5 var(--mono); padding: 10px; border-radius: var(--radius); border: 2px solid var(--accent); background: var(--code-bg); color: var(--text); resize: vertical; }
+.status { position: fixed; left: 16px; right: 16px; bottom: 16px; max-width: 40rem; margin: 0 auto; padding: 12px 16px; border-radius: 12px; background: var(--toast-bg); color: var(--toast-text); font-size: .95rem; box-shadow: 0 6px 24px rgb(0 0 0 / .25); opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.status.show { opacity: 1; transform: none; }
+.status:empty { display: none; }
+.offscreen { position: fixed; top: 0; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+[hidden] { display: none !important; }
+footer { margin-top: 3rem; font-size: .85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; }
+.cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; }
+.card h2, .card h3 { margin: .45rem 0 .2rem; font: 700 1.15rem/1.3 var(--sans); color: var(--text); }
+.card a.title { color: var(--text); text-decoration: none; }
+.card a.title:hover { text-decoration: underline; }
+.card p { margin: .2rem 0 0; color: var(--muted); }
+/* a tool with a link card: the card is the whole box, and the whole card is the link */
+.cards.pics { gap: 22px; }
+.card.pic { padding: 0; border: 0; border-radius: 0; background: none; }
+.card.pic .badges { margin-bottom: 6px; }
+.card.pic a.title { display: block; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 1px 2px rgb(0 0 0 / .06), 0 8px 22px rgb(0 0 0 / .08); transition: transform .15s, box-shadow .15s; }
+.card.pic a.title:hover { transform: translateY(-2px) rotate(-.4deg); box-shadow: 0 2px 4px rgb(0 0 0 / .08), 0 14px 30px rgb(0 0 0 / .12); text-decoration: none; }
+.card.pic img { display: block; width: 100%; height: auto; }
+/* the passed notes drift a little: the card is a base picture with each bubble on its own clear layer */
+.card.pic .art { position: relative; display: block; }
+.card.pic .art img.layer { position: absolute; inset: 0; pointer-events: none; transform-origin: 80% 50%; }
+.card.pic .art img.you { animation: skate-you 6s ease-in-out infinite alternate; }
+.card.pic .art img.ai { animation: skate-ai 7.5s ease-in-out infinite alternate -3s; }
+@keyframes skate-you { from { transform: translate(-.6%, -.8%) rotate(-.6deg); } to { transform: translate(.6%, 1%) rotate(.5deg); } }
+@keyframes skate-ai { from { transform: translate(.7%, .9%) rotate(.6deg); } to { transform: translate(-.6%, -.9%) rotate(-.5deg); } }
+/* a folded box under the buttons showing exactly what an install button copies */
+details.preview { margin-top: 12px; }
+details.preview summary { cursor: pointer; font-weight: 600; }
+details.preview pre { margin-top: 8px; max-height: 24rem; }
+.fixtures { margin-top: 2rem; }
+.fixtures .cards { margin-top: 4px; }
+@media (prefers-reduced-motion: reduce) { .status, .card.pic a.title { transition: none; } .card.pic a.title:hover { transform: none; } .card.pic .art img.layer { animation: none; } }
+/* No programming ligatures: a font such as Cascadia Code draws "-->" as an arrow, and the page must
+   show the characters that get copied. Keep this last: the font shorthand above resets ligatures. */
+pre, code, textarea, .manual textarea { font-variant-ligatures: none; font-feature-settings: "liga" 0, "calt" 0; }
+</style>
+</head>
+<body>
+<main>
+<div class="topline"><nav class="crumbs"><a href="../index.html">← All tools</a></nav><div class="badges"><span class="badge kind" data-kind="command">command</span></div></div>
+<header>
+<h1>Adversarial self-review: make your AI check its own work before saying done</h1>
+<p class="summary">A command for coding agents that asks your agent to check its own change before calling it done: can the new tests fail, did a deliberate break hit the right line, is every number counted, and which checks never ran. Each check needs pasted evidence, not &quot;I reviewed it&quot;.</p>
+<p class="why"><strong>Why I use it:</strong> In my experience these are some of the most common ways an AI&#39;s &quot;done&quot; goes wrong, and one short command guards against all four. When I ran it on a release script I&#39;d just committed, it found two real bugs.</p>
+</header>
+
+<section class="panel" aria-label="Use it">
+<div class="actions">
+<button type="button" class="btn primary" data-copy="payload" data-label="the text">Copy</button>
+<button type="button" class="btn" data-copy="install" data-label="the install prompt">Copy install prompt (Claude Code)</button>
+<button type="button" class="btn" data-copy="installCopilot" data-label="the Copilot CLI install prompt">Copy install prompt (Copilot CLI)</button>
+<a class="btn" id="github-link" href="https://github.com/Mike-Byrne-AI/free-public-tools/tree/main/tools/adversarial-self-review/" target="_blank" rel="noopener">Explore on GitHub</a>
+</div>
+<div id="manual-copy" class="manual" hidden>
+<label for="manual-copy-text">Automatic copy did not work. The text is selected: press Ctrl+C / Cmd+C (long-press on mobile).</label>
+<textarea id="manual-copy-text" readonly rows="8" spellcheck="false" autocomplete="off"></textarea>
+</div>
+<noscript><p class="note">The copy buttons need JavaScript. You can still select the text below by hand or download the file.</p></noscript>
+
+<details class="preview">
+<summary>What “Copy install prompt (Claude Code)” copies</summary>
+<p class="note">Numbered steps for Claude Code, then the text inside a fence of 3 backticks, one more than the longest run of backticks in the text.</p>
+<pre data-fill="install" tabindex="0">
+1. Create the file `.claude/commands/adversarial-self-review.md` in this project, relative to its root. Its content must be exactly the text inside the fenced block below, byte for byte: do not reformat, re-indent, re-wrap or fix anything, and keep every tab, trailing space and blank line, LF line endings and the final line break. Create any missing folders.
+2. If `.claude/commands/adversarial-self-review.md` already exists, do not overwrite it: show me a diff between the existing file and the new content, and ask me first.
+3. When it is written, check that the file&#39;s SHA-256 is 8a9c644f17f9dd6ef43bc6d01ddda613cd8acb3b9deb0df96c26a8c7d1243c3f and tell me whether it matches. If you cannot run commands, say so instead of guessing.
+4. Then tell me it is in place and how I run it: type `/adversarial-self-review` in Claude Code.
+
+```markdown
+---
+description: Check your own change before reporting it done. Four checks, each with quoted evidence.
+argument-hint: &quot;[base commit]&quot;
+---
+
+Before you report this change as done, run these four checks. Each needs evidence you can paste. &quot;Reviewed&quot; is not evidence: if you cannot show it, the check has not run.
+
+This is not a general code review. The checks target failure types seen in practice; the effect of this check is unmeasured. Treat review findings, yours or a subagent&#39;s, as hypotheses: re-check the cited lines.
+
+**Base:** the commit given with the command (&quot;$ARGUMENTS&quot;); if none, HEAD when your change is uncommitted, or the commit before your first one if you committed it.
+
+**Scope:** if no tests or assertions changed, write &quot;checks 1-2: N/A&quot; and do not invent evidence. If only docs, comments or formatting changed, run check 3 alone and say so.
+
+1. **Can each new or changed assertion fail?** Two things stop one failing: an earlier assertion in the same test fails first, so this one never runs where it matters; or the setup never creates the case, or the code returns before reaching it. Evidence: the command you ran and the failing assertion line, quoted from its output. A sentence saying it failed does not count, and neither does an import or setup error. Reading the code and concluding it can&#39;t fail is not evidence: run it. Get it one of two ways:
+   - Before the fix: `git worktree add &lt;new temp dir&gt; &lt;base&gt;`, copy in the new or changed test files and any fixtures they need, run them there, then `git worktree remove --force &lt;that dir&gt;`. If dependencies are missing, say so and ask before installing. After an interrupted run, check `git worktree list`.
+   - After the fix: save the output of `git diff`, copy the code file aside, make one small break in it, run the tests, copy the file back, and confirm `git diff` matches what you saved.
+   Never use `git stash`, or `git checkout` or `git restore` on a file holding uncommitted work.
+
+2. **Did the break land where you said?** Only when you claim a test catches something, or that a guard is redundant. A failing test does not prove you hit the intended line; a passing one does not prove the guard is unneeded. Evidence: the `git diff` showing the break, and the run output.
+
+3. **Is every number counted?** For each count, total, size, timing or test tally stated as fact in the diff, comments or your report: the command that produced it, or the correction. A stale count reads like evidence and is not.
+
+4. **What was available but not run?** Read the CI config and package or build scripts; name what you read. Run the cheap, safe ones (lint, type check). List the rest, grouped, with a reason for each.
+
+Do not report done while any check fails, or while one was skipped without saying so (check 4 blocks only on a skip with no reason). Fix and re-run once; if it still fails, stop and report it. If a step needs a command you are not already permitted to run (installs, network, deploys, migrations, anything destructive or costly), stop and ask.
+
+End with one line per check: its evidence or N/A, and anything left open.
+```</pre>
+</details>
+<details class="preview">
+<summary>What “Copy install prompt (Copilot CLI)” copies</summary>
+<p class="note">The same steps for GitHub Copilot CLI, which loads the file unchanged from .claude/skills/&lt;name&gt;/SKILL.md.</p>
+<pre data-fill="installCopilot" tabindex="0">
+1. Create the file `.claude/skills/adversarial-self-review/SKILL.md` in this project, relative to its root. Its content must be exactly the text inside the fenced block below, byte for byte: do not reformat, re-indent, re-wrap or fix anything, and keep every tab, trailing space and blank line, LF line endings and the final line break. Create any missing folders.
+2. If `.claude/skills/adversarial-self-review/SKILL.md` already exists, do not overwrite it: show me a diff between the existing file and the new content, and ask me first.
+3. When it is written, check that the file&#39;s SHA-256 is 8a9c644f17f9dd6ef43bc6d01ddda613cd8acb3b9deb0df96c26a8c7d1243c3f and tell me whether it matches. If you cannot run commands, say so instead of guessing.
+4. Then tell me it is in place and how I run it: type `/adversarial-self-review` in Copilot CLI.
+
+```markdown
+---
+description: Check your own change before reporting it done. Four checks, each with quoted evidence.
+argument-hint: &quot;[base commit]&quot;
+---
+
+Before you report this change as done, run these four checks. Each needs evidence you can paste. &quot;Reviewed&quot; is not evidence: if you cannot show it, the check has not run.
+
+This is not a general code review. The checks target failure types seen in practice; the effect of this check is unmeasured. Treat review findings, yours or a subagent&#39;s, as hypotheses: re-check the cited lines.
+
+**Base:** the commit given with the command (&quot;$ARGUMENTS&quot;); if none, HEAD when your change is uncommitted, or the commit before your first one if you committed it.
+
+**Scope:** if no tests or assertions changed, write &quot;checks 1-2: N/A&quot; and do not invent evidence. If only docs, comments or formatting changed, run check 3 alone and say so.
+
+1. **Can each new or changed assertion fail?** Two things stop one failing: an earlier assertion in the same test fails first, so this one never runs where it matters; or the setup never creates the case, or the code returns before reaching it. Evidence: the command you ran and the failing assertion line, quoted from its output. A sentence saying it failed does not count, and neither does an import or setup error. Reading the code and concluding it can&#39;t fail is not evidence: run it. Get it one of two ways:
+   - Before the fix: `git worktree add &lt;new temp dir&gt; &lt;base&gt;`, copy in the new or changed test files and any fixtures they need, run them there, then `git worktree remove --force &lt;that dir&gt;`. If dependencies are missing, say so and ask before installing. After an interrupted run, check `git worktree list`.
+   - After the fix: save the output of `git diff`, copy the code file aside, make one small break in it, run the tests, copy the file back, and confirm `git diff` matches what you saved.
+   Never use `git stash`, or `git checkout` or `git restore` on a file holding uncommitted work.
+
+2. **Did the break land where you said?** Only when you claim a test catches something, or that a guard is redundant. A failing test does not prove you hit the intended line; a passing one does not prove the guard is unneeded. Evidence: the `git diff` showing the break, and the run output.
+
+3. **Is every number counted?** For each count, total, size, timing or test tally stated as fact in the diff, comments or your report: the command that produced it, or the correction. A stale count reads like evidence and is not.
+
+4. **What was available but not run?** Read the CI config and package or build scripts; name what you read. Run the cheap, safe ones (lint, type check). List the rest, grouped, with a reason for each.
+
+Do not report done while any check fails, or while one was skipped without saying so (check 4 blocks only on a skip with no reason). Fix and re-run once; if it still fails, stop and report it. If a step needs a command you are not already permitted to run (installs, network, deploys, migrations, anything destructive or costly), stop and ask.
+
+End with one line per check: its evidence or N/A, and anything left open.
+```</pre>
+</details>
+</section>
+
+<section aria-labelledby="text-h">
+<div class="section-head">
+<h2 id="text-h">The text</h2>
+<div class="actions"><button type="button" class="btn small" data-wrap="payload-view" aria-pressed="false">Wrap long lines</button><a class="btn small" href="adversarial-self-review.md" download>Download adversarial-self-review.md</a></div>
+</div>
+<pre id="payload-view" tabindex="0" data-fill="payload" aria-labelledby="text-h">
+---
+description: Check your own change before reporting it done. Four checks, each with quoted evidence.
+argument-hint: &quot;[base commit]&quot;
+---
+
+Before you report this change as done, run these four checks. Each needs evidence you can paste. &quot;Reviewed&quot; is not evidence: if you cannot show it, the check has not run.
+
+This is not a general code review. The checks target failure types seen in practice; the effect of this check is unmeasured. Treat review findings, yours or a subagent&#39;s, as hypotheses: re-check the cited lines.
+
+**Base:** the commit given with the command (&quot;$ARGUMENTS&quot;); if none, HEAD when your change is uncommitted, or the commit before your first one if you committed it.
+
+**Scope:** if no tests or assertions changed, write &quot;checks 1-2: N/A&quot; and do not invent evidence. If only docs, comments or formatting changed, run check 3 alone and say so.
+
+1. **Can each new or changed assertion fail?** Two things stop one failing: an earlier assertion in the same test fails first, so this one never runs where it matters; or the setup never creates the case, or the code returns before reaching it. Evidence: the command you ran and the failing assertion line, quoted from its output. A sentence saying it failed does not count, and neither does an import or setup error. Reading the code and concluding it can&#39;t fail is not evidence: run it. Get it one of two ways:
+   - Before the fix: `git worktree add &lt;new temp dir&gt; &lt;base&gt;`, copy in the new or changed test files and any fixtures they need, run them there, then `git worktree remove --force &lt;that dir&gt;`. If dependencies are missing, say so and ask before installing. After an interrupted run, check `git worktree list`.
+   - After the fix: save the output of `git diff`, copy the code file aside, make one small break in it, run the tests, copy the file back, and confirm `git diff` matches what you saved.
+   Never use `git stash`, or `git checkout` or `git restore` on a file holding uncommitted work.
+
+2. **Did the break land where you said?** Only when you claim a test catches something, or that a guard is redundant. A failing test does not prove you hit the intended line; a passing one does not prove the guard is unneeded. Evidence: the `git diff` showing the break, and the run output.
+
+3. **Is every number counted?** For each count, total, size, timing or test tally stated as fact in the diff, comments or your report: the command that produced it, or the correction. A stale count reads like evidence and is not.
+
+4. **What was available but not run?** Read the CI config and package or build scripts; name what you read. Run the cheap, safe ones (lint, type check). List the rest, grouped, with a reason for each.
+
+Do not report done while any check fails, or while one was skipped without saying so (check 4 blocks only on a skip with no reason). Fix and re-run once; if it still fails, stop and report it. If a step needs a command you are not already permitted to run (installs, network, deploys, migrations, anything destructive or costly), stop and ask.
+
+End with one line per check: its evidence or N/A, and anything left open.
+</pre>
+<p class="facts">3,116 characters</p>
+</section>
+
+
+<section aria-labelledby="where-h">
+<h2 id="where-h">How to use this</h2>
+<div class="where-text">
+<p><strong>Any coding agent.</strong> The checks are plain instructions, so any coding agent that can run commands in your project can follow them. The file is formatted for Claude Code. GitHub Copilot CLI runs it unchanged from <code>.claude/skills/adversarial-self-review/SKILL.md</code> (on the tool&#39;s page, <strong>Copy install prompt (Copilot CLI)</strong> puts it there); for another agent, ask it to adapt the file, then check that the agent can run it.</p>
+<p><strong>Claude Code.</strong> Save it as <code>.claude/commands/adversarial-self-review.md</code>, or in <code>~/.claude/commands/</code> for every project. On the tool&#39;s page, <strong>Copy install prompt</strong> asks Claude Code to do this for you (it asks permission before writing inside <code>.claude/</code>, so allow it). Then type <code>/adversarial-self-review</code>, optionally followed by a base commit.</p>
+<p><strong>Always on, in any agent.</strong> A command only runs when you type it. To apply it to every non-trivial change, save the file and add this line to <code>AGENTS.md</code> (or <code>CLAUDE.md</code> for Claude Code):</p>
+<pre>
+Before reporting a non-trivial code change as done, follow .claude/commands/adversarial-self-review.md and show its evidence.</pre>
+<p>I use it in Claude Code, and I&#39;ve tested it in GitHub Copilot with models from several companies: see <a href="#how-it-did-across-ai-models">How it did across AI models</a>.</p>
+</div>
+</section>
+
+<section aria-labelledby="how-it-did-across-ai-models">
+<h2 id="how-it-did-across-ai-models">How it did across AI models</h2>
+<div class="where-text">
+<p>I tested it on a small made-up project with three problems planted in a &quot;finished&quot; fix: a new test that can&#39;t fail, a wrong test count in the changelog, and a leftover debug line that fails the lint check. Each model got the same request, &quot;Is this change done?&quot;, with only the one-line note in <code>AGENTS.md</code> (or <code>CLAUDE.md</code> in Claude Code) pointing at this file. Three runs each, in October 2026:</p>
+<table><thead><tr><th>Model</th><th>Where</th><th class="num">Passed</th></tr></thead><tbody><tr><td>Claude Sonnet 5.5</td><td>Claude Code</td><td class="num">3 of 3</td></tr><tr><td>Claude Haiku 5.5</td><td>Claude Code</td><td class="num">3 of 3</td></tr><tr><td>Claude Sonnet 5.5</td><td>GitHub Copilot</td><td class="num">3 of 3</td></tr><tr><td>Grok 4.7</td><td>GitHub Copilot</td><td class="num">3 of 3</td></tr><tr><td>GPT-6 Luna</td><td>GitHub Copilot</td><td class="num">3 of 3</td></tr><tr><td>GPT-5.4 mini</td><td>GitHub Copilot</td><td class="num">3 of 3</td></tr><tr><td>GPT-5.6 Terra</td><td>GitHub Copilot</td><td class="num">2 of 3</td></tr><tr><td>Gemini 3.8 Flash</td><td>GitHub Copilot</td><td class="num">1 of 3</td></tr><tr><td>MAI-Code 1.1 Flash</td><td>GitHub Copilot</td><td class="num">0 of 3</td></tr></tbody></table>
+<p>A pass means it actually ran the new test against the old code (the step models most often skip, working it out by reading instead), and then either fixed all three problems or reported all three and said the change wasn&#39;t done. Every misstep was the skipped run, except MAI-Code: it opened the file, skipped the checks and called the change done each time. So check that your agent really runs them.</p>
+<p>One small task and three runs each: a sign of how each model tends to behave, not a guarantee for your project.</p>
+</div>
+</section>
+<section aria-labelledby="an-example-with-and-without-not-a-test">
+<h2 id="an-example-with-and-without-not-a-test">An example, with and without (not a test)</h2>
+<div class="where-text">
+<p>The same made-up project as the test above, with its three planted problems, in Claude Code with Claude Sonnet: once with the command always on (the file plus its one line in <code>CLAUDE.md</code>), and once with nothing. Both got the same message: &quot;I&#39;ve fixed the bug where a fixed-amount coupon could take a price below zero, and added a regression test. Is this change done? Report back.&quot; The full replies, word for word, are in <a href="https://github.com/Mike-Byrne-AI/free-public-tools/blob/main/tools/adversarial-self-review/example-replies.md">example-replies.md</a>.</p>
+<p>Both found all three problems. Without the command:</p>
+<blockquote><p>[...] <strong>Not done.</strong> The fix itself looks right, but there are four problems.</p>
+<ol><li><strong>The regression test doesn&#39;t test the bug.</strong> It applies <code>FIVEOFF</code> to a price of 20, which gives 15. That passes with or without your fix, so it would never catch the bug coming back. [...] I reasoned this out from the arithmetic and didn&#39;t confirm it by running the test against the old code. [...]</li></ol>
+<p>I haven&#39;t changed anything. Do you want me to fix these four?</p></blockquote>
+<p>With it:</p>
+<blockquote><p>The change wasn&#39;t done when you asked. The first review turned up two problems, and I&#39;ve fixed both and re-run the checks. [...]</p>
+<p><strong>Can the assertions fail?</strong> Yes. I ran the new test file against the original commit <code>1554104</code> in a temporary worktree, which I removed afterwards. It failed there:</p>
+<pre>
+✖ a fixed-amount coupon never takes the price below zero
+AssertionError ... discount.test.mjs:22:10
+actual: -2, expected: 0</pre>
+<p>[...]</p></blockquote>
+<p>What differed:</p>
+<ul><li>The plain run worked out that the new test can&#39;t fail, and said it hadn&#39;t run it against the old code. With the command, it ran the test there and pasted the failure.</li><li>With the command, it fixed all three problems without being asked. The plain run listed them and asked first.</li><li>To test the old code, the plain run used <code>git stash</code> on the uncommitted fix, then put the fix back. This command tells the agent never to do that with uncommitted work.</li></ul>
+<p>Plain Claude Sonnet did well here too. One run each, in October 2026: another run could come out differently. The test above has more runs, but only with the command. For a controlled test with and without a tool, see <a href="https://mike-byrne-ai.github.io/free-public-tools/tests/decision-challenge/">decision-challenge&#39;s test</a>.</p>
+</div>
+</section>
+
+<section aria-labelledby="dl-h">
+<h2 id="dl-h">Or download it with a command</h2>
+<p class="note">Each command fetches the file from the repo and writes it at the path shown, replacing any file already there (the install prompt shows a diff and asks instead).</p>
+
+<h3>bash or zsh (macOS, Linux, Git Bash)</h3>
+<pre data-fill="bash" tabindex="0">
+mkdir -p &#39;.claude/commands&#39; &amp;&amp; curl -fsSL &#39;https://raw.githubusercontent.com/Mike-Byrne-AI/free-public-tools/main/tools/adversarial-self-review/adversarial-self-review.md&#39; -o &#39;.claude/commands/adversarial-self-review.md&#39;</pre>
+<div class="actions spaced"><button type="button" class="btn" data-copy="bash" data-label="the bash download command">Copy download command (bash)</button></div>
+<h3>PowerShell (Windows)</h3>
+<pre data-fill="powershell" tabindex="0">
+New-Item -Force -ItemType Directory -Path &#39;.claude/commands&#39; | Out-Null; Invoke-WebRequest -UseBasicParsing -Uri &#39;https://raw.githubusercontent.com/Mike-Byrne-AI/free-public-tools/main/tools/adversarial-self-review/adversarial-self-review.md&#39; -OutFile &#39;.claude/commands/adversarial-self-review.md&#39;</pre>
+<div class="actions spaced"><button type="button" class="btn" data-copy="powershell" data-label="the PowerShell download command">Copy download command (PowerShell)</button></div>
+<p>Then compare the file's SHA-256 with <code class="hash">8a9c644f17f9dd6ef43bc6d01ddda613cd8acb3b9deb0df96c26a8c7d1243c3f</code> using <code>sha256sum FILE</code> (Linux), <code>shasum -a 256 FILE</code> (macOS) or <code>Get-FileHash FILE</code> (PowerShell, which prints it in upper case).</p>
+
+</section>
+
+
+<footer><p>What you see in the boxes is exactly what the buttons copy.</p></footer>
+</main>
+<p id="copy-status" class="status" role="status" aria-live="polite" data-seq="0"></p>
+<script type="application/json" id="tool-data">{"slug":"adversarial-self-review","copies":{"payload":"---\ndescription: Check your own change before reporting it done. Four checks, each with quoted evidence.\nargument-hint: \"[base commit]\"\n---\n\nBefore you report this change as done, run these four checks. Each needs evidence you can paste. \"Reviewed\" is not evidence: if you cannot show it, the check has not run.\n\nThis is not a general code review. The checks target failure types seen in practice; the effect of this check is unmeasured. Treat review findings, yours or a subagent's, as hypotheses: re-check the cited lines.\n\n**Base:** the commit given with the command (\"$ARGUMENTS\"); if none, HEAD when your change is uncommitted, or the commit before your first one if you committed it.\n\n**Scope:** if no tests or assertions changed, write \"checks 1-2: N/A\" and do not invent evidence. If only docs, comments or formatting changed, run check 3 alone and say so.\n\n1. **Can each new or changed assertion fail?** Two things stop one failing: an earlier assertion in the same test fails first, so this one never runs where it matters; or the setup never creates the case, or the code returns before reaching it. Evidence: the command you ran and the failing assertion line, quoted from its output. A sentence saying it failed does not count, and neither does an import or setup error. Reading the code and concluding it can't fail is not evidence: run it. Get it one of two ways:\n   - Before the fix: `git worktree add \u003cnew temp dir\u003e \u003cbase\u003e`, copy in the new or changed test files and any fixtures they need, run them there, then `git worktree remove --force \u003cthat dir\u003e`. If dependencies are missing, say so and ask before installing. After an interrupted run, check `git worktree list`.\n   - After the fix: save the output of `git diff`, copy the code file aside, make one small break in it, run the tests, copy the file back, and confirm `git diff` matches what you saved.\n   Never use `git stash`, or `git checkout` or `git restore` on a file holding uncommitted work.\n\n2. **Did the break land where you said?** Only when you claim a test catches something, or that a guard is redundant. A failing test does not prove you hit the intended line; a passing one does not prove the guard is unneeded. Evidence: the `git diff` showing the break, and the run output.\n\n3. **Is every number counted?** For each count, total, size, timing or test tally stated as fact in the diff, comments or your report: the command that produced it, or the correction. A stale count reads like evidence and is not.\n\n4. **What was available but not run?** Read the CI config and package or build scripts; name what you read. Run the cheap, safe ones (lint, type check). List the rest, grouped, with a reason for each.\n\nDo not report done while any check fails, or while one was skipped without saying so (check 4 blocks only on a skip with no reason). Fix and re-run once; if it still fails, stop and report it. If a step needs a command you are not already permitted to run (installs, network, deploys, migrations, anything destructive or costly), stop and ask.\n\nEnd with one line per check: its evidence or N/A, and anything left open.\n","install":"1. Create the file `.claude/commands/adversarial-self-review.md` in this project, relative to its root. Its content must be exactly the text inside the fenced block below, byte for byte: do not reformat, re-indent, re-wrap or fix anything, and keep every tab, trailing space and blank line, LF line endings and the final line break. Create any missing folders.\n2. If `.claude/commands/adversarial-self-review.md` already exists, do not overwrite it: show me a diff between the existing file and the new content, and ask me first.\n3. When it is written, check that the file's SHA-256 is 8a9c644f17f9dd6ef43bc6d01ddda613cd8acb3b9deb0df96c26a8c7d1243c3f and tell me whether it matches. If you cannot run commands, say so instead of guessing.\n4. Then tell me it is in place and how I run it: type `/adversarial-self-review` in Claude Code.\n\n```markdown\n---\ndescription: Check your own change before reporting it done. Four checks, each with quoted evidence.\nargument-hint: \"[base commit]\"\n---\n\nBefore you report this change as done, run these four checks. Each needs evidence you can paste. \"Reviewed\" is not evidence: if you cannot show it, the check has not run.\n\nThis is not a general code review. The checks target failure types seen in practice; the effect of this check is unmeasured. Treat review findings, yours or a subagent's, as hypotheses: re-check the cited lines.\n\n**Base:** the commit given with the command (\"$ARGUMENTS\"); if none, HEAD when your change is uncommitted, or the commit before your first one if you committed it.\n\n**Scope:** if no tests or assertions changed, write \"checks 1-2: N/A\" and do not invent evidence. If only docs, comments or formatting changed, run check 3 alone and say so.\n\n1. **Can each new or changed assertion fail?** Two things stop one failing: an earlier assertion in the same test fails first, so this one never runs where it matters; or the setup never creates the case, or the code returns before reaching it. Evidence: the command you ran and the failing assertion line, quoted from its output. A sentence saying it failed does not count, and neither does an import or setup error. Reading the code and concluding it can't fail is not evidence: run it. Get it one of two ways:\n   - Before the fix: `git worktree add \u003cnew temp dir\u003e \u003cbase\u003e`, copy in the new or changed test files and any fixtures they need, run them there, then `git worktree remove --force \u003cthat dir\u003e`. If dependencies are missing, say so and ask before installing. After an interrupted run, check `git worktree list`.\n   - After the fix: save the output of `git diff`, copy the code file aside, make one small break in it, run the tests, copy the file back, and confirm `git diff` matches what you saved.\n   Never use `git stash`, or `git checkout` or `git restore` on a file holding uncommitted work.\n\n2. **Did the break land where you said?** Only when you claim a test catches something, or that a guard is redundant. A failing test does not prove you hit the intended line; a passing one does not prove the guard is unneeded. Evidence: the `git diff` showing the break, and the run output.\n\n3. **Is every number counted?** For each count, total, size, timing or test tally stated as fact in the diff, comments or your report: the command that produced it, or the correction. A stale count reads like evidence and is not.\n\n4. **What was available but not run?** Read the CI config and package or build scripts; name what you read. Run the cheap, safe ones (lint, type check). List the rest, grouped, with a reason for each.\n\nDo not report done while any check fails, or while one was skipped without saying so (check 4 blocks only on a skip with no reason). Fix and re-run once; if it still fails, stop and report it. If a step needs a command you are not already permitted to run (installs, network, deploys, migrations, anything destructive or costly), stop and ask.\n\nEnd with one line per check: its evidence or N/A, and anything left open.\n```","installCopilot":"1. Create the file `.claude/skills/adversarial-self-review/SKILL.md` in this project, relative to its root. Its content must be exactly the text inside the fenced block below, byte for byte: do not reformat, re-indent, re-wrap or fix anything, and keep every tab, trailing space and blank line, LF line endings and the final line break. Create any missing folders.\n2. If `.claude/skills/adversarial-self-review/SKILL.md` already exists, do not overwrite it: show me a diff between the existing file and the new content, and ask me first.\n3. When it is written, check that the file's SHA-256 is 8a9c644f17f9dd6ef43bc6d01ddda613cd8acb3b9deb0df96c26a8c7d1243c3f and tell me whether it matches. If you cannot run commands, say so instead of guessing.\n4. Then tell me it is in place and how I run it: type `/adversarial-self-review` in Copilot CLI.\n\n```markdown\n---\ndescription: Check your own change before reporting it done. Four checks, each with quoted evidence.\nargument-hint: \"[base commit]\"\n---\n\nBefore you report this change as done, run these four checks. Each needs evidence you can paste. \"Reviewed\" is not evidence: if you cannot show it, the check has not run.\n\nThis is not a general code review. The checks target failure types seen in practice; the effect of this check is unmeasured. Treat review findings, yours or a subagent's, as hypotheses: re-check the cited lines.\n\n**Base:** the commit given with the command (\"$ARGUMENTS\"); if none, HEAD when your change is uncommitted, or the commit before your first one if you committed it.\n\n**Scope:** if no tests or assertions changed, write \"checks 1-2: N/A\" and do not invent evidence. If only docs, comments or formatting changed, run check 3 alone and say so.\n\n1. **Can each new or changed assertion fail?** Two things stop one failing: an earlier assertion in the same test fails first, so this one never runs where it matters; or the setup never creates the case, or the code returns before reaching it. Evidence: the command you ran and the failing assertion line, quoted from its output. A sentence saying it failed does not count, and neither does an import or setup error. Reading the code and concluding it can't fail is not evidence: run it. Get it one of two ways:\n   - Before the fix: `git worktree add \u003cnew temp dir\u003e \u003cbase\u003e`, copy in the new or changed test files and any fixtures they need, run them there, then `git worktree remove --force \u003cthat dir\u003e`. If dependencies are missing, say so and ask before installing. After an interrupted run, check `git worktree list`.\n   - After the fix: save the output of `git diff`, copy the code file aside, make one small break in it, run the tests, copy the file back, and confirm `git diff` matches what you saved.\n   Never use `git stash`, or `git checkout` or `git restore` on a file holding uncommitted work.\n\n2. **Did the break land where you said?** Only when you claim a test catches something, or that a guard is redundant. A failing test does not prove you hit the intended line; a passing one does not prove the guard is unneeded. Evidence: the `git diff` showing the break, and the run output.\n\n3. **Is every number counted?** For each count, total, size, timing or test tally stated as fact in the diff, comments or your report: the command that produced it, or the correction. A stale count reads like evidence and is not.\n\n4. **What was available but not run?** Read the CI config and package or build scripts; name what you read. Run the cheap, safe ones (lint, type check). List the rest, grouped, with a reason for each.\n\nDo not report done while any check fails, or while one was skipped without saying so (check 4 blocks only on a skip with no reason). Fix and re-run once; if it still fails, stop and report it. If a step needs a command you are not already permitted to run (installs, network, deploys, migrations, anything destructive or costly), stop and ask.\n\nEnd with one line per check: its evidence or N/A, and anything left open.\n```","bash":"mkdir -p '.claude/commands' \u0026\u0026 curl -fsSL 'https://raw.githubusercontent.com/Mike-Byrne-AI/free-public-tools/main/tools/adversarial-self-review/adversarial-self-review.md' -o '.claude/commands/adversarial-self-review.md'","powershell":"New-Item -Force -ItemType Directory -Path '.claude/commands' | Out-Null; Invoke-WebRequest -UseBasicParsing -Uri 'https://raw.githubusercontent.com/Mike-Byrne-AI/free-public-tools/main/tools/adversarial-self-review/adversarial-self-review.md' -OutFile '.claude/commands/adversarial-self-review.md'"}}</script>
+<script>// Inlined into every tool page by build.mjs; its SHA-256 goes into the page's Content-Security-Policy.
+// Copies text/plain only, in this order: the Clipboard API, then a hidden-textarea execCommand
+// fallback, then a visible pre-selected textarea for a manual Ctrl+C / Cmd+C.
+(() => {
+  'use strict';
+  const data = JSON.parse(document.getElementById('tool-data').textContent);
+  const copies = data.copies;
+  const status = document.getElementById('copy-status');
+  const manual = document.getElementById('manual-copy');
+  const manualText = document.getElementById('manual-copy-text');
+  let seq = 0;
+  let hideTimer = 0;
+
+  // The text shown is the text copied: every preview is refilled from the JSON the buttons copy.
+  for (const el of document.querySelectorAll('[data-fill]')) el.textContent = copies[el.dataset.fill];
+
+  const chars = (s) => Array.from(s).length.toLocaleString('en-US');
+  const errName = (err) => (err && err.name) || 'error';
+
+  function report(method, message) {
+    status.dataset.method = method;
+    status.dataset.seq = String(++seq);
+    status.textContent = message;
+    status.classList.add('show');
+    clearTimeout(hideTimer);
+    if (method !== 'manual') hideTimer = setTimeout(() => status.classList.remove('show'), 8000);
+  }
+
+  function legacyCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.setAttribute('aria-hidden', 'true');
+    ta.tabIndex = -1;
+    ta.className = 'offscreen';
+    const before = document.activeElement;
+    document.body.appendChild(ta);
+    let ok = false;
+    try {
+      ta.focus({ preventScroll: true });
+      ta.select();
+      ta.setSelectionRange(0, ta.value.length);
+      ok = document.execCommand('copy') === true;
+    } catch (err) {
+      ok = false;
+    }
+    ta.remove();
+    if (before && typeof before.focus === 'function') before.focus({ preventScroll: true });
+    return ok;
+  }
+
+  function showManual(text) {
+    manualText.value = text;
+    manual.hidden = false;
+    manualText.focus();
+    manualText.select();
+    manualText.setSelectionRange(0, manualText.value.length);
+  }
+
+  function copyText(text, label, hint) {
+    const copied = (method, how) => {
+      report(method, `Copied ${label} (${chars(text)} characters) ${how}.${hint ? ' ' + hint : ''}`);
+      return method;
+    };
+    const fallback = (reason) => {
+      if (legacyCopy(text)) {
+        return copied('execCommand', `with the fallback, document.execCommand('copy'), because the Clipboard API ${reason}`);
+      }
+      showManual(text);
+      report('manual', `Automatic copy did not work (the Clipboard API ${reason} and the execCommand fallback failed). The text is selected in the box under the buttons: press Ctrl+C / Cmd+C (long-press on mobile).`);
+      return 'manual';
+    };
+    const api = navigator.clipboard;
+    // Missing API: fall back synchronously, still inside the click.
+    if (!api || typeof api.writeText !== 'function') return Promise.resolve(fallback('is not available'));
+    let pending;
+    try {
+      pending = api.writeText(text);
+    } catch (err) {
+      return Promise.resolve(fallback(`threw ${errName(err)}`));
+    }
+    return Promise.resolve(pending).then(
+      () => copied('clipboard-api', 'with the Clipboard API (navigator.clipboard.writeText)'),
+      (err) => fallback(`was refused (${errName(err)})`),
+    );
+  }
+
+  for (const el of document.querySelectorAll('[data-copy]')) {
+    el.addEventListener('click', () => {
+      // Start the copy synchronously inside the click. No await before navigation and no
+      // preventDefault: on "Copy, then open" links the browser's default action opens the new tab.
+      copyText(copies[el.dataset.copy], el.dataset.label || 'the text', el.dataset.hint || '');
+    });
+  }
+
+  // On a phone-width screen the text boxes start wrapped, so no line is cut off at the edge; the button unwraps them.
+  const narrow = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+  for (const el of document.querySelectorAll('[data-wrap]')) {
+    if (narrow) {
+      document.getElementById(el.dataset.wrap).classList.add('wrap');
+      el.setAttribute('aria-pressed', 'true');
+    }
+    el.addEventListener('click', () => {
+      const on = document.getElementById(el.dataset.wrap).classList.toggle('wrap');
+      el.setAttribute('aria-pressed', String(on));
+    });
+  }
+})();
+</script>
+</body>
+</html>

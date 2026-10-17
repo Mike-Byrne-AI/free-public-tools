@@ -1,0 +1,21 @@
+{
+  "slug": "decision-challenge",
+  "title": "Decision challenge: test a choice before you lock it in",
+  "summary": "A command for your coding agent that pressure-tests one decision before it becomes hard to reverse. You fix weighted criteria first, it writes real alternatives before scoring anything, and then it returns STAY, PIVOT or SPLIT. A SPLIT names the experiment that would settle it.",
+  "why": "I wrote the first version in March 2026. When I used it on how to publish this site, it kept half my plan and flagged the half that could drift out of step.",
+  "kind": "command",
+  "file": "decision-challenge.md",
+  "install_path": ".claude/commands/decision-challenge.md",
+  "repo_path": "tools/decision-challenge/decision-challenge.md",
+  "released": "2026-10-19",
+  "featured": true,
+  "page_sections": ["How it did across AI models", "An example, with and without (not a test)"],
+  "card": {
+    "headline": "Challenge a decision before you lock it in",
+    "highlight": "Challenge",
+    "what": "A custom /command for coding agents, here formatted for Claude Code.",
+    "note": "Let's check for new payments every 5 minutes.",
+    "reply": "Before we lock it in, let's compare it with two real alternatives.",
+    "foot": "a command for your coding agent"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "checks": [
+    {
+      "id": "canonical-instructions",
+      "description": "AGENTS.md is the single source of truth and stays inside its context budget.",
+      "path": "AGENTS.md",
+      "maxLines": 200,
+      "requireHeadings": ["## Mission", "## Repository map", "## Workflow", "## Definition of done"]
+    },
+    {
+      "id": "claude-wrapper",
+      "description": "Vendor wrapper points at the canonical file instead of restating it.",
+      "path": "CLAUDE.md",
+      "maxLines": 80,
+      "mustReference": ["AGENTS.md"]
+    },
+    {
+      "id": "copilot-wrapper",
+      "description": "Vendor wrapper points at the canonical file instead of restating it.",
+      "path": ".github/copilot-instructions.md",
+      "required": false,
+      "maxLines": 80,
+      "mustReference": ["AGENTS.md"]
+    },
+    {
+      "id": "scoped-instructions",
+      "description": "Folder-level AGENTS.md files stay short and defer to the root one.",
+      "dir": ".",
+      "match": "*/**/AGENTS.md",
+      "maxLines": 80,
+      "mustReference": ["AGENTS.md"]
+    },
+    {
+      "id": "copilot-scoped-instructions",
+      "description": "Every scoped instruction declares what it applies to and defers to the canonical file.",
+      "dir": ".github/instructions",
+      "match": "**/*.instructions.md",
+      "mustReference": ["AGENTS.md"],
+      "frontmatter": { "fields": { "applyTo": { "required": true } } }
+    },
+    {
+      "id": "cursor-rules",
+      "dir": ".cursor/rules",
+      "match": "**/*.mdc",
+      "mustReference": ["AGENTS.md"],
+      "frontmatter": {
+        "fields": {
+          "description": { "required": true },
+          "alwaysApply": { "required": true, "oneOf": ["true", "false"] }
+        }
+      }
+    },
+    {
+      "id": "canonical-skills",
+      "description": "Reusable skills: kebab-case name matching the directory, unique, described, and inside the progressive-disclosure budget.",
+      "dir": ".agents/skills",
+      "match": "*/SKILL.md",
+      "maxLines": 500,
+      "nameMatchesDirectory": "name",
+      "uniqueBy": "name",
+      "frontmatter": {
+        "fields": {
+          "name": { "required": true, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 64 },
+          "description": { "required": true, "minLength": 20, "maxLength": 1024 }
+        }
+      }
+    },
+    {
+      "id": "claude-subagents",
+      "description": "Subagents carry a specific description and an explicit tool list.",
+      "dir": ".claude/agents",
+      "match": "*.md",
+      "mustReference": ["AGENTS.md"],
+      "frontmatter": {
+        "fields": {
+          "name": { "required": true, "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+          "description": { "required": true, "minLength": 30 },
+          "tools": { "required": true }
+        }
+      }
+    }
+  ]
+}

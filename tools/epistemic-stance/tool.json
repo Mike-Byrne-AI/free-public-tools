@@ -1,0 +1,26 @@
+{
+  "slug": "epistemic-stance",
+  "title": "Epistemic stance: make your AI push back",
+  "summary": "Encourages your AI to push back with evidence instead of agreeing, to say how sure it is about the claims that matter, and to stop treating \"I think that's how it goes\" as evidence. A full version, plus a compact one that fits ChatGPT's free-plan settings box.",
+  "why": "It's my global CLAUDE.md, so it's on in every session I run. In my experience, my agents push back, point out problems and own their mistakes more often, and are less likely to change their minds just because I disagree.",
+  "kind": "instruction",
+  "file": "epistemic-stance.md",
+  "repo_path": "tools/epistemic-stance/epistemic-stance.md",
+  "released": "2026-10-19",
+  "page_sections": ["An example, with and without (not a test)"],
+  "variants": [
+    {
+      "key": "short",
+      "file": "epistemic-stance-short.md",
+      "label": "Short version",
+      "note": "Fits ChatGPT's custom-instructions box on the free plan (1,500 characters) and works in any chat app."
+    }
+  ],
+  "card": {
+    "highlight": "push back",
+    "what": "A cognitive constitutional document designed to act as a behavioral modifier. Formatted as a CLAUDE.md.",
+    "foot": "Behavioral priming for any AI",
+    "note": "This change doubled our sign-ups!",
+    "reply": "Maybe. Sign-ups jumped last March too. Let's rule that out first."
+  }
+}

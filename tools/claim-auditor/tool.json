@@ -1,0 +1,20 @@
+{
+  "slug": "claim-auditor",
+  "title": "Claim auditor: check your AI's numbers before you publish",
+  "summary": "A subagent that checks every claim in your README, changelog or benchmark write-up before you post it, and grades each one BLOCK, WARN, NIT or PASS. It rechecks numbers against the data, flags an \"X causes Y\" with nothing measuring the link, and lists the claims that pass too.",
+  "why": "I wrote it to check my own write-ups before I share them. The first time I tried it, it flagged a known overclaim and also caught a false clause in my correction.",
+  "kind": "agent",
+  "file": "claim-auditor.md",
+  "install_path": ".claude/agents/claim-auditor.md",
+  "repo_path": "tools/claim-auditor/claim-auditor.md",
+  "released": "2026-10-19",
+  "page_sections": ["How it did across AI models", "An example, with and without (not a test)"],
+  "card": {
+    "headline": "Check your AI's numbers before you publish",
+    "highlight": "numbers",
+    "what": "A custom subagent for coding agents, here formatted for Claude Code, with a plain version for any agent.",
+    "note": "Check my findings with the claim auditor.",
+    "reply": "Three claims check out. One doesn't: your data shows 24% faster, not 40%.",
+    "foot": "a subagent for your coding agent"
+  }
+}

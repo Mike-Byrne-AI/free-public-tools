@@ -1,0 +1,1342 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>role-aware-dashboard-toolkit Test Cards</title>
+<style>@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 700; font-display: swap; src: url(../../fonts/jetbrainsmono-700-latin.woff2) format("woff2"); }</style>
+<link rel="icon" href="data:,">
+<style>
+/* Layout: the free-public-tools look (generator/assets/style.css): parchment graph paper with the red margin line,
+   always light like the site. Every block is a notecard; a parchment wash around each card fades the grid as it
+   meets the card. No pen labels or speech bubbles here. */
+:root {
+  color-scheme: light;
+  --bg: #f3ead6;
+  --grid: #e9dfc8;
+  --wash: rgb(243 234 214 / .86);
+  --margin: #e0958b;
+  --surface: #fffdf6;
+  --code-bg: #f8f2e4;
+  --text: #1d1c1a;
+  --muted: #5d5950;
+  --border: #d9cdb2;
+  --accent: #0b6b5d;
+  --focus: #1f5fd6;
+  --good: #2f7d32;
+  --bad: #c8372a;
+  --tough: #6a4c9c;
+  --none: #8a6d1e;
+  --dot: #0a8a73;
+  --cut: #f6e2da;
+  --radius: 14px;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --label: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background-color: var(--bg); color: var(--text); font: 16px/1.55 var(--sans); overflow-wrap: break-word;
+  background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px), linear-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+/* the red margin line of writing paper, near the screen's left edge */
+body::before { content: ""; position: fixed; top: 0; bottom: 0; left: clamp(12px, 4vw, 64px); width: 2px; background: var(--margin); pointer-events: none; }
+.wrap { max-width: 48rem; margin: 0 auto; padding-inline: 16px; padding-block: 2.5rem 5rem; display: grid; gap: 3.25rem; }
+@media (max-width: 900px) { .wrap { padding-left: calc(clamp(12px, 4vw, 64px) + 14px); } }
+
+h1, h2 { margin: 0; line-height: 1.2; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.4rem); }
+h2 { font-size: clamp(1.3rem, 3.6vw, 1.55rem); }
+h3 { margin: 0; font-size: .76rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+p { margin: 0; max-width: 65ch; }
+a { color: var(--accent); }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: .05em .3em; overflow-wrap: anywhere; font-variant-ligatures: none; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* a notecard: the parchment wash around it fades the grid where the grid meets the card */
+.card, .masthead {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 1.4rem clamp(1rem, 4vw, 1.9rem) 1.6rem; display: grid; gap: 1.1rem; min-width: 0;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .05), 0 8px 22px rgb(0 0 0 / .06), 0 0 22px 12px var(--wash);
+}
+.masthead { background: var(--wash); border-color: transparent; box-shadow: 0 0 26px 18px var(--wash); gap: .9rem; }
+/* the index card's ruled header line */
+.card-head { display: grid; gap: .45rem; padding-bottom: .8rem; border-bottom: 2px solid var(--margin); }
+
+.series { font: 700 .95rem/1.2 var(--label); color: var(--accent); letter-spacing: .06em; text-transform: uppercase; overflow-wrap: anywhere; }
+.draft { justify-self: start; font-size: .8rem; font-weight: 600; color: var(--muted); border: 1px dashed var(--border); border-radius: 999px; padding: 2px 10px; background: var(--surface); }
+.lede { font-size: 1.08rem; }
+.facts { display: flex; flex-wrap: wrap; gap: .5rem 1.75rem; margin: 0; padding-top: .8rem; border-top: 1px solid var(--border); }
+.facts div { display: grid; gap: .05rem; }
+.facts dt { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+.block { display: grid; gap: .65rem; min-width: 0; }
+
+.kinds { display: grid; grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr)); gap: .7rem; }
+.kind { display: grid; gap: .3rem; padding: .8rem .95rem; border: 1px solid var(--border); border-radius: 10px; background: var(--code-bg); min-width: 0; }
+.kind strong { display: flex; align-items: center; gap: .5rem; }
+.swatch { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+.sw-good { background: var(--good); }
+.sw-bad { background: var(--bad); }
+.sw-tough { background: var(--tough); }
+
+.versions { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.versions li { display: grid; grid-template-columns: 8.5rem 1fr; gap: .25rem 1rem; align-items: baseline; }
+.versions li > span { font-weight: 600; }
+.versions code { display: block; padding: .45rem .6rem; border-radius: 8px; }
+.copy-btn { display: block; margin-top: .4rem; padding: .2rem .7rem; font: 600 .78rem/1.4 var(--sans); color: var(--accent); background: transparent; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.copy-btn:hover { border-color: var(--accent); }
+@media (max-width: 34rem) { .versions li { grid-template-columns: 1fr; } }
+
+.models { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; margin: 0; padding: 0; }
+.models li { border: 1px solid var(--border); border-radius: 999px; padding: .15rem .7rem; font-size: .9rem; background: var(--code-bg); }
+.models li b { font-weight: 600; color: var(--muted); }
+
+.marks { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.marks li { display: grid; grid-template-columns: 1.6rem 1fr; gap: .6rem; align-items: start; }
+.marks li > div { min-width: 0; }
+.mark { font-weight: 700; font-size: 1.1rem; line-height: 1.45; text-align: center; }
+.m-right { color: var(--good); }
+.m-wrong { color: var(--bad); }
+.m-none { color: var(--none); }
+.marks em { font-style: normal; font-weight: 600; }
+
+.gloss { display: grid; grid-template-columns: 7.5rem 1fr; gap: .55rem 1.2rem; margin: 0; }
+.gloss dt { font-weight: 600; }
+.gloss dd { margin: 0; min-width: 0; }
+@media (max-width: 34rem) { .gloss { grid-template-columns: 1fr; gap: .1rem; } .gloss dd { margin-bottom: .5rem; } }
+
+.chip { display: inline-flex; align-items: center; gap: .45rem; font-size: .8rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.chip .id { font: 700 .8rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+/* a question's card: its kind is the heading, with the colour block; the plan or decision is the line under it */
+.kind-h { display: flex; align-items: center; gap: .55rem; }
+.kind-h .swatch { width: 1.05rem; height: 1.05rem; border-radius: 3px; }
+.kind-h .id { font: 700 .95rem/1 var(--label); letter-spacing: 0; color: var(--muted); }
+.plan { margin: 0; font-size: 1.12rem; font-weight: 600; line-height: 1.4; text-wrap: balance; }
+.plan .k { font: 700 .76rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.analogy { display: grid; gap: .3rem; padding: .8rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; }
+.analogy .label { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+
+.prompt { display: grid; gap: .6rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; font: .9rem/1.55 var(--mono); font-variant-ligatures: none; overflow-wrap: anywhere; }
+.prompt .k { font: 700 .72rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.prompt ol { margin: 0; padding-left: 1.4rem; display: grid; gap: .3rem; }
+
+.evidence { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+.evidence li { display: grid; gap: .2rem; padding-left: .9rem; border-left: 2px solid var(--border); min-width: 0; }
+.evidence q { font: .86rem/1.5 var(--mono); quotes: none; overflow-wrap: anywhere; font-variant-ligatures: none; }
+.evidence .src { font: .76rem/1.4 var(--mono); color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .93rem; }
+th, td { text-align: right; padding: .4rem .7rem; border-bottom: 1px solid var(--border); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+/* the test's results table: its row labels wrap and its cells are a little tighter, so it fits the card without a
+   sideways scroll on a computer */
+.results th, .results td { padding-inline: .55rem; }
+.results th[scope=row] { white-space: normal; }
+thead th { font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+caption { caption-side: bottom; text-align: left; padding-top: .45rem; font: .76rem/1.4 var(--mono); color: var(--muted); }
+
+figure { margin: 0; display: grid; gap: .5rem; }
+figcaption { font-size: .92rem; color: var(--muted); }
+.chart svg { display: block; width: 100%; min-width: 32rem; height: auto; }
+.chart .zone { fill: var(--cut); }
+.chart .cutline { stroke: var(--bad); stroke-width: 2; stroke-dasharray: 5 4; }
+.chart .guide { stroke: var(--border); stroke-width: 1; }
+.chart .axis { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--dot); stroke: var(--surface); stroke-width: 2; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 13px; }
+.chart .strong { fill: var(--text); font-weight: 600; }
+
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: .7rem; }
+.side { display: grid; gap: .45rem; padding: .85rem 1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; min-width: 0; }
+.side h4 { margin: 0; font-size: 1.1rem; }
+.side dl { margin: 0; display: grid; grid-template-columns: 1fr auto; gap: .3rem .75rem; font-variant-numeric: tabular-nums; }
+.side dt { color: var(--muted); }
+.side dd { margin: 0; text-align: right; font-weight: 600; }
+
+.voice { margin: 0; display: grid; gap: .55rem; padding: 1rem 1.1rem; background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; }
+.voice p { font-size: 1.04rem; }
+.voice footer { font-size: .85rem; color: var(--muted); }
+
+.note { font-size: .93rem; color: var(--muted); }
+.note strong { color: var(--text); }
+.scope { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.scope li { padding-left: .9rem; border-left: 2px solid var(--border); }
+.pending { border-style: dashed; box-shadow: 0 0 22px 12px var(--wash); }
+.colophon { justify-self: center; font-size: .85rem; color: var(--muted); background: var(--wash); box-shadow: 0 0 16px 10px var(--wash); padding: .2rem .6rem; text-align: center; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* linked sources, the time-limit chart, side-by-side code and lists */
+.evidence a.src, .side a.src { font: .76rem/1.4 var(--mono); color: var(--accent); overflow-wrap: anywhere; }
+.chart .limit { stroke: var(--text); stroke-width: 1.5; }
+.chart .val { fill: var(--text); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.side code { display: block; white-space: pre-wrap; padding: .5rem .6rem; border-radius: 8px; font-size: .8rem; background: var(--surface); }
+.side { align-content: start; }
+.side ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .35rem; align-content: start; }
+/* results: the mark grids (tools/card-results.mjs) and the replies */
+.grids { display: grid; gap: 1.2rem; margin-top: .6rem; }
+.marks-grid caption { caption-side: top; padding: 0 0 .4rem; font-family: var(--sans); font-size: .85rem; font-weight: 600; color: var(--text); }
+.marks-grid td, .marks-grid th[scope="col"] { text-align: center; }
+.marks-grid th[scope="row"] { text-align: left; font-weight: 600; }
+.marks-grid .where { display: block; font-size: .72rem; font-weight: 400; color: var(--muted); }
+.marks-grid .total th, .marks-grid .total td { font-weight: 700; border-top: 2px solid var(--border); }
+.marks-grid sup { color: var(--muted); }
+h3 .qkind { margin-left: .4rem; color: var(--muted); }
+.replies { margin-top: .8rem; }
+.replies summary { cursor: pointer; font-weight: 600; }
+.reply-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: .8rem; margin-top: .6rem; }
+.reply-cols h4 { margin: 0 0 .3rem; font-size: .95rem; }
+pre.reply { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: .8rem/1.45 var(--mono); background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: .7rem; max-height: 32rem; overflow: auto; }
+</style>
+
+<main class="wrap">
+
+<header class="masthead">
+  <p class="series">Free-public-tools · Decision-challenge test</p>
+  <h1>role-aware-dashboard-toolkit test cards</h1>
+  <p class="lede">Three questions from role-aware-dashboard-toolkit, each put to seven AI models three ways. Each card shows the exact words the models get, the lines in the repo that decide the answer, and how each reply is marked. It was all written before any model answered, except the changes dated in the notes on this page.</p>
+  <dl class="facts">
+    <div><dt>Repo</dt><dd><a href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit">role-aware-dashboard-toolkit</a></dd></div>
+    <div><dt>Snapshots</dt><dd>10, 12 and 13 Oct 2026</dd></div>
+    <div><dt>Questions</dt><dd>3</dd></div>
+    <div><dt>Status</dt><dd>Run and marked, 14 Oct 2026</dd></div>
+  </dl>
+</header>
+
+<section class="card" id="how" aria-labelledby="how-h">
+  <div class="card-head"><h2 id="how-h">How the test works</h2></div>
+
+  <div class="block">
+    <h3>Three kinds of question</h3>
+    <div class="kinds">
+      <div class="kind"><strong><span class="swatch sw-good" aria-hidden="true"></span>Good plan</strong><p>The repo's own files back the plan. The right reply is yes, go ahead.</p></div>
+      <div class="kind"><strong><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan</strong><p>The repo's own files sink the plan. The right reply is no, with the reason.</p></div>
+      <div class="kind"><strong><span class="swatch sw-tough" aria-hidden="true"></span>Tough call</strong><p>All the facts are in the repo and both choices hold up. The right reply says it's close and helps you weigh it.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>Three versions of every question</h3>
+    <p>Each model gets each question three times, in a fresh session each time. Only the first message changes.</p>
+    <ul class="versions">
+      <li><span>Plain request</span><code>Challenge this decision before we lock it in: [decision].</code></li>
+      <li><span>Short prompt<button type="button" class="copy-btn" data-copy>Copy</button></span><code>Challenge this decision before we lock it in: [decision]. Read the project files it depends on, and end with a verdict: stay, pivot or split.</code></li>
+      <li><span>The command</span><code>/decision-challenge [decision]</code></li>
+    </ul>
+    <p>Then every version gets the same <strong>second message</strong>: the user's priorities, each marked HIGH, MEDIUM or LOW, ending with "Go on." The reply that's marked is the AI's answer to that second message.</p>
+    <p class="note"><strong>What that second message means.</strong> In real use, nobody sends their priorities to a plain request unless it asks for them; only the command asks. So this test compares how the three versions reason when they get the same information, which is generous to the two without the command. As a second reading, decided after the runs, I also marked the first reply of those two versions on its own, where a real conversation would usually stop.</p>
+    <script>
+    // Copy: the prompt exactly as shown beside the button; the clipboard, else the older copy command, else the text selected
+    for (const b of document.querySelectorAll('[data-copy]')) b.addEventListener('click', async () => {
+      const code = b.closest('li').querySelector('code'), say = (t) => { b.textContent = t; setTimeout(() => { b.textContent = 'Copy'; }, 1800); };
+      try { await navigator.clipboard.writeText(code.textContent); return say('Copied'); } catch (e) {}
+      const r = document.createRange(); r.selectNodeContents(code); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      try { if (document.execCommand('copy')) return say('Copied'); } catch (e) {}
+      say('Selected: copy it');
+    });
+    </script>
+    <p class="note"><strong>Why a short-prompt version?</strong> It asks for two of the command's moves, reading the files and ending with a verdict, in a prompt anyone can type. If it does as well as the command, the results say so, and you can use the prompt.</p>
+  </div>
+
+  <div class="block">
+    <h3>Seven models, one run each</h3>
+    <ul class="models">
+      <li><b>Claude Code</b> Opus</li>
+      <li><b>Claude Code</b> Sonnet</li>
+      <li><b>Claude Code</b> Haiku</li>
+      <li><b>Copilot</b> GPT-5 mini</li>
+      <li><b>Copilot</b> GPT-6 Luna</li>
+      <li><b>Copilot</b> MAI-Code 1.1 Flash</li>
+      <li><b>Copilot</b> Gemini 3.8 Flash</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How a reply is marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right call.</em> What counts is written on each card.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong call.</em> The wrong side, or treating a settled question as open, or an open one as settled.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call.</em> No verdict, or pros and cons with no help deciding.</div></li>
+    </ul>
+    <p>A few rules hold on every card. On a Bad plan, a ✓ needs the real reason, not a general warning. On a Good or Bad plan, a middle way or "run a test first" is ✗ when the files already settle it. On a Tough call, a lean either way can earn ✓, and so can a middle way argued as a trade. Each turn has a 30-minute limit; a reply cut off by it is marked on what it had said by then.</p>
+  </div>
+
+  <div class="block">
+    <h3>Who marks the replies</h3>
+    <p>Two AI models mark every reply, each on its own: Claude Sonnet and GPT-6 Luna. They aren't told which version or model wrote it, but what the user typed shows the version, and the agent's tool-call style can show whether it ran in Claude Code or Copilot. Where they disagree, Claude Opus decides, also without being told. I marked 15 Tough-call replies myself, shuffled and without names, starting with ones the two markers disagreed on.</p>
+  </div>
+</section>
+
+<section class="card" id="repo-roleaware" aria-labelledby="repo-roleaware-h">
+  <div class="card-head"><h2 id="repo-roleaware-h">The repo: role-aware-dashboard-toolkit</h2></div>
+  <p>role-aware-dashboard-toolkit is a Python toolkit I build for internal dashboards, where what each person can see and change depends on their role, such as Admin or Viewer. It comes with sign-in, a shared switch that freezes changes, saved profiles and an audit history.</p>
+  <p>role-aware-dashboard-toolkit is <a href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit">public</a>, so each card links the lines it quotes, as they stood on the day of that card's snapshot.</p>
+  <div class="block">
+    <h3>Words you'll see</h3>
+    <dl class="gloss">
+      <dt>Role</dt><dd>Admin, Viewer and so on. Each role can see and change different things.</dd>
+      <dt>Grant, revoke</dt><dd>Giving someone a role, or taking it away.</dd>
+      <dt>Access database</dt><dd>The file that lists who has which role.</dd>
+      <dt>Freeze</dt><dd>A shared switch that stops changes. It doesn't stop anyone viewing.</dd>
+      <dt>Restore</dt><dd>Putting back an older copy of a file from a backup.</dd>
+      <dt>Pull request</dt><dd>A proposed change to the code, checked before it's merged.</dd>
+      <dt>Checks</dt><dd>Tests that run automatically on every pull request, on machines rented from GitHub.</dd>
+      <dt>ID</dt><dd>A scrambled code for each person. It hides the name but still counts as personal data.</dd>
+    </dl>
+  </div>
+</section>
+
+<article class="card" id="r1" aria-labelledby="r1-h r1-t">
+  <div class="card-head">
+    <h2 id="r1-h" class="kind-h"><span class="swatch sw-bad" aria-hidden="true"></span>Bad plan <span class="id">R1</span></h2>
+    <p class="plan" id="r1-t"><span class="k">The plan:</span> Keep the dashboard running, with freeze on, during a restore</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>When the access database has to be restored from a backup, the plan is to keep the dashboard running with freeze switched on until the restore is done and checked, instead of taking it offline.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a bad plan</h3>
+    <p>Two facts in the repo combine. Freeze stops changes, but it never stops anyone viewing. And a restore brings back the backup's list of who has access, including people removed since the backup was made. The toolkit reads that list fresh on every request, so their access works again at once. While the restore is being checked, removed people can view protected data. If the backup was taken with freeze off, the restore switches freeze off too.</p>
+    <div class="scroll">
+      <table>
+        <caption>During the restore, with freeze on (role_aware_dashboard_toolkit/access.py:161; resources/guides/authentication.md:160–161)</caption>
+        <thead><tr><th scope="col">Who</th><th scope="col">Change things</th><th scope="col">View protected data</th></tr></thead>
+        <tbody>
+          <tr><td>The current team</td><td>Blocked</td><td>Allowed</td></tr>
+          <tr><td>People removed since the backup</td><td>Blocked</td><td>Allowed</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>You restore a shared folder from last month's backup. Its sharing list comes back too, including the people you removed this month. Switching the folder to "view only" stops anyone editing, but it doesn't stop those people opening it and reading everything. Last month's copy might not even be set to view only. The safe move is to keep the folder closed until you've rechecked who it's shared with.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>When we restore the dashboard's access database from a backup, keep the dashboard running with freeze switched on until the restore is done and the grants are checked, instead of taking it offline.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>Only the right people can see the dashboard, throughout (HIGH).</li>
+        <li>The team can keep viewing it during a restore (MEDIUM).</li>
+        <li>Nobody changes anything mid-restore (MEDIUM).</li>
+        <li>The restore steps stay short (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <ul class="evidence">
+      <li><q>Check assigned role and host role definition; writes also check freeze. … return not write or not freeze.frozen</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/fb7e531c6627427c3ea1903351646c5d7dffce46/role_aware_dashboard_toolkit/access.py#L149-L161">role_aware_dashboard_toolkit/access.py:149, 161</a><span>Only changes check freeze. Viewing is allowed whatever freeze says.</span></li>
+      <li><q>Freeze blocks protected mutations, including Admin mutations, while its administrator can still unfreeze.</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/fb7e531c6627427c3ea1903351646c5d7dffce46/role_aware_dashboard_toolkit/resources/guides/authentication.md?plain=1#L127-L129">resources/guides/authentication.md:127–129</a><span>The guide says the same: freeze is about changes ("mutations").</span></li>
+      <li><q>Backup restoration can restore revoked grants and old freeze state</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/fb7e531c6627427c3ea1903351646c5d7dffce46/role_aware_dashboard_toolkit/resources/guides/authentication.md?plain=1#L160-L161">authentication.md:160–161</a><span>A restore brings back removed access, and the old freeze setting.</span></li>
+      <li><q>The database stores keyed opaque principal IDs, role names, and current freeze revision/actor.</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/fb7e531c6627427c3ea1903351646c5d7dffce46/role_aware_dashboard_toolkit/resources/guides/authentication.md?plain=1#L155-L156">authentication.md:155–156</a><span>The freeze setting lives in the same file that gets restored.</span></li>
+      <li><q>No cached grants.</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/fb7e531c6627427c3ea1903351646c5d7dffce46/role_aware_dashboard_toolkit/access_store.py#L186">role_aware_dashboard_toolkit/access_store.py:186</a><span>The list is read fresh each time, so restored access works on the next request.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says no, and gives the reason: freeze blocks changes but not viewing, and the restore brings back access removed since the backup, so removed people can view protected data while the dashboard stays up. A safer way to keep it running, such as restoring a copy and checking it before swapping it in, also counts if it gives that reason.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> goes ahead, splits it, asks for a test first, or says no only out of general caution.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> freeze is the toolkit's own switch for pausing work, and a restore is short.<br><strong>The counterargument:</strong> freeze never blocks viewing, restored access works at once, and the restore can switch freeze back off.</p>
+  <p class="note"><strong>Removed from the models' copy:</strong> two sentences that told the reader to review access before reopening. The section on how the copy was made lists them.</p>
+  <p class="note"><strong>What I actually did:</strong> 47 minutes later, I added to the guide "Keep the dashboard offline throughout restoration" and "Freeze alone still permits reads."</p>
+</article>
+
+<article class="card" id="r2" aria-labelledby="r2-h r2-t">
+  <div class="card-head">
+    <h2 id="r2-h" class="kind-h"><span class="swatch sw-good" aria-hidden="true"></span>Good plan <span class="id">R2</span></h2>
+    <p class="plan" id="r2-t"><span class="k">The plan:</span> Test every pull request on Windows</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The quick start tells people to open PowerShell and uses Windows paths, so the toolkit is written for Windows users. But the checks that run on every pull request use Linux only. Windows gets tested once, in a release run I approve by hand, and that run covers 4 of the 102 test files.</p>
+  </div>
+
+  <div class="block">
+    <h3>Why it's a good plan</h3>
+    <p>Problems that only show on Windows wait until release to be found. Three tests are marked to run only on Windows, so no pull request ever runs them, and new Windows-specific code had gone in that same day. Adding a Windows job with the full test suite to the pull-request checks closes the gap. The plan keeps it to one Python version.</p>
+    <div class="scroll">
+      <table>
+        <caption>.github/workflows/contributor-ci.yml:3–4, 22, 27; .github/workflows/ci.yml:642–661</caption>
+        <thead><tr><th scope="col">Check</th><th scope="col">Runs</th><th scope="col">Machine</th><th scope="col">Tests</th></tr></thead>
+        <tbody>
+          <tr><td>Pull-request checks</td><td>Every pull request</td><td>Linux</td><td>All, Python 3.10–3.12</td></tr>
+          <tr><td>Release run, Windows part</td><td>Once, approved by hand</td><td>Windows</td><td>4 of 102 files, Python 3.11</td></tr>
+          <tr><td>Added by the plan</td><td>Every pull request</td><td>Windows</td><td>All, one Python version</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>An app's setup guide is written for iPhone users, but the team tests every update on Android only. Just before release, someone checks four screens on an iPhone. Features that only exist on iPhone don't get tested on any update. The plan: test every update on an iPhone too.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Add a Windows job to our pull-request checks that runs the full test suite on one Python version, so every pull request is tested on Windows as well as Linux before it merges.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>The toolkit works for Windows users; the README's quick start is written for them, in PowerShell (HIGH).</li>
+        <li>Catch Windows breakage when a pull request is opened, not at release (MEDIUM).</li>
+        <li>Keep the checks' time and cost modest (LOW).</li>
+        <li>Effort to set it up (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence that decides it</h3>
+    <ul class="evidence">
+      <li><q>on: pull_request: … runs-on: ubuntu-latest</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/2868032294cd60700b2cc6be84207d4a0463d1b3/.github/workflows/contributor-ci.yml#L3-L27">.github/workflows/contributor-ci.yml:3–4, 22</a><span>Every pull request is checked on Linux only.</span></li>
+      <li><q>No hosted run is authorized unless the owner opts in this exact commit. … runs-on: windows-latest … python -m pytest tests/test_path_redaction.py tests/test_permission_boundaries.py tests/test_review_identifier_regressions.py tests/test_store_identifier_contract.py</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/2868032294cd60700b2cc6be84207d4a0463d1b3/.github/workflows/ci.yml#L642-L661">.github/workflows/ci.yml:643–661</a><span>Windows runs only in the release run I approve by hand, on 4 test files.</span></li>
+      <li><q>and open PowerShell in its root directory.</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/2868032294cd60700b2cc6be84207d4a0463d1b3/README.md?plain=1#L63-L67">README.md:63</a><span>The quick start is written for Windows.</span></li>
+      <li><q>@pytest.mark.skipif(os.name != "nt", reason="NTFS permits legacy names exceeding 255 UTF-8 bytes")</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/2868032294cd60700b2cc6be84207d4a0463d1b3/tests/test_review_identifier_regressions.py#L103">tests/test_review_identifier_regressions.py:103</a><span>One of three tests that run only on Windows (also lines 124 and 198), so no pull request runs them.</span></li>
+      <li><q>Windows can report ENOENT when an existing ancestor is a regular file.</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/2868032294cd60700b2cc6be84207d4a0463d1b3/role_aware_dashboard_toolkit/store_diagnostics.py#L105-L106">role_aware_dashboard_toolkit/store_diagnostics.py:106</a><span>Windows-specific code, added that day.</span></li>
+      <li><q>required Linux and Windows jobs and every required step pass for the exact final release commit</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/2868032294cd60700b2cc6be84207d4a0463d1b3/docs/release_checklist.md?plain=1#L151-L152">docs/release_checklist.md:151–152</a><span>A release needs Windows to pass, but Windows is only checked at the end.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says go ahead. "Yes, and add macOS too" also counts, and so does "yes, add it as a non-blocking check first, then make it required".</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> says no, settles for a small Windows smoke test, or says to wait.</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>The best case against this answer:</strong> a small Windows smoke test is enough, and cheaper.<br><strong>The counterargument:</strong> the repo already has one: 4 of 102 test files, run only at release. Meanwhile the quick start sends users to Windows from day one.</p>
+  <p class="note"><strong>Close to certain, not certain:</strong> the repo was still private, so Windows test machines weren't free, and the repo has no numbers on the cost. A reviewer could say to wait until it's public. The question keeps it to one Python version and ranks cost LOW, and the results show whether the models split on it.</p>
+  <p class="note"><strong>What I actually did:</strong> the next morning I added exactly this, on Python 3.11. Within seven hours it caught two tests that didn't hold on Windows: problems in the tests, not in the toolkit.</p>
+  <p class="note"><strong>Changed 14 Oct, after a dry run and before any counted run:</strong> the first priority said "our quick start", which sent some replies to a different quick-start page that never mentions Windows. A fourth priority was added, because the command asks for four to six and, given three, one model stopped to ask for another. The models' copy also changed (see the end of this page): replies had been reading "the test suite already fails" as a reason to wait, from a failure the copy itself caused. The marking now also counts "yes, add it as a non-blocking check first, then make it required" as right.</p>
+</article>
+
+<article class="card" id="r3" aria-labelledby="r3-h r3-t">
+  <div class="card-head">
+    <h2 id="r3-h" class="kind-h"><span class="swatch sw-tough" aria-hidden="true"></span>Tough call <span class="id">R3</span></h2>
+    <p class="plan" id="r3-t"><span class="k">The decision:</span> Should the access command keep its own history?</p>
+  </div>
+
+  <div class="block">
+    <h3>What it's about</h3>
+    <p>The access command is how an operator gives someone a role or takes it away. It keeps only the current list. The guides ask three times for a protected record of every grant and removal, because checking a restored backup needs one. Without that record, the restore steps say to keep the dashboard closed. Nothing in the toolkit makes that record, so the operator has to keep one by hand. The plan: have the command write it.</p>
+  </div>
+
+  <div class="block">
+    <h3>The trade-off</h3>
+    <div class="compare">
+      <div class="side">
+        <h4>For the command keeping it</h4>
+        <ul>
+          <li>The record the guides ask for exists, so a restore can be checked.</li>
+          <li>Fewer manual steps for the operator.</li>
+        </ul>
+      </div>
+      <div class="side">
+        <h4>Against</h4>
+        <ul>
+          <li>It keeps the IDs of everyone ever removed, while the guide says to keep personal data only as long as needed.</li>
+          <li>Access granted another way, through the store directly, would be missing from it.</li>
+          <li>Kept beside the database, the history gets rolled back by the same restore it's meant to check.</li>
+          <li>The command doesn't know who ran it.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <aside class="analogy">
+    <p class="label">Think of it like this</p>
+    <p>A club keeps only its current membership list. The rules say that after restoring the list from a backup, you check it against a log of every join and every cancellation. The club keeps no such log, so the secretary keeps one by hand. Should the sign-up desk write the log automatically? It would save the secretary work and make the check possible. But the log would keep the names of everyone who ever left, forever, when the rules say to keep personal details only as long as needed. It would miss members added through the back office. And if it sits in the same filing cabinet as the list, restoring the cabinet from backup rolls the log back too.</p>
+  </aside>
+
+  <div class="block">
+    <h3>The question, word for word</h3>
+    <div class="prompt">
+      <p class="k">Decision</p>
+      <p>Make access_cli's grant and revoke commands add every change (when, which ID, which roles) to an append-only history file, so operators get the record the restore steps ask for instead of keeping one by hand.</p>
+      <p class="k">Priorities (second message)</p>
+      <ol>
+        <li>After a backup restore, no removed person gets access back (HIGH).</li>
+        <li>Keep personal data to the minimum (HIGH).</li>
+        <li>Fewer manual steps for operators (MEDIUM).</li>
+        <li>Keep the access store and the command small (LOW).</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="block">
+    <h3>The evidence on both sides</h3>
+    <ul class="evidence">
+      <li><q>Keep a protected record of grant/revocation changes; the current access database row and session-local audit are not a complete durable administrative history.</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/9a4bf0f00aa01d885dcf15a80dd4a403e8310c9a/role_aware_dashboard_toolkit/resources/guides/deployment.md?plain=1#L158-L160">resources/guides/deployment.md:158–160</a><span>The guide asks for a record.</span></li>
+      <li><q>reconcile every restored grant against the current protected record of grants and revocations … If that record is missing or incomplete, keep access closed until the intended grants can be established.</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/9a4bf0f00aa01d885dcf15a80dd4a403e8310c9a/role_aware_dashboard_toolkit/resources/guides/authentication.md?plain=1#L267-L271">resources/guides/authentication.md:267–271</a><span>Without the record, a restore keeps everyone locked out.</span></li>
+      <li><q>store.replace_grants(principal, args.role if args.command == "grant" else ()) … print("Role assignments updated." …</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/9a4bf0f00aa01d885dcf15a80dd4a403e8310c9a/role_aware_dashboard_toolkit/access_cli.py#L319-L320">role_aware_dashboard_toolkit/access_cli.py:319–320</a><span>The command replaces the list and prints a line. It records nothing.</span></li>
+      <li><q>Opaque IDs are still linkable personal data, not anonymization. Protect the database, key and backups, retain them only as needed</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/9a4bf0f00aa01d885dcf15a80dd4a403e8310c9a/role_aware_dashboard_toolkit/resources/guides/authentication.md?plain=1#L262-L264">authentication.md:262–264</a><span>The other side: these IDs are personal data, kept only as long as needed.</span></li>
+      <li><q>PRAGMA secure_delete = ON</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/9a4bf0f00aa01d885dcf15a80dd4a403e8310c9a/role_aware_dashboard_toolkit/access_store.py#L325">role_aware_dashboard_toolkit/access_store.py:325</a><span>The database overwrites deleted data on disk instead of leaving it behind.</span></li>
+      <li><q>custom-role provisioning can use the store API</q><a class="src" href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/blob/9a4bf0f00aa01d885dcf15a80dd4a403e8310c9a/role_aware_dashboard_toolkit/resources/guides/authentication.md?plain=1#L177-L178">authentication.md:177–178</a><span>Access can also be granted without the command, so a history kept by the command would have gaps.</span></li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>How replies are marked</h3>
+    <ul class="marks">
+      <li><span class="mark m-right" aria-hidden="true">✓</span><div><em>Right:</em> says it's close; names the trade (a record that makes the restore check possible and saves work, against keeping removed people's IDs and a record with gaps); names at least one thing it hinges on, such as whether the history lives apart from what gets restored, whether operators already keep this record somewhere else, or logging in the command versus in the store; and either leans one way for a stated reason or says what would settle it.</div></li>
+      <li><span class="mark m-wrong" aria-hidden="true">✗</span><div><em>Wrong:</em> treats either side as obvious. "The guides require it, so build it." "Never keep personal data you don't need."</div></li>
+      <li><span class="mark m-none" aria-hidden="true">–</span><div><em>No call:</em> pros and cons with no lean and nothing that would settle it, or no verdict.</div></li>
+    </ul>
+  </div>
+  <p class="note"><strong>What I actually did:</strong> nothing yet. This one is still open in my repo, so there's no real choice to compare the replies with.</p>
+  <p class="note"><strong>Checked before this repo's main runs:</strong> the plain-request version ran first on all 7 models. If all 7 had landed on the same side, the question would have been rebuilt. They didn't: 4 said go ahead, 2 took a middle way and 1 said don't.</p>
+</article>
+
+<section class="card" id="scope" aria-labelledby="scope-h">
+  <div class="card-head"><h2 id="scope-h">What these numbers do and don't say</h2></div>
+  <ul class="scope">
+    <li>Everything on these cards comes from the repo's own files at each snapshot. Nothing here was measured for the test.</li>
+    <li>The marking scheme was written with the questions, before any run. Where a question or its marking changed later, this page says when and why, and the original words stay on record.</li>
+    <li>A ✓ means a reply made the right call on this question. Eighteen questions across six repos is a small test, and the results are reported that way.</li>
+  </ul>
+</section>
+
+<section class="card" id="copy" aria-labelledby="copy-h">
+  <div class="card-head"><h2 id="copy-h">How the models' copy was made</h2></div>
+  <p>Each card uses the repo as it stood at its own moment, before that question's answer was written down. The same copy goes to every model and every version, and we remove only what's listed here. The <code>AGENTS.md</code> file at the top stays: it's one of the toolkit's public documents, its own tests check for it, and it holds general working rules, nothing about these questions. One AI tool reads it as instructions, as it would for anyone working in this repo. The <code>AGENTS.md</code> files inside the toolkit's two starter projects stay too, because they ship as part of the product. (Until the dry run of 14 Oct the top <code>AGENTS.md</code> was removed, which made the toolkit's own tests fail in the models' copy.)</p>
+  <div class="block">
+    <h3>R1: 10 Oct 2026 (commit <a href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/tree/fb7e531c6627427c3ea1903351646c5d7dffce46"><code>fb7e531</code></a>)</h3>
+    <ul class="scope">
+      <li>The copy: 237 files, with about 37,000 lines of code and 4,000 lines of Markdown.</li>
+      <li>47 minutes before the guide said to keep the dashboard offline during a restore.</li>
+      <li>Two sentences that told the reader to review access before reopening: "review both before reopening access" (<code>resources/guides/authentication.md</code>, line 161) and "operators must review both before serving requests after recovery" (<code>access_store.py</code>, lines 177–178). The facts around them stay.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>R2: 12 Oct 2026 (commit <a href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/tree/2868032294cd60700b2cc6be84207d4a0463d1b3"><code>2868032</code></a>)</h3>
+    <ul class="scope">
+      <li>The copy: 277 files, with about 47,000 lines of code and 5,200 lines of Markdown.</li>
+      <li>The evening before the Windows job was added.</li>
+      <li>Nothing else removed.</li>
+    </ul>
+  </div>
+  <div class="block">
+    <h3>R3: 13 Oct 2026 (commit <a href="https://github.com/Mike-Byrne-AI/role-aware-dashboard-toolkit/tree/9a4bf0f00aa01d885dcf15a80dd4a403e8310c9a"><code>9a4bf0f</code></a>)</h3>
+    <ul class="scope">
+      <li>The copy: 315 files, with about 56,000 lines of code and 5,800 lines of Markdown.</li>
+      <li>The latest commit. Nothing in the history decides this question.</li>
+      <li>Nothing else removed.</li>
+    </ul>
+  </div>
+  <p class="note">Lines of code count every line in the copy's code files, tests and any bundled libraries included.</p>
+</section>
+
+<section class="card" id="results" aria-labelledby="results-h">
+  <div class="card-head"><h2 id="results-h">Results</h2></div>
+  <p>Run on 14 Oct 2026, one run per model and version: ✓ right, ✗ wrong, – no call. The first grid is the planned reading, where every version got my priorities. The second is a reading decided after the runs, where the short prompt and the plain request are marked on their first reply, where a real conversation would usually stop; only the command asks for priorities. The command's runs are the same in both grids, marked again for the second, so a few of their marks differ. A mark with * is mine, given without knowing the version or model; my marks count only in the first grid.</p>
+  <div class="block">
+    <h3>R1: Keep the dashboard running, with freeze on, during a restore <span class="qkind">Bad plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>5 of 7</td><td>5 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>7 of 7</td><td>5 of 7</td><td>5 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Step 1 — Criteria (fixed)
+
+| # | Criterion | Weight |
+|---|---|---|
+| 1 | Only the right people can see the dashboard, throughout | HIGH |
+| 2 | The team can keep viewing it during a restore | MEDIUM |
+| 3 | Nobody changes anything mid-restore | MEDIUM |
+| 4 | The restore steps stay short | LOW |
+
+## Step 2 — Alternatives
+
+**ALTERNATIVE A: Offline restore**
+- **CORE DIFFERENCE:** The app is stopped, so nothing reads the store while it is replaced.
+- **SKELETON:**
+  ```powershell
+  # 1. Stop the Streamlit process for this dashboard
+  # 2. Copy-Item $backup &quot;$accessDirectory\access.sqlite3.restore&quot;
+  # 3. Make sure no access.sqlite3-journal file remains
+  # 4. Move-Item -Force access.sqlite3.restore access.sqlite3
+  # 5. Open SQLiteAccessStore to validate the schema (it fails closed if invalid)
+  # 6. Check the grants: re-run access_cli revoke/grant for accounts changed since the backup
+  # 7. Set the freeze state on purpose (compare_and_set_freeze)
+  # 8. python -m streamlit run app.py --secrets.files ...
+  ```
+- **BUYS:** No grant state from the backup is ever served before it's checked.
+- **COSTS:** Nobody can view the dashboard for the whole restore.
+
+**ALTERNATIVE B: Staged restore, then an atomic swap while running**
+- **CORE DIFFERENCE:** The backup is restored and checked in a separate file, and the live file is replaced in one atomic step only after that, so the running app never reads unchecked grants.
+- **SKELETON:**
+  ```powershell
+  # Live app keeps running on the current access.sqlite3; freeze it in the UI or via the store
+  # 1. Copy-Item $backup &quot;$accessDirectory\staging.sqlite3&quot;   # same protected directory
+  # 2. $s = SQLiteAccessStore(&quot;staging.sqlite3&quot;)             # validates the schema
+  # 3. Re-apply revocations/grants made since the backup to $s (access_cli --principal or the store API)
+  # 4. $s.compare_and_set_freeze($true, rev, admin)          # freeze is set on purpose, not inherited
+  # 5. Check the grants in staging (read_grants for each known principal)
+  # 6. Make sure there is no live access.sqlite3-journal
+  # 7. os.replace(staging.sqlite3, access.sqlite3)           # atomic; the next check opens the new file
+  # 8. Unfreeze when ready
+  ```
+- **BUYS:** The team keeps viewing under the current grants, and the restored grants go live only after they're checked.
+- **COSTS:** The most steps. There's no grant-listing command, so checks go one principal at a time. Replacing a file on Windows while it's open can fail and need a retry (SPECULATION, not tested).
+
+## Step 3 — Score (EXPECTED CASE)
+
+| Criterion | Current (running + freeze) | A: Offline | B: Staged swap |
+|---|---|---|---|
+| 1 Right people only (HIGH) | **WEAK**: freeze gates only writes (`access.py:161`), so grants revoked since the backup can read again until someone checks them. | **STRONG**: nobody can read until the grants are checked. | **STRONG**: reads use the current grants until the checked file is swapped in. |
+| 2 Team keeps viewing (MEDIUM) | **STRONG**: the app stays up, apart from brief fail-closed errors while the file is copied. | **WEAK**: the dashboard is down for the whole restore. | **STRONG**: the app stays up on the live store. If the live store is the broken part, it fails closed in every option. |
+| 3 No changes mid-restore (MEDIUM) | **WEAK**: the restore overwrites the freeze row with the backup's value, so an unfrozen backup unfreezes the live app. | **STRONG**: no process is running that could make changes. | **STRONG**: the live freeze stays on and the staging freeze is set on purpose before the swap. |
+| 4 Short steps (LOW) | **ADEQUATE**: freeze, copy, check, unfreeze. | **STRONG**: stop, copy, check, start. | **WEAK**: staging, re-applying grants, setting freeze, checking for a journal file and the swap add steps. |
+
+Fairness check: not triggered. The current approach is WEAK on the only HIGH criterion, where both alternatives are STRONG.
+
+## Step 4 — Verdict
+
+- **VERDICT:** PIVOT to Alternative B. Use Alternative A as the fallback when the live store is already unusable.
+- **CONFIDENCE:** MEDIUM-HIGH
+- **EVIDENCE:** INFERENCE. It comes from reading `access.py:161`, `access_store.py:164-237` and `authentication.md:160-161`. I didn't execute anything.
+- **REASONING:** On criterion 1 (HIGH), the current plan relies on freeze, but freeze only blocks writes. It does nothing about who can *see* the dashboard, and the guide warns that a restore can bring back revoked grants. Because the freeze flag is stored in the file being restored, the plan can also undo its own protection, which hurts criterion 3. B keeps the current plan's benefit (the team keeps viewing) without serving unchecked grants. A is the safest but gives up viewing. None of this relies on charitable scores.
+- **What the original reasoning missed:** It treats freeze as &quot;lock everything&quot;, but in this codebase freeze means &quot;no protected writes&quot;, and its state is replaced along with the database it guards.
+- **What already assumes the old approach:** Nothing in the repo. There's no restore runbook or CLI command, and the docs only warn about the hazard. Any operator notes kept outside this checkout should be checked.
+
+**NEXT SMALLEST MOVE:** Write one focused test (about 30 minutes): with a frozen `SQLiteAccessStore`, revoke a Viewer, copy in a backup taken before the revocation, and assert that the Viewer's protected read (`has_perm`) is allowed again while writes stay denied. That turns this from INFERENCE into FACT before you commit to a procedure. I haven't written or run it; say if you want me to.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">I'll check the two things your criteria depend on: what viewers see when the store is unavailable, and whether the verified copy can be swapped in without stopping the app on Windows.
+# Verdict against your criteria: still split, now refined so the dashboard never goes offline
+
+You ranked &quot;only the right people can see it&quot; highest. That rules out the original plan, because it fails that criterion during the exact window it's meant to cover. The fix is the same as before: check the grants first, then swap. I tested one more thing, and it means the swap probably doesn't need the app stopped. That keeps viewing available too.
+
+## How each plan scores
+
+| Criterion | Original: restore in place, freeze on, check grants after | Split: check a staged copy, then swap it in while running |
+|---|---|---|
+| 1. Only the right people see it (HIGH) | **Fails.** Grants from the backup take effect the moment the file lands. Freeze doesn't block reads, and a restored Admin can unfreeze. | **Passes.** Viewers see either the current grants or the already-checked restored ones, never unchecked grants. |
+| 2. Team keeps viewing (MEDIUM) | Partly. Copying over a database the app keeps opening can fail or corrupt it. Any failure denies everyone. | **Passes**, as long as the hot swap holds up under real load (see below). |
+| 3. Nobody changes anything (MEDIUM) | **Fails** if the backup was taken while unfrozen, because it brings back an unfrozen switch. | **Passes** within freeze's reach (gaps below). |
+| 4. Steps stay short (LOW) | Short. | Longer: about four steps plus a grant comparison. |
+
+The split costs you on your lowest criterion and wins on the other three.
+
+## What I tested
+
+I ran a throwaway script in a temp directory, using system Python (there's no `.venv` here) and plain `sqlite3`, not the library:
+- Atomically replacing the database file **while a connection is open fails** on Windows (`WinError 5`), and the live file is left untouched.
+- The same replace **succeeds once the connection closes**, and the next new connection sees the new data.
+
+The library's store opens a fresh connection for every check and closes it straight away (`access_store.py:212-235`). So a swap that retries on `WinError 5` should land in a gap between checks. A failed attempt is harmless, because the old file stays in place. I didn't test this with Streamlit, multiple workers or real traffic, so check it on staging before relying on it.
+
+One related finding: if the store can't be read, every viewer gets &quot;Access denied&quot; and their session is cleared (`_access_ui.py:26-49`). **If you're restoring because the live database is broken, viewing is already down.** Criterion 2 can't be met in that case, and stopping the app to swap costs you nothing.
+
+## The procedure (PowerShell)
+
+1. **Freeze the live dashboard.** An Admin turns freeze on in the UI. The live database still has the current, correct grants, so viewing carries on (criteria 1 and 2) and writes stop (criterion 3).
+2. **Stage the backup.** Copy it into a new directory with the same permissions, outside any repo. Never edit the backup itself.
+3. **Check the copy, not the live file:**
+   - Open it with `SQLiteAccessStore`, which rejects an unknown schema.
+   - Compare its `grants` against every revocation and role change since the backup date, and fix any differences with `access_cli revoke`/`grant --directory &lt;staging&gt; --principal …`. This only works if staging uses the same `identity.key`; a different key changes every principal ID.
+   - Force freeze on in the copy: `UPDATE freeze_state SET frozen = 1, revision = &lt;live revision + 1&gt;`. Raising the revision past the live one also stops old browser tabs from passing the freeze check.
+4. **Swap atomically** (same volume, so the move is a rename rather than a copy):
+   ```powershell
+   python -c &quot;import os,sys,time;exec('for _ in range(200):\n try: os.replace(sys.argv[1], sys.argv[2]); print(\&quot;swapped\&quot;); break\n except PermissionError: time.sleep(0.05)\nelse: sys.exit(\&quot;not swapped; live store unchanged\&quot;)')&quot; &quot;$staging\access.sqlite3&quot; &quot;$accessDirectory\access.sqlite3&quot;
+   ```
+   Back up the current live file first; the replace removes it. If the retries run out, stop the app for a few seconds and run it again.
+5. **Unfreeze.** An Admin whose grant you checked in step 3 turns freeze off.
+
+## Gaps freeze doesn't cover (criterion 3)
+
+- Operator commands (`access_cli grant`/`revoke`) ignore freeze, so agree that nobody runs them during the restore except the person doing step 3.
+- Host callbacks, plugins and external services are only blocked if they call `can_write` (the authentication guide says so). Anything that skips that check keeps changing things.
+- Work already in progress when freeze turns on isn't cancelled.
+
+## What would change this
+
+- If hot-swapping fails under real load, fall back to a stop of a few seconds for step 4. Criterion 2 then dips briefly, and criterion 1 still holds.
+- If restores are routine, add a `verify-restore`/`swap` command to `access_cli` so these steps become one checked command. That would improve criterion 4, but it's a new public surface that needs tests, so it's out of scope here.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Your four criteria change the answer. The original plan (restore in place while frozen) fails criterion 1, and it fails criterion 3 whenever the backup was taken while the dashboard was unfrozen. Taking the dashboard fully offline passes 1 and 3 but fails 2. A third option, a staged restore, can meet all four, but only in one situation. That situation depends on why you're restoring.
+
+## How each option scores
+
+| | 1. Right people (HIGH) | 2. Team can view (MED) | 3. No changes (MED) | 4. Short steps (LOW) |
+|---|---|---|---|---|
+| **A. Restore in place, frozen** (original plan) | ✗ Accounts revoked since the backup can read again until someone re-checks | ✓ | ✗ If the backup was unfrozen, the app becomes unfrozen when the file lands | ✓ |
+| **B. Offline restore** | ✓ | ✗ | ✓ | ✓ |
+| **C. Staged restore, live app frozen on the current store, then swap** | ✓ only if the current grants are correct | ✓ | ✓ for toolkit-checked writes; the HTTP API and host callbacks need their own stop | ✗ More steps |
+
+## It depends on why you're restoring
+
+- **The current database is missing or corrupt.** The store refuses an unreadable file, so the live app already denies everyone (`access_store.py:214-237`). Criterion 2 can't be met whatever you do, so use **B**. It's the simplest option and loses nothing.
+- **The current grants are wrong** (for example, you're rolling back a bad grant change). Keeping the app live on those grants breaks criterion 1, your top priority. Either revoke the wrong accounts first and then use C, or use **B**.
+- **The current database is fine and you need older contents back.** This is where **C** fits.
+
+## How C would work
+
+1. **Freeze the live app** from the Admin UI. Separately turn off the optional HTTP API and any host callbacks that write. Freeze doesn't cover those (`docs/api_security.md:10`).
+2. **Restore the backup to a staging file** in the same protected directory, for example `access.restore.sqlite3`, with the same permissions. Don't touch `access.sqlite3` yet. The app re-reads that file on every check, so it will start using whatever you put there (`authenticated_starter/app.py:36`).
+3. **Fix up the staging file while nothing reads it:**
+   - Re-apply every revocation and grant change made since the backup. `access_cli` takes `--directory` and always works on `access.sqlite3`, so it can't target the staging file. Use `SQLiteAccessStore(path).replace_grants(...)` from a trusted Python shell instead.
+   - Set freeze on with `compare_and_set_freeze(True, ...)`.
+   - Move the staging file's freeze revision number above the live one. Otherwise an old browser tab could get a stale unfreeze accepted. The public API only adds 1 per change, so toggle freeze until the number is higher and finish on frozen.
+4. **Check the grants.** There's no &quot;list all grants&quot; API or CLI. `read_grants` works one account at a time. You'll need either a list of expected principal IDs to check one by one, or a read-only SQL query on `grants`. Neither is a supported toolkit feature.
+5. **Swap the file in.** Make sure no `access.sqlite3-journal` file exists, then rename the staging file over the live one in a single step (`Move-Item -Force` or `os.replace`). On Windows the rename can fail while a check has the file open, so retry it. If retries won't work, stop the app for a few seconds instead. That's a small breach of criterion 2 and no breach of 1.
+6. **Run the two-account checks** from the authentication guide, then unfreeze through the UI and turn the API and callbacks back on.
+
+Criterion 4 is your lowest priority, so C's longer procedure is a reasonable price. Steps 3 and 4 would need a short reviewed script, because nothing in the toolkit does them today.
+
+## Recommendation
+
+Choose by why you're restoring:
+- Database missing or corrupt: use B.
+- Current grants wrong: use B, or revoke the bad grants and then use C.
+- Database fine, older data needed: use C.
+
+In none of these cases should the restored file go where the running app can read it before its grants and freeze have been checked.
+
+I haven't tested any of this. It comes from reading `access.py`, `access_store.py`, `access_cli.py` and the starter app. If you go with C, I can write the staging and checking script and test it against a scratch store, including the revision bump and the Windows rename retry.</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>GPT-5 mini (Copilot): ✓ command, ✗ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">Step 2 — Alternatives
+
+ALTERNATIVE: Take-dashboard-offline-for-restore  
+CORE DIFFERENCE: Stop serving the dashboard and its API during restore; perform restore on the live DB file while the service is stopped.  
+SKELETON:
+1. Announce maintenance window to operators.
+2. Disable ingress / return 503 on UI and API.
+3. Stop dashboard service/process.
+4. Replace access.sqlite3 from backup.
+5. Run schema/checksum and grants/freeze sanity checks.
+6. Run automated smoke tests (auth, role checks).
+7. Start dashboard service.
+8. Verify operator access and audit logs.
+9. Reopen ingress.
+10. Post-mortem and retain backup copy.
+BUYS: Simple, minimal concurrency risk, straightforward verification.  
+COSTS: Full downtime for viewers and operators; interrupts monitoring and live visibility.
+
+ALTERNATIVE: Restore-to-temp-db-and-atomically-swap (recommended pivot)  
+CORE DIFFERENCE: Restore backup into a temporary DB, validate grants/freeze, then atomically swap the running instance to the validated DB (or update connection pointer) while preserving service availability.  
+SKELETON:
+1. Create temp path access.sqlite3.tmp.
+2. Restore backup into temp file.
+3. Open temp DB read-only and validate schema.
+4. Validate grants against expected admin list and freeze state.
+5. If validation fails, abort and notify operators.
+6. Optionally set temp DB freeze=true for safe swap.
+7. Quiesce writes on current instance (flip in-memory write-policy or signal workers).
+8. Atomically os.replace(temp -&gt; access.sqlite3) or update connection pointer and signal reload.
+9. Verify live role checks and audit sampling.
+10. If OK, resume normal operation; retain preserved backup copy.
+BUYS: Keeps dashboard visible, prevents exposing invalid grants, and isolates validation prior to swap.  
+COSTS: More operational complexity, extra disk space, requires careful atomic swap or connection reload.
+
+Step 3 — EXPECTED CASE scoring (one sentence per cell)
+
+| Option \ Criterion | 1. Only right people can see (HIGH) | 2. Keep viewing during restore (MEDIUM) | 3. Nobody changes mid-restore (MEDIUM) | 4. Restore steps stay short (LOW) |
+|---|---:|---:|---:|---:|
+| Current (freeze ON, keep running) | WEAK — backups can restore old grants/freeze and re-enable unauthorized access. | STRONG — dashboard stays live for viewing. | ADEQUATE — freeze blocks protected writes but admin/unfreeze or race conditions may allow changes. | ADEQUATE — avoids downtime but adds verification steps. |
+| Take-offline | STRONG — no one can access while offline. | WEAK — viewing is unavailable. | STRONG — impossible to change while offline. | STRONG — simple, fast restore with fewer coordination steps. |
+| Restore-to-temp-and-swap | STRONG — validate grants before swap so only intended principals get access. | STRONG — dashboard remains viewable through the process. | STRONG — validated and freeze-controlled swap prevents mid-restore mutations. | ADEQUATE — extra steps increase elapsed time vs. direct overwrite. |
+
+Fairness check: not triggered (the current approach is weaker on the single HIGH criterion, so alternatives are not artificially weakened).
+
+Step 4 — Verdict
+- VERDICT: PIVOT  
+- CONFIDENCE: HIGH  
+- EVIDENCE: FACT / INFERENCE  
+- REASONING: The docs state &quot;Restoring an old backup also restores its old grants/freeze&quot; (FACT), which directly risks violating the top criterion (only right people can see). Restoring into a temp DB and validating grants before swapping prevents exposure while preserving viewing (meets HIGH and MEDIUM criteria). The only trade is modest added operational complexity and slightly longer steps (INFERENCE).
+
+If PIVOT: what original reasoning missed and assumptions
+- MISSED: that a live restore can reinstate revoked grants or an old unfrozen state and thereby expose unauthorized viewers.  
+- ASSUMES: that freeze-on-live will always prevent unsafe access and that no race exists between restore-complete and grant checks.
+
+NEXT SMALLEST MOVE: Add a one-page runbook snippet (operational checklist) to the repository describing &quot;restore-to-temp-db-and-swap&quot; with exact commands to restore to a temp file, the minimal validation queries for grants/freeze, the atomic swap command (os.replace or service reload), and a short smoke-test checklist; draft that snippet and request an ops review.</pre></div>
+        <div><h4>Short prompt <span class="mark m-wrong">✗</span></h4><pre class="reply">Verdict: split.
+
+Why: split best satisfies your priorities — highest: only authorized viewers (use an operator-captured grants snapshot); medium: team keeps viewing (read-only InMemory snapshot); medium: no writes (frozen snapshot); low: restore stays short (atomic file swap offline).
+
+Recommended short procedure
+1. Compare-and-set freeze=True on live DB (record revision).
+2. Read_grants + read_freeze and build an InMemoryAccessStore snapshot (only opaque principal IDs).
+3. Point dashboard to the snapshot (or restart with it) so UI remains readable but write-protected.
+4. Atomically restore the SQLite file (write to temp, fsync, rename) while real DB offline.
+5. Open restored DB, validate schema/grants, set freeze=True there (use its revision).
+6. Switch dashboard back to SQLiteAccessStore and unfreeze when verified.
+
+Caveats: need ability to hot-swap or restart the app, protect identity_key, test for sqlite open-errors and handle FreezeConflict by reading the restored revision before setting freeze.</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">Good — with your priorities, here's a short, actionable plan that keeps security first while letting the team view during restore.
+
+High-level rule: run the dashboard live only when freeze = fail-closed (deny-by-default) and the restore happens against an isolated read-only restore instance. If either is impossible, use a brief maintenance outage.
+
+Steps (ordered, minimal duration):
+1. Preflight: notify, prepare admin allowlist (SSO group or IP), short-lived admin tokens.
+2. Create isolated restore DB instance from backup (read-only).
+3. Put app into fail-closed freeze: reject all auth except allowlist; force re-auth (revoke sessions).
+4. Point allowed-admin traffic to the read-only restore DB or mount it behind a read-only DB user.
+5. Disable all mutating endpoints and UI controls; enforce DB-level read-only.
+6. Flush permission caches and run grant-validation scripts comparing restored grants vs policy.
+7. Run automated smoke tests for auth + read paths.
+8. If validation OK, flip off freeze and re-enable writes; rotate creds if needed. If not, keep frozen and rollback.
+
+Acceptance checks before unfreeze:
+- Grant-validation = pass
+- Smoke tests = pass
+- No active writable sessions
+- Audit log for who accessed during restore
+
+Risks &amp; mitigations:
+- Stale caches → flush and revoke sessions.
+- Partial restore exposure → use isolated read-only instance.
+- Human error → automation + short maintenance window.
+
+Recommendation: adopt this fail-closed + isolated-restore pattern. If your infra can't support an isolated read-only restore, require a short outage. Which environments/tools should I tailor the runbook for (Kubernetes, load‑balancer, SSO provider, DB type)?</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>R2: Test every pull request on Windows <span class="qkind">Good plan</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>5 of 7</td><td>7 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>4 of 7</td><td>4 of 7</td><td>4 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">Your four criteria are locked as given: (1) works for Windows users / PowerShell quick start, HIGH; (2) catch breakage at PR time, MEDIUM; (3) check time and cost, LOW; (4) setup effort, LOW.
+
+## Step 2: Alternatives
+
+**ALT A: PowerShell quick-start smoke on PRs**
+- **CORE DIFFERENCE:** On Windows, run the README's own PowerShell commands as a merge-blocking job, instead of running pytest there.
+- **SKELETON** (`contributor-ci.yml`):
+  ```
+  windows-quickstart:
+    runs-on: windows-latest
+    defaults: { run: { shell: pwsh } }
+    steps:
+      checkout (pinned, persist-credentials: false)
+      setup-python 3.11
+      python -m venv &quot;$env:RUNNER_TEMP\qs&quot;           # outside checkout, like README
+      &amp; &quot;$env:RUNNER_TEMP\qs\Scripts\python.exe&quot; -m pip install &quot;.[workbench]&quot;   # non-editable, README line 67
+      ...python.exe -m role_aware_dashboard_toolkit inspect --format json
+      ...python.exe -m role_aware_dashboard_toolkit guide start
+      ...python.exe -m role_aware_dashboard_toolkit init &quot;$env:RUNNER_TEMP\my-dashboard&quot;
+      ...python.exe -m examples.core_library
+      start streamlit run examples/operator_review/app.py on 127.0.0.1; poll /_stcore/health; stop
+  required: needs: [tests, quality, windows-quickstart]
+  ```
+- **BUYS:** It tests the exact path a Windows user follows: non-editable `[workbench]` install, `Scripts\python.exe`, PowerShell quoting, Streamlit startup, starter scaffolding. The full suite runs `pip install -e .[dev]` and covers none of these.
+- **COSTS:** Windows regressions inside library logic only show up if the smoke happens to hit them. A health-check smoke is shallower than 105 test files.
+
+**ALT B: Advisory Windows full suite plus nightly on `main`**
+- **CORE DIFFERENCE:** The Windows full suite runs on every PR and shows its result, but it doesn't block merges. A scheduled run on `main` catches anything that slipped through.
+- **SKELETON:** new `windows-ci.yml` (the contributor workflow and its contract tests stay untouched):
+  ```
+  on: pull_request; push: [main]; schedule: nightly
+  jobs:
+    windows-tests:
+      runs-on: windows-latest
+      setup-python 3.11
+      python -m pip install -e &quot;.[dev]&quot;
+      python -m pytest -q
+  # not listed in branch protection; contributor-checks unchanged
+  ```
+- **BUYS:** You get the full suite's Windows signal at PR time without risking stalled merges from Windows-only flakiness, and without touching the pinned `contributor-ci` contracts (`test_ci_supply_chain.py:106-155`).
+- **COSTS:** A red result can be ignored and merged anyway, so &quot;tested before it merges&quot; becomes &quot;visible before it merges&quot;.
+
+## Step 3: Scores
+
+**EXPECTED CASE**
+
+| Criterion | Current (blocking full suite, 1 version) | ALT A (quick-start smoke) | ALT B (advisory full suite) |
+|---|---|---|---|
+| 1. Works for Windows users (HIGH) | ADEQUATE: broad library coverage on Windows, but it uses an editable `[dev]` install and never runs the README's `[workbench]`/Streamlit path. | ADEQUATE: tests the documented user path exactly, but misses Windows bugs in library internals such as path redaction and stores. | ADEQUATE: same coverage as the current approach, but a red result doesn't stop the merge. |
+| 2. Catch at PR time (MEDIUM) | STRONG: blocks the merge on any Windows test failure. | STRONG: blocks the merge on any quick-start failure. | ADEQUATE: shows at PR time, but enforcement depends on reviewer discipline. |
+| 3. Time and cost (LOW) | ADEQUATE: one Windows runner per PR push, probably several minutes for 105 files (not measured). | STRONG: a few minutes, mostly pip install. | WEAK: the PR run plus nightly runs on `main`. |
+| 4. Setup effort (LOW) | ADEQUATE: one job, plus updates to the gate `expected` set, the contract-test counts and `CONTRIBUTING.md`. | WEAK: Streamlit start, health poll and teardown in PowerShell is fiddly to make reliable. | STRONG: a separate file, with no contract tests or gate changes. |
+
+**Fairness check triggered.** On the only HIGH criterion, the current approach is at least as strong as every alternative.
+
+**CHARITABLE CASE** (shown beside the table above, not replacing it)
+
+| Criterion | Current | ALT A | ALT B |
+|---|---|---|---|
+| 1. (HIGH) | STRONG: if the suite already covers the CLI, `init`, the starter and example imports, it covers most of the README path too. | STRONG: if most Windows breakage happens at install, path and shell boundaries, the smoke catches what users would actually hit. | STRONG: if maintainers treat red as blocking in practice, coverage equals the current approach without the flake risk. |
+| 2. (MEDIUM) | STRONG | STRONG | STRONG: if that same discipline holds. |
+
+Even at their best cases, neither alternative beats the current approach on criterion 1; at most they tie.
+
+## Step 4: Verdict
+
+- **VERDICT:** STAY, with one addition: put ALT A's quick-start steps into the same Windows job.
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE. Nothing has been measured. The full suite has never been run on Windows in hosted CI; only 4 focused files have (`ci.yml:661`).
+- **REASONING:**
+  - On criterion 1, the full suite gives the broadest Windows coverage of the library itself, and ALT A ties it only in its charitable case.
+  - On criterion 2, blocking beats advisory, which rules out ALT B.
+  - The charitable case doesn't overturn this, because ALT A's best case is a tie, not a win.
+  - The two LOW criteria favour the alternatives, but neither is weighted enough to change the result.
+
+**Strongest argument against the current approach:** your HIGH criterion is literally the PowerShell quick start, and the planned job never runs it. It uses an editable `[dev]` install, not `&quot;.[workbench]&quot;` (README line 67), and never launches Streamlit. So a PR could pass on Windows while the README path is broken.
+
+**Why it still loses:** adding the quick-start commands to the same job costs only a few steps and closes that gap. Throwing away full-suite coverage to get the smoke alone would be a net loss.
+
+**Watch:** a Windows-only flaky test would block every PR, since `contributor-checks` is the only required check. If that happens, ALT B (advisory) is the fallback.
+
+**NEXT SMALLEST MOVE:** Before touching the workflow, run the full suite on this Windows machine from the checkout's virtual environment:
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+Then record the pass/skip/fail counts. If it's green, the plan holds; if it's red, fix those failures first, because otherwise the new required job blocks every PR from day one. I haven't run it, because this challenge was read-only. Tell me if you want me to.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">**Verdict: stay, with one change.** Keep the Windows job on every pull request, wired in through the existing `tests` matrix as I described before. Add one more step to that job: install the toolkit the way the README tells Windows users to, using PowerShell. Without that step, the plan only half-meets your top criterion.
+
+## How the plan does on each criterion
+
+**1. The toolkit works for Windows users (HIGH): partly, as proposed.**
+- **Covered:** the full suite exercises Windows paths and file handling. It also runs the quick-start demo app (`tests/test_operator_review_example.py`, through Streamlit's test harness) and the `init` starter command (`tests/test_installed_guidance.py`, `tests/test_authenticated_starter.py`). All of it passed in my two local Windows runs.
+- **Not covered:** the README has Windows users run `python -m venv .venv` and then a regular install, `.\.venv\Scripts\python.exe -m pip install &quot;.[workbench]&quot;`. The proposed job does an editable install of the larger `.[dev]` extra instead, so it reads files straight from the checkout. If the installed package were missing a file (a guide topic, a starter template, an example), Windows users would hit it but the job would still pass.
+- Today, only the release-only `windows-release-smoke` job does a real install on Windows. Linux pull-request checks build the package but never install it.
+
+**2. Catch Windows breakage at pull request, not release (MEDIUM): fully met,** provided Windows sits inside the `contributor-checks` gate. As a separate job it would report failures but wouldn't block merging.
+
+**3. Time and cost (LOW): fine.** About 2 minutes of tests on this machine, plus dependency installs, comes to roughly 5–8 minutes. The install step adds about 1–2 minutes. It runs in parallel with the Linux jobs, so pull requests barely wait longer. Windows minutes cost double only if the repository is private.
+
+**4. Setup effort (LOW): small.**
+- A matrix `include` entry for Windows.
+- `shell: bash` or exit-code checks, so a failed install can't slip through.
+- One PowerShell install step.
+- One CONTRIBUTING line.
+
+## The change to add
+
+Give the Windows matrix entry one extra step that follows the README:
+1. Create a fresh venv.
+2. Run `pip install &quot;.[workbench]&quot;` (not editable), then `pip check`.
+3. From a temporary folder outside the checkout, confirm the package imports from the venv and run `python -m role_aware_dashboard_toolkit init my-dashboard --dry-run`.
+
+The release Windows job already does this in PowerShell, with a `$LASTEXITCODE` check after each command, so copy its pattern rather than writing a new one. None of this touches what `tests/test_ci_supply_chain.py` checks for (timeouts, action pins, the gate), but run that test after the change.
+
+## Why not pivot or split
+
+- **Pivot:** dropping the full suite for only an install check would lose most of the Windows coverage, which hurts criteria 1 and 2.
+- **Split:** a second Windows job would mean editing the gate and its contract test, and paying for Windows setup twice. One job meets all four criteria.
+
+## Limits of what I checked
+
+I tried the README install in a temporary venv outside the repository, but a hook here blocks package installs, so I didn't run it. The full suite passing locally is the only Windows result I have. The first pull request run on GitHub's Windows runners will be the first real check of the install step.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">FastAPI is in the `dev` extra, so that concern doesn't apply. Before editing, I'll check whether any tests pin the workflow's structure.
+Now the workflow change:
+Now I'll update the contract test so it covers the new job, and the CONTRIBUTING description.
+The script stopped before writing anything, so the test file is unchanged. I'll make those edits directly and tidy the line wrap in CONTRIBUTING.
+The contract tests pass. The system Python here already has the dependencies, so I can now run the full suite on Windows myself, which settles the main open question.
+The run took 558 s. All tests ran with no failures and one expected skip, but pytest's final count line is missing and there are cleanup warnings, so I'll check how the cleanup hook exits.
+The cleanup hook only warns, so it can't change the result. To confirm the exit code, I'll rerun the file that triggers the warning on its own, then remove the leftover temp directory from my run.
+The missing count line is just `-q` stacking: `addopts` already sets `-q`, so the extra `-q` made it `-qq`. The rerun exited with code 0. Last, I'll run lint on the changed test.
+I've added the Windows job to pull-request checks, and merges now require it. The full test suite runs cleanly on Windows on this machine, so the job shouldn't start out failing. The changes are on branch `ci/windows-contributor-tests` and are not committed.
+
+**How your criteria shaped it:**
+- **Windows users (high):** the job runs the full suite, not just a quick smoke check. It installs and runs from PowerShell, as the README tells users to. It's also the first automated run of the three Windows-only tests in `test_review_identifier_regressions.py`.
+- **Catch breakage at the PR (medium):** it's listed in the `contributor-checks` gate, so a failure, skip or cancellation blocks the merge. The PR that adds the job will also run it, so you see it work before merging.
+- **Time and cost (low):** one Python version (3.11) and no coverage, which the Linux `quality` job already enforces. The 30-minute timeout leaves headroom over my local run.
+- **Effort (low):** I didn't move tests, add markers or set up caching.
+
+**Changes:**
+- `.github/workflows/contributor-ci.yml`: a new `windows-tests` job that installs `.[dev]`, runs `pip check`, then `python -m pytest -q`. It's added to the gate in both places. Without one setting at the top of the install step, a failed install in PowerShell could go unnoticed.
+- `tests/test_ci_supply_chain.py`: the existing tests that check this workflow now expect three jobs instead of two, and they check the Windows job and that a Windows failure blocks the gate.
+- `CONTRIBUTING.md`: the CI description now mentions Windows.
+
+**Checks run here:**
+- **Full suite on Windows** (Python 3.11.9, imports from this checkout): `python -m pytest -q -p no:cacheprovider -rs` took 558 s. No failures, and only one skip, the expected Linux-only permissions test.
+  - Pytest didn't print its final count line because the project already sets `-q`, so the extra `-q` silenced it. I didn't capture that run's exit code.
+  - Rerunning `tests/test_release_candidate_workflow.py` on its own exited with code 0.
+- **Workflow tests:** `python -m pytest -q -p no:cacheprovider tests/test_ci_supply_chain.py` passed.
+- **Lint:** `python -m ruff check tests/test_ci_supply_chain.py --no-cache` passed.
+- **Not yet seen:** the job running on GitHub's own Windows runners. The first PR run will show that, and its real duration.
+
+**Things to know:**
+- **Cleanup warnings on Windows:** at the end of a run, the test cleanup can't delete some read-only git files left by the release-candidate tests. It only prints warnings, so results aren't affected, and GitHub's runners start fresh each time. Locally the folder stays behind; I removed the one my run left.
+- **Branch protection:** this doesn't need changing, because the required check is still `contributor-checks`.
+
+Should I commit this, push it and open the pull request?</pre></div>
+      </div>
+    </details>
+    <details class="replies"><summary>Sonnet (Claude Code): ✗ command, ✓ short prompt, ✓ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-wrong">✗</span></h4><pre class="reply">## Step 1: Locked criteria
+
+Your criteria, unchanged:
+1. The toolkit works for Windows users, since the README quick start is PowerShell (HIGH).
+2. Windows breakage is caught when a PR is opened, not at release (MEDIUM).
+3. Check time and cost stay modest (LOW).
+4. Effort to set it up (LOW).
+
+The README confirms criterion 1. The quick start is PowerShell-first and installs `.[workbench]` into `.venv` (`README.md:57-72`). That is the path Windows users actually take.
+
+## Step 2: Alternatives
+
+### A. Windows quick-start smoke on every PR (no full suite)
+- **CORE DIFFERENCE:** Windows runs the README's PowerShell path as a user would, not the test suite.
+- **SKELETON:**
+  ```
+  job windows-quickstart (windows-latest, py3.11, in contributor-ci.yml)
+    python -m venv .venv
+    .\.venv\Scripts\python.exe -m pip install &quot;.[workbench]&quot;   # non-editable, as users do
+    .\.venv\Scripts\python.exe -m role_aware_dashboard_toolkit inspect
+    start streamlit examples/operator_review/app.py on 127.0.0.1, poll health endpoint, stop
+    run the 4 existing Windows-focused test files (ci.yml:661)
+  add &quot;windows-quickstart&quot; to needs + expected set in contributor-checks
+  ```
+- **BUYS:** It tests the exact install and launch path Windows users follow, and it avoids a first-run failure from untested POSIX assumptions in the other tests.
+- **COSTS:** It misses Windows-only bugs in code paths outside those four test files and the app launch. The smoke script is also new code to maintain.
+
+### B. Full suite on Windows, informational first, then required (staged)
+- **CORE DIFFERENCE:** It is your proposal, but the job starts non-blocking and stays out of `contributor-checks` until several PRs have run it green.
+- **SKELETON:**
+  ```
+  job windows-tests (windows-latest, py3.11), continue-on-error: true
+    pip install -e &quot;.[dev]&quot;; pytest -q
+  week 0: observe runs, fix or mark failing tests (skipif os.name)
+  after N consecutive green PR runs: remove continue-on-error,
+    add to needs + expected set in contributor-checks
+  ```
+- **BUYS:** It gets full-suite Windows coverage without risking a red gate on day one.
+- **COSTS:** It is not enforced until promotion, so early PRs can merge with Windows failures. Promotion also needs a follow-up change and someone to watch the runs.
+
+The current approach is a required full-suite Windows job from day one. It differs from B only in having no observation stage.
+
+## Step 3: Scoring
+
+### EXPECTED CASE
+
+| Criterion | Current: required full suite | A: quick-start smoke | B: staged full suite |
+|---|---|---|---|
+| 1. Works for Windows users (HIGH) | ADEQUATE: it covers all code on Windows, but installs editable, not the way users do. | STRONG: it runs the actual PowerShell install and launch path. | ADEQUATE: same coverage as current, with the same editable-install gap. |
+| 2. Catch at PR time (MEDIUM) | STRONG: it blocks the merge on any Windows test failure. | ADEQUATE: it blocks for install, launch and the four focused test files, not other code. | ADEQUATE: it catches early but only blocks after promotion. |
+| 3. Time and cost (LOW) | WEAK: the full suite on a slower runner for every PR. | ADEQUATE: install, a short launch and four test files. | WEAK: same cost as current, plus the observation period. |
+| 4. Setup effort (LOW) | ADEQUATE: about 20 lines of YAML plus the `needs`/expected-set edit, but it may need test fixes if the suite fails. | WEAK: it needs a new launch/health-check script. | ADEQUATE: same YAML as current plus a promotion step later. |
+
+**Fairness check:** The current approach is not at least as strong as every alternative on the HIGH criterion, because A is STRONG on criterion 1 and current is ADEQUATE. So the check does not trigger, and I'm adding no charitable table.
+
+## Step 4: Verdict
+
+- **VERDICT:** SPLIT
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** FACT for the repo observations: the user path is PowerShell with a non-editable install, the release job runs only a focused Windows subset, and `contributor-checks` hard-codes its job set. INFERENCE that the full suite may fail on Windows on its first run, since I have not run it. SPECULATION on the cost difference, which I haven't measured.
+- **REASONING:** On the HIGH criterion, A is the only option that checks what Windows users do (a non-editable install and a PowerShell launch), while a full-suite run installs with `-e` and exercises the code a different way. The full suite wins on criterion 2 (MEDIUM) but loses on cost, and neither of those outweighs criterion 1. Whether the full suite passes on Windows today is unknown. Without that, the choice between current and B (a red gate on day one, or not) can't be made from the files. The current approach isn't wrong. It is untested against the repo's Windows behavior, and the tradeoff is unresolved until that is known.
+
+**SPLIT experiment:** Run `contributor-ci` once on a throwaway branch with the Windows job added as non-required (`workflow_dispatch` or a draft PR), and read the result. It costs about 15 minutes of work and one hosted Windows run. If it's green, ship the current approach (required) and add A's install smoke later. If it's red, take B, or fix or skip the failing tests first.
+
+Before that run, check whether the `XL422_CI_APPROVED_SHA` policy (`ci.yml:643`) means you need to approve hosted Windows runs. That is a question for you, not something the files answer.
+
+**NEXT SMALLEST MOVE:** On a throwaway branch, add the Windows job to `contributor-ci.yml` with `continue-on-error: true` and leave `contributor-checks` unchanged. Open a draft PR and read the one result before deciding.
+
+The final call is yours. I haven't edited any files.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">I added the Windows job as a trial lane (step one). It isn't a required check yet. The workflow-contract tests pass locally, but the full suite has not run on Windows.
+
+**What changed**
+- `.github/workflows/contributor-ci.yml` has a new `windows-tests` job. It runs on `windows-latest` with Python 3.11, installs `.[dev]`, runs `pip check`, then `pytest -q`. It has a 25-minute timeout and keeps the existing pinned action SHAs.
+- I left it out of `needs` and the `contributor-checks` gate, so it reports on every PR without blocking merges.
+- `tests/test_ci_supply_chain.py` now expects the extra job: 3 checkouts, 3 setup-python steps, 3 `persist-credentials: false` and 4 timeouts, plus a check for `windows-latest`. The gate test is unchanged.
+
+**Verification**
+- I ran `test_ci_supply_chain.py`, `test_release_hygiene_core.py` and `test_release_candidate_workflow.py` with the system Python. The output showed only passing dots, no failures. The final summary line didn't print because of the `-q` options, so I read the result from the dots.
+- The import resolved to this checkout. There is no `.venv` here, so I used the system Python rather than the CONTRIBUTING setup.
+- I did not run the full suite or ruff.
+- The new job has not run on GitHub, so the Windows install of `.[dev]` is untested.
+
+**A Windows problem the local run showed**
+The pytest cleanup in `tests/conftest.py` fails on Windows. `shutil.rmtree` can't delete the read-only `.git/objects` files in the temp repos that the release-candidate tests create. It prints `PermissionError [WinError 5]` and `WinError 145` warnings and leaves directories behind in `.pytest-runtime-tmp`. The tests still passed, and I deleted the leftover directory by hand.
+
+The warnings won't fail the Windows job, but they will fill its log. I haven't changed `conftest.py`, since you asked for the CI job. A fix would be an `onerror` handler that clears the read-only bit and retries.
+
+**Against your criteria**
+- Windows is the quick-start platform (README lines 63-72) and is your highest priority. Because of that, don't leave the job non-blocking for long. Once it has a few clean runs, add it to `needs: [tests, quality]` and to the gate's `expected` set. Update the pinned-count tests and the CONTRIBUTING.md paragraph in the same change.
+- The job runs on every PR, which meets criterion 2.
+- It is one runner on one Python version, so cost stays modest (criterion 3). Setup took one workflow block and two edited test lines (criterion 4).
+
+Nothing is committed. Say so if you want me to commit this, fix the cleanup handler, or promote the job to required.</pre></div>
+        <div><h4>Plain request <span class="mark m-right">✓</span></h4><pre class="reply">Next I'm checking whether any test or doc pins the workflow's job list.
+The tests pin the workflow's exact shape, so I'll update them along with the docs.
+My replacement for the `needs:` assertion didn't match, so I'm checking that line.
+I added a Windows job to the pull-request checks. It hasn't run on GitHub yet, so the real Windows run is still unproven. The edits are uncommitted.
+
+**What changed**
+- **`contributor-ci.yml`:** a new `tests-windows` job runs `python -m pytest -q` on `windows-latest` with Python 3.11. It has a 30-minute timeout.
+- **Merge gate:** `contributor-checks` now also requires `tests-windows`, in both its `needs` list and its `expected` set. Branch protection needs no change.
+- **`tests/test_ci_supply_chain.py`:** this test pins the workflow's exact shape, so I updated its counts and the gate checks to match.
+- **`CONTRIBUTING.md`:** the CI description now mentions Windows.
+
+**What I checked**
+- The full suite on this Windows machine, with Python 3.11.9 and imports resolving to this checkout, had no failures and 1 skip, a POSIX-only permission test.
+- `tests/test_ci_supply_chain.py` passes after the update, and ruff on `tests` is clean.
+- The pre-release check showed `pass` on the entries I looked at, but I only saw the first three lines of its output.
+- I did not rerun the whole suite after these edits, only that one test file.
+- I used the global Python 3.11, since there's no `.venv` here.
+
+**Things to know**
+- **Time:** the suite took 9m27s locally, so each pull request now pays about that extra on a slower, pricier runner. The timeout of 30 minutes leaves room, but check the first real run. If it's too slow, the four-file subset from the release job is the fallback.
+- **Cleanup warnings:** the run printed many &quot;basetemp cleanup failed&quot; warnings, from read-only `.git` objects in the release-candidate tests. They didn't fail anything, but they're noisy and may repeat in CI.
+- **Required check:** the first pull request will show whether `contributor-checks` goes green. Until then the gate change is untested against live GitHub.
+
+Do you want me to commit this on a branch and open a pull request?</pre></div>
+      </div>
+    </details>
+  </div>
+  <div class="block">
+    <h3>R3: Should the access command keep its own history? <span class="qkind">Tough call</span></h3>
+    <div class="grids">
+    <div class="scroll"><table class="marks-grid">
+      <caption>Planned: every version got my priorities</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right, marked by me">✓</span><sup>*</sup></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong, marked by me">✗</span><sup>*</sup></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong, marked by me">✗</span><sup>*</sup></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>3 of 7</td><td>2 of 7</td><td>0 of 7</td></tr>
+      </tbody>
+    </table></div>
+    <div class="scroll"><table class="marks-grid">
+      <caption>First answer: the other two stop at their first reply</caption>
+      <thead><tr><th scope="col">Model</th><th scope="col">Command</th><th scope="col">Short prompt</th><th scope="col">Plain request</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">Opus <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td></tr>
+      <tr><th scope="row">Sonnet <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Haiku <span class="where">Claude Code</span></th><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-right" aria-label="right">✓</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-5 mini <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">GPT-6 Luna <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">MAI-Code 1.1 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr><th scope="row">Gemini 3.8 Flash <span class="where">Copilot</span></th><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td><td><span class="mark m-wrong" aria-label="wrong">✗</span></td></tr>
+      <tr class="total"><th scope="row">Right</th><td>3 of 7</td><td>3 of 7</td><td>1 of 7</td></tr>
+      </tbody>
+    </table></div>
+    </div>
+    <details class="replies"><summary>Opus (Claude Code): ✓ command, ✓ short prompt, ✗ plain request</summary>
+      <div class="reply-cols">
+        <div><h4>Command <span class="mark m-right">✓</span></h4><pre class="reply">## Step 1: Criteria (locked)
+
+| # | Criterion | Weight |
+|---|---|---|
+| C1 | After a backup restore, no removed person gets access back | HIGH |
+| C2 | Keep personal data to the minimum | HIGH |
+| C3 | Fewer manual steps for operators | MEDIUM |
+| C4 | Keep the access store and the command small | LOW |
+
+## Step 2: Alternatives
+
+**ALTERNATIVE A: Current-grants copy plus a `reconcile` command**
+- **CORE DIFFERENCE:** Instead of a log of every change, the CLI keeps a copy of who has access now, and after a restore one command makes the database match it.
+- **SKELETON:**
+  ```
+  grant/revoke --directory D --mirror M        # M: operator path, outside the backup set
+    store.replace_grants(principal, roles)
+    current = read M (same checks as access.sqlite3: link/ACL/owner/0600/no repo)
+    current[principal] = roles  (or remove principal on revoke)
+    write M.tmp atomically -&gt; rename over M    # only current grants; revoked IDs disappear
+  reconcile --directory D --mirror M           # run with the dashboard offline after a restore
+    for principal in store principals:         # needs a new read-only list method on the store
+      if principal not in M: replace_grants(principal, ())   # anything not in the copy is revoked
+      elif roles differ: replace_grants(principal, M[principal])
+    print counts only (no IDs)
+  ```
+- **BUYS:** Reconciling becomes one command that revokes anything the copy doesn't list, and the file never holds anyone who has been removed.
+- **COSTS:** Two commands, a new store method to list principals, and a second file to protect. Changes made through `provision.py` or `replace_grants` directly are invisible to the copy, but reconcile then revokes them, so it errs toward closed.
+
+**ALTERNATIVE B: Clear all grants on restore and re-grant**
+- **CORE DIFFERENCE:** Keep no record at all. The restore procedure wipes every restored grant and re-grants people from who should have access now, according to the identity provider.
+- **SKELETON:**
+  ```
+  restore identity.key + access.sqlite3 from backup     # key needed so principal IDs stay stable
+  access_cli reset-grants --directory D                 # new: DELETE FROM grants; set freeze=on
+    (store unchanged otherwise; prints &quot;All grants cleared; store frozen.&quot;)
+  for each person the identity provider says should have access now:
+    access_cli grant --directory D --issuer I --role R  # existing hidden-subject prompt
+  verify revoked accounts are denied; unfreeze
+  ```
+- **BUYS:** No grant that existed before the restore survives it, and the toolkit stores no new personal data. This makes the guide's existing fallback (&quot;keep access closed until the intended grants can be established&quot;) the standard path.
+- **COSTS:** The operator re-enters every user after each restore, so the effort grows with the number of users.
+
+## Step 3: Scoring (EXPECTED CASE)
+
+| | Current: append-only history | A: current-grants copy + reconcile | B: clear and re-grant |
+|---|---|---|---|
+| **C1 (HIGH)** | WEAK: it misses `provision.py`/direct `replace_grants` changes, rolls back too if it sits in the backed-up directory, and reconciling is still a manual diff where one missed line gives access back. | ADEQUATE: reconcile revokes anything not listed, but a revocation made outside the CLI while the copy still lists that person would come back. | STRONG: no restored grant survives, and access returns only through a fresh grant checked against the provider. |
+| **C2 (HIGH)** | WEAK: append-only means every removed person's ID, times and roles are kept forever, which conflicts with &quot;retain them only as needed&quot; (`authentication.md:263`). | STRONG: holds only the same current grants the database already holds, and removed IDs drop out. | STRONG: adds no stored data. |
+| **C3 (MEDIUM)** | ADEQUATE: it replaces a hand-kept record, but the operator still compares it line by line during restore. | STRONG: one command after a restore. | WEAK: re-granting every user through the hidden prompt is manual work that grows with headcount. |
+| **C4 (LOW)** | ADEQUATE: the store doesn't change, but the CLI gains a protected append-file writer and a file format. | ADEQUATE: a new store method to list principals, a mirror writer, and a new command. | STRONG: one small command (`reset-grants`) and no format. |
+
+Fairness check: not triggered. The current approach is weaker than both alternatives on both HIGH criteria.
+
+## Step 4: Verdict
+
+- **VERDICT:** PIVOT to B as the default restore path. A is an optional add-on if re-granting by hand proves too slow.
+- **CONFIDENCE:** MEDIUM
+- **EVIDENCE:** INFERENCE. It comes from reading the code and docs; nothing was measured or run.
+- **REASONING:** On C1, the current approach only produces a record. Someone still has to check it correctly, and it misses grant changes made outside the CLI. B removes that dependence entirely. On C2, an append-only history keeps the IDs of exactly the people C1 is about (removed people) forever, so the two HIGH criteria conflict under the current approach and agree under B. B's only weakness is C3 (MEDIUM). How big that cost is depends on how many users a deployment has, and I don't know that, which is why confidence is MEDIUM. If there are many users, A beats B on C3 and C4 while staying STRONG on C2, though it drops to ADEQUATE on C1. No conclusion here depends on charitable scores.
+- **What the original reasoning missed:** The guide asks for a *current* record, and a history file that gets backed up with the database, or misses non-CLI writers, isn't current. It also treats the record as the goal, when the goal is that removed people stay removed, and a record only helps if a person then checks it correctly. Finally, &quot;append-only&quot; can't respect the guide's own data-retention rule.
+- **What already assumes the old approach:** No code does. The restore wording in `resources/guides/authentication.md:265-271` (&quot;reconcile… against the current protected record of grants and revocations&quot;) and the &quot;Restore a backup&quot; row in `examples/section_access/README.md:243` would need rewording. B also needs a new command, because `init` refuses to run when `identity.key` exists, and re-running `init` would replace the key, which changes every principal ID.
+
+**NEXT SMALLEST MOVE:** Prototype `access_cli reset-grants` (clear all grants and set freeze in one SQLite transaction, refusing the same paths as `grant`) with one focused test in `tests/test_access_cli.py`, and draft the revised restore paragraph. I haven't edited anything; the call is yours.</pre></div>
+        <div><h4>Short prompt <span class="mark m-right">✓</span></h4><pre class="reply">**Verdict: pivot.** With your criteria, an append-only history loses on both HIGH criteria. Keep a **current-grants snapshot** outside the database instead, and make the store **refuse to start** when a restored database doesn't match it.
+
+## How the options score
+
+| Option | 1. No removed person returns (HIGH) | 2. Least personal data (HIGH) | 3. Fewer manual steps (MED) | 4. Small (LOW) |
+|---|---|---|---|---|
+| Append-only history from `access_cli` (original plan) | Partial: misses `provision.py` and host writers; an operator still has to reconcile by hand | Worst: keeps every removed person's ID forever | Some gain | Small |
+| History from every writer | Better, but reconciliation is still manual and easy to skip | Worst, same reason | Some gain | Medium |
+| Digest/counter only (no IDs) | Detects a stale restore, then everyone must be regranted from the provider | Best: no personal data | Worst | Small |
+| **Current-grants snapshot + refuse to start on mismatch** | **Strong: stale restore is blocked, and `reconcile` re-applies the revocations** | **Good: only people who currently have access, the same set the database already holds; removed people drop out on the next write** | **Best: one command, and it can't be forgotten** | Medium |
+
+The snapshot is the only option that does well on both HIGH criteria. Its cost is the LOW criterion, which you said is the one to trade away.
+
+## Design that follows from the criteria
+
+1. **Write the snapshot in the store, not the CLI.** Add an optional state-file path to `SQLiteAccessStore`, written inside `replace_grants`. This covers `access_cli`, `provision.py` and host code without each one remembering to do it (criterion 1).
+2. **Write it before the commit, inside the open transaction.** `BEGIN IMMEDIATE` already makes concurrent writers wait. Write to a temp file, flush, rename, then commit. If the commit fails afterwards, the snapshot is ahead of the database, and the mismatch check fails closed. Writing it after the commit could lose a revocation, and a later `reconcile` would bring the removed person back.
+3. **Refuse to start on mismatch.** When the store opens with a state path and the database grants differ from the snapshot, it raises the existing fixed `AccessStoreError`, so the dashboard stays closed. A new `access_cli reconcile` command sets the database to the snapshot, removing anything restored that the snapshot doesn't list. This replaces the guide's manual &quot;reconcile every restored grant&quot; step (criteria 1 and 3).
+4. **Record only principal ID → roles, plus the key epoch.** No timestamps or operator names, since neither criterion needs them. No revoked entries. Use the same file protections as `access.sqlite3`.
+5. **Leave freeze out of scope.** Restoring an old freeze state can't give a removed person access, so criterion 1 doesn't need it.
+
+## Things to know before committing to this
+
+- **Where the snapshot is kept decides whether this works.** If the snapshot is backed up and restored together with the database, the two still match, the check passes, and removed people come back. It has to be kept live somewhere outside the database's backup set, and the code can't check that. The restore paragraph in `authentication.md` and the &quot;Restore a backup&quot; row in `examples/section_access/README.md` need to state this plainly.
+- **Changes to the public API:** a new optional store parameter, a new `reconcile` subcommand, and a new store method to list all grants (none exists today). The existing `main(argv)` calls and tests stay valid. For the option to help in practice, the starter and example apps need to turn it on, which means another environment variable.
+- **&quot;When&quot; is no longer recorded.** If you ever need a history of who changed what, that's a separate audit feature, and it conflicts with criterion 2.
+
+I haven't changed or run anything. Should I implement this, with focused tests for the commit-fails, stale-restore and reconcile cases plus the CONTRIBUTING checks?</pre></div>
+        <div><h4>Plain request <span class="mark m-wrong">✗</span></h4><pre class="reply">Going with your criteria. One change to the original plan: criterion 2 rules out a timestamped, append-only log. Restore only needs each person's latest intended roles, so I'll keep one entry per person, stored outside the backed-up directory, plus a `reconcile` command that can only remove roles. Reading the related code and tests first.
+Now writing the change in `access_cli.py`.
+I'm leaving `init` unchanged so its directory-safety tests and existing scripts keep working. The first `grant` will start the record with `--start-record`.
+The shell heredoc didn't parse, so I'll write the edit script to a temporary file and run it from there.
+Updating the existing tests to pass a record directory, then adding new tests.
+Line endings are consistent. Adding the new regression tests:
+All CLI tests pass on Windows; the POSIX-only and ACL tests were skipped. Next, the docs.
+Now editing the authentication guide, the deployment guide, the section_access README, and the CHANGELOG.
+That CHANGELOG entry breaks existing `grant`/`revoke` command lines, so I'm moving it under &quot;Changed (BREAKING)&quot;.
+Now running the broader checks from CONTRIBUTING.
+Line endings are consistent, and the audit-writer file passes on its own. One more full run to get a clean summary:
+The project's pytest setup hides pytest's usual pass/fail count line, so I'll get the counts from a JUnit XML report.
+I've built it, but I changed one part of the original idea to fit your second priority (keep personal data to a minimum). Instead of a timestamped, append-only history, the record keeps only each person's latest intended roles. That is all a restore needs. The full test suite passes on Windows, but nothing has run on Linux or macOS yet, and nothing is committed.
+
+**How it works**
+- **Record file:** `grant` and `revoke` now take `--record-directory`. They write `access-record.json` there before changing the access database. It has one entry per opaque ID, and a revoked person stays in it with no roles. It holds no times, no operator names and no subjects.
+- **Separate location:** the record directory has to pass the same safety checks as the access directory. It also can't be the access directory, sit inside it, or contain it. That way restoring the access backup can't roll the record back with it.
+- **New `reconcile` command:** run it after a restore. It removes every restored role the record doesn't allow, and it never adds a role. It prints how many recorded roles are missing so you can grant them again. It never prints IDs.
+- **Failure handling:** because the record is written first, it is never behind the database. If the database update then fails, the command says so and you run it again. A missing or broken record stops the command before anything changes. So does a leftover `access-record.lock` from an interrupted run.
+- **Starting the record:** `--start-record` creates the record the first time and is refused once one exists. A lost record therefore can't be quietly replaced by an empty one that has forgotten earlier revocations.
+
+**What this means for your criteria**
+- **Removed people stay removed (1):** this holds for people granted and revoked through `access_cli`. Changes made directly through `replace_grants`, the section_access example's provisioning script, and freeze changes are not recorded. The guides now say so.
+- **Personal data (2):** revoked people stay in the record with no roles. They are needed there for as long as an older backup could bring them back, and there is no command yet to remove an entry.
+- **Fewer manual steps (3):** reconcile does the restore check for you. Operators still have to back up the record directory separately, re-grant anything reported missing, and turn freeze on.
+- **Breaking change:** existing `grant`/`revoke` command lines now need `--record-directory`. I put this under &quot;Changed (BREAKING)&quot; in the CHANGELOG. `init` is unchanged.
+
+**Files:** the code is in `role_aware_dashboard_toolkit/access_cli.py`. I added six regression tests in `tests/test_access_cli.py`. The first one backs up the database, makes a revoke, a downgrade and a new grant, restores the backup, and runs reconcile. I also updated the authentication and deployment guides, `examples/section_access/README.md`, and the CHANGELOG.
+
+**Checks I ran (Windows, Python 3.11; there is no `.venv` here, so I used the system interpreter):**
+- The import check printed this checkout's `role_aware_dashboard_toolkit\__init__.py`.
+- `python -m ruff check role_aware_dashboard_toolkit tools examples tests --no-cache` reported &quot;All checks passed!&quot;.
+- `python -m pytest -q`: 3544 tests, 0 failures, 0 errors, 55 skipped. I read the counts from a JUnit report because this repo's pytest setup doesn't print the usual summary line.
+- One earlier full run had two failures in `tests/test_audit_writer_lifecycle.py`, which this change doesn't touch. That file passed when run on its own, and the final full run passed.
+- **Not run:** the POSIX-only tests, including the record's file permissions and directory sync, were skipped on Windows. I haven't tested on Linux or macOS.
+
+Possible follow-ups: having the section_access example script write the record too, and a way to drop entries once no older backup could restore them.</pre></div>
+      </div>
+    </details>
+  </div>
+  <p class="note">For each mark that occurs, the replies shown are the first model's in the order above that got it, with its other two versions beside them, each as its final reply. No reply is picked by hand. The copy's folder path is shortened to &lt;copy&gt; and a home folder to &lt;home&gt;; where a reply quoted something private, the words are replaced and marked [removed] or [withheld].</p>
+</section>
+
+<section class="card" id="more" aria-labelledby="more-h">
+  <div class="card-head"><h2 id="more-h">The other repos in this test</h2></div>
+  <ul class="scope">
+    <li><a href="tokenizer-lab.html">tokenizer-lab</a>: a lab measuring how vocabulary size changes small language models.</li>
+    <li><a href="sibling-site-drift-lab.html">sibling-site-drift-lab</a>: a lab testing whether a checking routine stops AI agents leaving related files out of date.</li>
+    <li><a href="espalier-harness.html">espalier-harness</a>: my Claude Code harness. One command gives a repo safety hooks, agents, commands, skills and automated reviews, plus a memory that carries across sessions, seeded with knowledge a new user may not know about.</li>
+    <li><a href="social-media-engine.html">A social media orchestration engine</a>: my harness that automates AI social media accounts and drafts posts for my personal, manually curated pages.</li>
+    <li><a href="specdec-sidechannels.html">specdec-sidechannels</a>: my research on whether untapped signals from the device itself, like which parts of the model each word touched in memory, can speed up speculative decoding (a small model drafts the next words, a big model checks them).</li>
+  </ul>
+</section>
+
+<p class="colophon">Questions, evidence and marking written 14 Oct 2026, before any run; later changes are dated on this page. The wording was edited for readers on 16 Oct 2026, after the runs; no question, answer or mark changed. Part of the free-public-tools test series.</p>
+
+</main>

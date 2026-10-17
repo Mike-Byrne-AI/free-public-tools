@@ -1,0 +1,23 @@
+# Store and check out text with LF line endings on every OS. Git for Windows often has core.autocrlf=true;
+# without this file, checkouts there would be CRLF while GitHub serves LF, and a tool page's SHA-256 would
+# not match the raw download.
+* text=auto eol=lf
+
+# Windows batch files need CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files: no conversion.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.zip binary
+
+# docs/ is the website, generated from tools/. Commit it byte for byte: each page's Download link serves
+# these files and its SHA-256 line describes them. linguist-generated folds it in diffs and leaves it
+# out of the repo's language stats.
+docs/** -text linguist-generated
