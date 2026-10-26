@@ -8,6 +8,8 @@ Each one started in my own work with AI, and is tested before release.
 
 **[How I test them](https://mike-byrne-ai.github.io/free-public-tools/tests/decision-challenge/):** Tools up against plain prompts, on questions from my own projects, across several AI models. Answer keys written before the runs, replies marked without names, every mark published.
 
+**[Free-Public-Lessons](https://mike-byrne-ai.github.io/free-public-lessons/):** Free AI lessons every week.
+
 Each tool has its own page. Copy it in one tap and paste it where it goes: a chat, a chat app's custom
 instructions, a `CLAUDE.md` or `AGENTS.md` file, or your coding agent (for a tool made of several
 files, Copy gives an install prompt that fetches the folder for you). The page says where each tool
