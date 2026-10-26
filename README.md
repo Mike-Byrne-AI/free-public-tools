@@ -15,6 +15,9 @@ instructions, a `CLAUDE.md` or `AGENTS.md` file, or your coding agent (for a too
 files, Copy gives an install prompt that fetches the folder for you). The page says where each tool
 goes, and every tool's folder here has its notes and all its versions.
 
+**Tools linked from research projects:** [specdec-sidechannels](https://mike-byrne-ai.github.io/specdec-findings/modules.html):
+7 standalone tools from my research record on what a speculative decoder gives away for free, each with its files and its tests.
+
 ## What's in this repo
 
 - `tools/<name>/`: one folder per tool. Each holds the tool itself, a `README.md` (what it does,
