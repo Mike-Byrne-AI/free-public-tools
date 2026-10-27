@@ -16,7 +16,7 @@ files, Copy gives an install prompt that fetches the folder for you). The page s
 goes, and every tool's folder here has its notes and all its versions.
 
 **Tools linked from research projects:** [specdec-sidechannels](https://mike-byrne-ai.github.io/specdec-findings/modules.html):
-7 standalone tools from my research record on what a speculative decoder gives away for free, each with its files and its tests.
+8 modularised, standalone tools from my research project on speculative decoding. Each comes with its files and its tests. One click copy on the linked specdec-findings website.
 
 ## What's in this repo
 
