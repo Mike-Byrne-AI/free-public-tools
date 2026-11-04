@@ -10,6 +10,8 @@ Each one started in my own work with AI, and is tested before release.
 
 **[Free-Public-Lessons](https://mike-byrne-ai.github.io/free-public-lessons/):** Free AI lessons every week.
 
+**[michaelbyrne.dev](https://michaelbyrne.dev/):** More of my work.
+
 Each tool has its own page. Copy it in one tap and paste it where it goes: a chat, a chat app's custom
 instructions, a `CLAUDE.md` or `AGENTS.md` file, or your coding agent (for a tool made of several
 files, Copy gives an install prompt that fetches the folder for you). The page says where each tool
